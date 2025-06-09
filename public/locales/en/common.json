@@ -1,0 +1,25 @@
+{
+  "loading": "Loading...",
+  "error": "Something went wrong",
+  "login": "Login",
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close"
+  },
+  "forms": {
+    "required": "This field is required",
+    "email": "Please enter a valid email",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be no more than {{max}} characters"
+  },
+  "messages": {
+    "success": "Operation completed successfully",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "itemCount": "{{count}} item",
+    "itemCount_plural": "{{count}} items"
+  }
+}
