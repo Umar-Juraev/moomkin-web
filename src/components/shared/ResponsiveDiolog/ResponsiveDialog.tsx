@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { cn } from "@/lib/utils"; // Utility for conditional class names.
+import { cn } from "@/lib/utils"; 
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"; // UI Dialog components.
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -18,10 +18,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"; // UI Drawer components.
-import { useMediaQuery } from "@/hooks/useMediaQuery"; // Custom hook for media queries.
+} from "@/components/ui/drawer";
+import { useMediaQuery } from "@/hooks/useMediaQuery"; 
 
-// Define props interface for clarity and type safety.
 interface ResponsiveDialogProps {
   children: React.ReactNode;
   trigger?: React.ReactNode;
@@ -30,8 +29,8 @@ interface ResponsiveDialogProps {
   hideHeader?: boolean;
   dialogContentClassName?: string;
   drawerContentClassName?: string;
-  open?: boolean; // Controlled open state.
-  onOpenChange?: (open: boolean) => void; // Controlled open change handler.
+  open?: boolean; 
+  onOpenChange?: (open: boolean) => void;
 }
 
 function ResponsiveDialog({
@@ -39,17 +38,16 @@ function ResponsiveDialog({
   trigger,
   title,
   description,
-  hideHeader = false, // Default hideHeader to false.
+  hideHeader = false, 
   dialogContentClassName,
   drawerContentClassName,
   open,
   onOpenChange,
 }: ResponsiveDialogProps) {
-  // Manage internal open state if not controlled externally.
   const [internalOpen, setInternalOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const isOpen = open ?? internalOpen; // Use nullish coalescing for cleaner default.
+  const isOpen = open ?? internalOpen; 
   const setIsOpen = onOpenChange ?? setInternalOpen;
 
   if (isDesktop) {
