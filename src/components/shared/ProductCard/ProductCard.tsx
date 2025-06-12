@@ -23,7 +23,7 @@ const ProductCard: FC<Props> = ({ data, onClick }) => {
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
         <Image
           onClick={() => onClick(data.id)}
-          src={data.attachments[0].original_filename}
+          src={data.attachments[0].attachment.url}
           alt={data.name}
           width={268}
           height={152}

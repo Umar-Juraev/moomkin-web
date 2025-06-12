@@ -50,11 +50,13 @@ interface Props {
 }
 
 const StoriesCard: FC<Props> = ({ data }) => {
+  console.log(data);
+  
   return (
     <Card className="w-40 h-50 md:h-30 md:w-24 rounded-2xl bg-amber-200 border-none shadow-none relative">
       <CardContent>
-        <Image src={data.attachments[0].original_filename} alt={data.name} width={160} height={200} />
-        <span className="text-2xl font-semibold absolute">{data.name}</span>
+        <Image src={data.attachments[0].attachment.url} alt={data.name} width={160} height={200} />
+        {/* <span className="text-2xl font-semibold absolute left-1/2 -translate-x-1/2 ">{data.name}</span> */}
       </CardContent>
     </Card>
   );

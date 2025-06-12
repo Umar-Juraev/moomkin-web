@@ -26,8 +26,9 @@ const Products = () => {
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
       content: (onClose) => (
-        <ProductDialogContent discountId={discountId}  onClose={onClose} />
-      )});
+        <ProductDialogContent discountId={discountId} onClose={onClose} />
+      )
+    });
   };
   return (
     <section className="container mx-auto mb-24">

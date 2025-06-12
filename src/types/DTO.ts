@@ -28,6 +28,19 @@ export interface AttachmentByIdDTO {
   original_filename: string;
 }
 
+export interface AttachmentDTO {
+  id: number;
+  size: number;
+  url: string;
+  file_name: string;
+  content_type: string;
+}
+
+export interface AttachmentsDTO {
+  id: number;
+  attachment: AttachmentDTO;
+  type: string;
+}
 export interface ApiResponse<T> {
   success: boolean;
   statusCode: number;
@@ -97,7 +110,7 @@ export interface DiscountDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentByIdDTO[];
+  attachments: AttachmentsDTO[];
   category: CategoryDTO;
   company: CompanyDTO;
 }
@@ -141,7 +154,7 @@ export interface StoriesDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentByIdDTO[];
+  attachments: AttachmentsDTO[];
   category: CategoryDTO | null;
   company: CompanyDTO;
 }
