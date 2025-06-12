@@ -5,7 +5,7 @@ import logoIcon from "../../assets/icons/Logo.svg";
 import burgerIcon from "@/assets/icons/burder.svg";
 import { Globe, HeartIcon, MapPin } from "lucide-react";
 import { Button } from "../ui/button";
-import { Search } from "../shared";
+import { LanguageSwitcher, Search } from "../shared";
 import { SearchData } from "../shared/Search/Search";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
@@ -94,7 +94,7 @@ export default function Header() {
       </div>
       <div
         className={cn(
-          "flex items-center gap-9 w-full md:justify-between md:py-1 md:z-50 md:relative")}
+          "flex items-center gap-9 w-full md:justify-between md:py-1 md:z-40 md:relative")}
       >
         <Image src={logoIcon} alt="logo" />
         <div className="flex items-center gap-[9px] font-semibold md:hidden">
@@ -124,9 +124,8 @@ export default function Header() {
       ></div>
 
       <div className="flex items-center gap-3 md:hidden">
-        {/* <LanguageSwitcher /> */}
         <Button className="w-12">
-          <Globe />
+        <LanguageSwitcher onlyIcon />
         </Button>
         <Button className="w-12">
           <HeartIcon />

@@ -24,14 +24,6 @@ export interface UiState {
   toasts: Array<{ id: string; type: 'success' | 'error' | 'info'; message: string }>;
   addToast: (type: 'success' | 'error' | 'info', message: string) => void;
   removeToast: (id: string) => void;
-
-  // Filter Discount
-  filterDiscount: {
-    category_id: string | null;
-    company_id: string | null;
-  };
-  setFilterDiscount: (filter: { category_id: string | null; company_id: string | null }) => void;
-  resetFilterDiscount: () => void;
 }
 
 
@@ -62,12 +54,4 @@ export const createUiSlice: StateCreator<UiState> = (set) => ({
     set((state) => ({
       toasts: state.toasts.filter((toast) => toast.id !== id),
     })),
-
-  // Filter Discount
-  filterDiscount: {
-    category_id: null,
-    company_id: null,
-  },
-  setFilterDiscount: (filter) => set({ filterDiscount: filter }),
-  resetFilterDiscount: () => set({ filterDiscount: { category_id: null, company_id: null } }),
 });

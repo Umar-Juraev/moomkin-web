@@ -23,11 +23,12 @@ const languageOptions: LanguageOption[] = [
   { value: "ru", label: "Русский", flag: "🇷🇺" },
   { value: "en", label: "English", flag: "🇬🇧" },
 ];
-interface Props{
-  className:string
+interface Props {
+  className?: string,
+  onlyIcon?: boolean
 }
 
-function LanguageSwitcher({className}:Props) {
+function LanguageSwitcher({ className, onlyIcon }: Props) {
   const { i18n, t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
@@ -52,14 +53,14 @@ function LanguageSwitcher({className}:Props) {
   };
 
   return (
-    <Select value={currentLocale}   onValueChange={handleLanguageChange}>
+    <Select value={currentLocale} onValueChange={handleLanguageChange}>
       <SelectTrigger icon={false} id="language-select" className={cn("w-auto border-none rounded-none shadow-none focus-visible:ring-0", className)}>
         <SelectValue placeholder={t("change_language")} />
       </SelectTrigger>
       <SelectContent>
         {languageOptions.map((option) => (
           <SelectItem key={option.value} value={option.value}>
-           {option.flag} {option.label}
+            {onlyIcon ? option.value.toUpperCase() : `${option.flag} ${option.label}`}
           </SelectItem>
         ))}
       </SelectContent>

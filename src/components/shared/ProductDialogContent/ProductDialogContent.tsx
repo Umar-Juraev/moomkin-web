@@ -64,6 +64,9 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { data: discountData, isFetching } = useDiscount(discountId);
   const data = discountData?.data;
 
+  console.log(data);
+  
+
   if (isFetching || !data) return <div>...loading</div>;
 
   return (

@@ -14,46 +14,53 @@ const Category = () => {
   const badges = useMemo(
     () => [
       {
+        key: 'order',
         id: 0,
         icon: favoritesFilterIcon,
         label: "Избранное",
         value: "Favorites",
       },
       {
+        key: 'order',
         id: 1,
         icon: trendIcon,
         label: "В тренде",
         value: "Trending",
       },
       {
+        key: 'order',
         id: 2,
         icon: null,
         label: "Самый близкий",
         value: "Closest",
       },
       {
+        key: 'order',
         id: 3,
         icon: null,
         label: "Самый новый",
         value: "Newest",
       },
       {
+        key: 'tags',
         id: 4,
         icon: discountIcon,
         label: "50%",
-        value: "50%",
+        value: "1",
       },
       {
+        key: 'tags',
         id: 5,
         icon: discountIcon,
         label: "30%",
-        value: "30%",
+        value: "2",
       },
       {
+        key: 'tags',
         id: 6,
         icon: discountIcon,
         label: "10%",
-        value: "10%",
+        value: "3",
       },
     ],
     []

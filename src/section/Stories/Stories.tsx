@@ -15,6 +15,7 @@ import StoriesItem from "react-insta-stories";
 import Image from "next/image";
 import { AttachmentsDTO } from "@/types/DTO";
 import type { Swiper as SwiperType } from "swiper";
+import { X } from "lucide-react";
 
 const Stories = () => {
   const { data, isFetching } = useDiscountStories()
@@ -107,22 +108,22 @@ const Stories = () => {
             initialSlide={activeIndex}
             onSlideChange={handleSlideChange}
             coverflowEffect={{
-              rotate: 30,
+              rotate: 0,
               stretch: 0,
               depth: 200,
-              modifier: 1,
+              modifier: 0,
               slideShadows: false,
             }}
             modules={[EffectCoverflow, Navigation, Pagination]}
             className="mySwiper"
           >
             {data.data.map((story, index) => (
-              <SwiperSlide key={story.id} style={{ width: '360px', height: '640px' }}>
+              <SwiperSlide key={story.id} className="rounded-2xl overflow-hidden" style={{ width: '360px', height: '640px' }}>
                 {index === activeIndex ? (
                   // Active slide - show StoriesItem
                   <StoriesItem
                     stories={getStoriesFromAttachments(story.attachments)}
-                    defaultInterval={5000}
+                    defaultInterval={4000}
                     width="360px"
                     height="640px"
                     onAllStoriesEnd={handleStoryEnd}
@@ -133,7 +134,7 @@ const Stories = () => {
                 ) : (
                   // Inactive slide - show StoriesCard
                   <div className="w-full h-full flex items-center justify-center">
-                    <StoriesCard data={story} />
+                    <StoriesCard className='w-[280px] h-[500px]' data={story} />
                   </div>
                 )}
               </SwiperSlide>
@@ -142,9 +143,9 @@ const Stories = () => {
 
           <button
             onClick={handleSwiperClose}
-            className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
+            className="absolute top-4 right-4 z-50 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer"
           >
-            ×
+            <X />
           </button>
         </div>
       )}
