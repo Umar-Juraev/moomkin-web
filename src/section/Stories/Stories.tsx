@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -9,70 +9,145 @@ import {
 } from "@/components/ui/carousel";
 import { StoriesCard } from "@/components/shared";
 import { useDiscountStories } from "@/hooks/useDiscount";
-// import { useCreateDiscount } from "@/hooks/useDiscount";
-// import { useCreateDiscount, useDeleteDiscount, useDiscount, useDiscounts } from "@/hooks/useDiscount";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
+import StoriesItem from "react-insta-stories";
+import Image from "next/image";
+import { AttachmentsDTO } from "@/types/DTO";
+import type { Swiper as SwiperType } from "swiper";
 
 const Stories = () => {
   const { data, isFetching } = useDiscountStories()
-  // const [page, setPage] = useState(1);
-  // const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [visible, setVisible] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const swiperRef = useRef<SwiperType | null>(null)
 
-  // // Get paginated discounts
-  // const { 
-  //   data: discountList, 
-  //   isLoading, 
-  //   error
-  // } = useDiscounts({ page, limit: 10 });
+  const handleSwiperOpen = (storyId: number) => {
+    // Find the index of the clicked story
+    const index = data?.data.findIndex(story => story.id === storyId) || 0
+    setActiveIndex(index)
+    setVisible(true)
+  }
 
-  // // Get single discount by ID (only runs when selectedId exists)
-  // const { 
-  //   data: selectedDiscount 
-  // } = useDiscount(selectedId || 0);
+  const handleSwiperClose = () => {
+    setVisible(false)
+  }
 
-  // // Mutations
-  // const createDiscount = useCreateDiscount();
-  // const deleteDiscount = useDeleteDiscount();
+  const handleStoryEnd = () => {
+    if (data?.data && activeIndex < data.data.length - 1) {
+      // Move to next swiper slide
+      const nextIndex = activeIndex + 1
+      setActiveIndex(nextIndex)
+      if (swiperRef.current) {
+        swiperRef.current.slideTo(nextIndex)
+      }
+    } else {
+      // All stories finished, close the viewer
+      handleSwiperClose()
+    }
+  }
 
-  // // Handle pagination
-  // const handleNextPage = () => {
-  //   if (discountList && page < discountList.totalPages) {
-  //     setPage(page + 1);
-  //   }
-  // };
+  const handleSlideChange = (swiper: SwiperType) => {
+    setActiveIndex(swiper.activeIndex)
+  }
 
-  // const handlePrevPage = () => {
-  //   if (page > 1) {
-  //     setPage(page - 1);
-  //   }
-  // };
+  useEffect(() => {
+    if (visible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [visible]);
 
-  // // Handle create example
-  // const handleCreateExample = () => {
-  //   createDiscount.mutate({
-  //     name: "Summer Sale",
-  //     percentage: 15,
-  //     code: "SUMMER15",
-  //     isActive: true,
-  //   });
-  // };
-
-  // if (isLoading) return <div>Loading discounts...</div>;
-  // if (error) return <div>Error loading discounts</div>;
+  // Convert story attachments to stories format
+  const getStoriesFromAttachments = (attachments: AttachmentsDTO[]) => {
+    return attachments.map((attachment) => ({
+      content: () => (
+        <div className="sr w-full h-full relative">
+          <Image
+            src={attachment.attachment.url}
+            alt="Story"
+            className="w-full h-full object-cover"
+            fill
+          />
+        </div>
+      ),
+    }))
+  }
 
   return (
     <div className="container mx-auto mt-6 mb-12 md:mt-6 md:mb-8">
       <Carousel className="w-full">
         <CarouselContent className="pl-3">
-          {!isFetching ? data?.data.map((story)=>(
-            <CarouselItem key={story.id} className="basis-auto pl-3">
+          {!isFetching ? data?.data.map((story) => (
+            <CarouselItem onClick={() => handleSwiperOpen(story.id)} key={story.id} className="basis-auto pl-3">
               <StoriesCard data={story} />
             </CarouselItem>
           ))
-             : <div>...loading</div>}
+            : <div>...loading</div>}
         </CarouselContent>
         <CarouselNext className="w-11 h-11 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
         <CarouselPrevious hideWhenDisabled className="w-11 h-11 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
       </Carousel>
+
+      {visible && data?.data && (
+        <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-40 inset-0 bg-black/70 backdrop-blur-sm">
+          <Swiper
+            onSwiper={(swiper) => { swiperRef.current = swiper; }}
+            effect="coverflow"
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView="auto"
+            loop={false}
+            spaceBetween={0}
+            slideToClickedSlide={true}
+            initialSlide={activeIndex}
+            onSlideChange={handleSlideChange}
+            coverflowEffect={{
+              rotate: 30,
+              stretch: 0,
+              depth: 200,
+              modifier: 1,
+              slideShadows: false,
+            }}
+            modules={[EffectCoverflow, Navigation, Pagination]}
+            className="mySwiper"
+          >
+            {data.data.map((story, index) => (
+              <SwiperSlide key={story.id} style={{ width: '360px', height: '640px' }}>
+                {index === activeIndex ? (
+                  // Active slide - show StoriesItem
+                  <StoriesItem
+                    stories={getStoriesFromAttachments(story.attachments)}
+                    defaultInterval={5000}
+                    width="360px"
+                    height="640px"
+                    onAllStoriesEnd={handleStoryEnd}
+                  // onStoryEnd={(s, st) => {
+                  //   // Optional: handle individual story end within a card
+                  // }}
+                  />
+                ) : (
+                  // Inactive slide - show StoriesCard
+                  <div className="w-full h-full flex items-center justify-center">
+                    <StoriesCard data={story} />
+                  </div>
+                )}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <button
+            onClick={handleSwiperClose}
+            className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
+          >
+            ×
+          </button>
+        </div>
+      )}
     </div>
   );
 };

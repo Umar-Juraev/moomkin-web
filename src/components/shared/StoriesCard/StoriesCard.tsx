@@ -44,93 +44,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StoriesDTO } from "@/types/DTO";
 import Image from "next/image";
 import React, { FC } from "react";
-
 interface Props {
   data: StoriesDTO
 }
 
 const StoriesCard: FC<Props> = ({ data }) => {
-  console.log(data);
-  
   return (
-    <Card className="w-40 h-50 md:h-30 md:w-24 rounded-2xl bg-amber-200 border-none shadow-none relative">
-      <CardContent>
-        <Image src={data.attachments[0].attachment.url} alt={data.name} width={160} height={200} />
-        {/* <span className="text-2xl font-semibold absolute left-1/2 -translate-x-1/2 ">{data.name}</span> */}
+    <Card className="w-40 h-50 md:h-30 md:w-24 overflow-hidden rounded-2xl bg-amber-200 border-none shadow-none relative cursor-pointer p-0">
+      <CardContent className="p-0">
+        <Image src={data.attachments[0].attachment.url} alt={data.name} fill />
+        <span className="absolute text-xl text-white font-semibold w-full left-1/2 -translate-x-1/2 bottom-5 z-20 px-4">{data.name}</span>
       </CardContent>
     </Card>
   );
 };
 
 export default StoriesCard;
-
-// "use client"
-// import React, { useState } from "react";
-// import Stories from "react-insta-stories";
-// import Image from "next/image";
-// import spa from "../../../../public/images/spa.png";
-
-// interface ImageCaptionPost {
-//   image: string;
-//   caption: string;
-//   captionColor: string;
-// }
-
-
-// const storiesData: ImageCaptionPost[] = [
-//   {
-//     image: "../../../../public/images/spa.png",
-//     caption: "Delicious 😋",
-//     captionColor: "white",
-//   },
-//   {
-//     image: "../../../../public/images/pin.png",
-//     caption: "Yummy",
-//     captionColor: "white",
-//   },
-//   {
-//     image: "../../../../public/images/spa.png",
-//     caption: "Wow",
-//     captionColor: "white",
-//   },
-// ];
-
-// export default function StoriesCard() {
-//   function redirectToHome() {
-//     console.log("xaxa");
-//   }
-//   function getStoriesObject() {
-//     const stories = storiesData.map((item) => {
-//         return {
-//           content: (props) => (
-//             <div className="sr">
-//               <div
-//                 className=""
-//                 style={{ backgroundImage: `url(${item.image})` }}
-//               >
-//                 <div
-//                   className=""
-//                   style={{ color: item.captionColor }}
-//                 >
-//                   <span>{item.caption}</span>
-//                 </div>
-//               </div>
-//             </div>
-//           ),
-//         };
-//     });
-//     return stories;
-//   }
-//   return (
-//     <div className="stories-container w-screen h-screen">
-//       <Stories
-//         stories={getStoriesObject()}
-//         defaultInterval={5000}
-//         width={"100%"}
-//         height="100vh"
-//         onAllStoriesEnd={redirectToHome}
-//         onStoryEnd={() => console.log('end story')}
-//       />
-//     </div>
-//   );
-// }

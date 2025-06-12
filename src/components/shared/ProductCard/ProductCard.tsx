@@ -53,10 +53,10 @@ const ProductCard: FC<Props> = ({ data, onClick }) => {
       </div>
       <div>
         <p className="font-medium text-sm leading-5 align-middle text-[#656E78] mb-0.5">
-          {data.name}
+          {data.company.name}
         </p>
         <p className="font-bold text-base leading-[22px] align-middle mb-1.5">
-          {data.description}
+          {data.name}
         </p>
         <div className="flex items-center gap-1 mb-0.5">
           <Image src={calendarIcon} alt={data.name} />
