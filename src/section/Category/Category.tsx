@@ -5,13 +5,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import favoritesFilterIcon from "@/assets/icons/favoritesFilter.svg";
 import trendIcon from "@/assets/icons/trend.svg";
 import discountIcon from "@/assets/icons/discount.svg";
-import { SearchData } from "@/components/shared/Search/Search";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const Category = () => {
   const { data, isFetching } = useCategories();
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<SearchData | null>(null);
+  const router = useRouter();
   const badges = useMemo(
     () => [
       {
@@ -60,53 +59,15 @@ const Category = () => {
     []
   );
 
-  useEffect(() => {
-    if (searchQuery.length > 0) {
-      setIsLoading(true);
+  const handleClicktoSearch = () => {
+    router.push('/search')
+  }
 
-      // Simulating API call
-      setTimeout(() => {
-        setSearchResults({
-          suggestions: [
-            {
-              id: "1",
-              label: "Calendar",
-              onSelect: () => console.log("Calendar selected"),
-            },
-            {
-              id: "2",
-              label: "Search Emoji",
-              onSelect: () => console.log("Search Emoji selected"),
-            },
-          ],
-          settings: [
-            {
-              id: "4",
-              label: "Profile",
-              onSelect: () => console.log("Profile selected"),
-            },
-            {
-              id: "5",
-              label: "Settings",
-              onSelect: () => console.log("Settings selected"),
-            },
-          ],
-        });
-        setIsLoading(false);
-      }, 500);
-    } else {
-      setSearchResults(null);
-    }
-  }, [searchQuery]);
   return (
     <section className="container mx-auto mb-8 md:mb-6">
-      <Search
-        placeholder="Ищите горячие скидки"
-        onSearch={setSearchQuery}
-        isLoading={isLoading}
-        data={searchResults}
-        className="w-full hidden  text-base md:block  md:mb-8"
-      />
+      <Button onClick={handleClicktoSearch} className="w-full hidden  text-base md:block  md:mb-8 cursor-pointer">
+        Ищите горячие скидки
+      </Button>
       <div className="flex gap-5 mb-8 md:mb-6 md:gap-3">
         {!isFetching ? (
           data?.data.map((category) => (

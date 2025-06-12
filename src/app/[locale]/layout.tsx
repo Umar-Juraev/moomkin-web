@@ -25,8 +25,9 @@ interface SingleStatePageProps {
   children: React.ReactNode;
 }
 
-export default async function RootLayout({children,params}:SingleStatePageProps) {
+// hi baby
 
+export default async function RootLayout({children,params}:SingleStatePageProps) {
   const param = await params
   return (
     <html lang={param.locale}>

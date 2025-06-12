@@ -1,6 +1,6 @@
 "use client";
 import api from "@/api/ axios";
-import { ApiResponse, DiscountCreateDTO, DiscountDTO, PaginatedResponse, PaginationParams } from "@/types/DTO";
+import { ApiResponse, DiscountCreateDTO, DiscountDTO, PaginatedResponse, PaginationParams, StoriesDTO } from "@/types/DTO";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 
@@ -8,6 +8,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 const DISCOUNT_KEYS = {
   all: ["discounts"],
   list: ["discounts", "list"],
+  stories: ["stories"],
   detail: (id: number) => ["discount", "detail", id],
 };
 
@@ -42,22 +43,32 @@ export const useDiscount = (id: number) => {
   });
 };
 
-// // Create discount
-export const useCreateDiscount = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (newDiscount: DiscountCreateDTO) => {
-      return api
-        .post<DiscountDTO>("/discount", newDiscount)
-        .then((response) => response.data);
+export const useDiscountStories = () => {
+  return useQuery({
+    queryKey: DISCOUNT_KEYS.stories,
+    queryFn: async () => {
+      const response = await api.get<ApiResponse<StoriesDTO[]>>(`/discount/stories`);
+      return response.data;
     },
-    onSuccess: () => {
-      // Invalidate list query
-      queryClient.invalidateQueries({ queryKey: DISCOUNT_KEYS.list });
-    },
+    enabled: true,
   });
 };
+// // // Create discount
+// export const useCreateDiscount = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationFn: async (newDiscount: DiscountCreateDTO) => {
+//       return api
+//         .post<DiscountDTO>("/discount", newDiscount)
+//         .then((response) => response.data);
+//     },
+//     onSuccess: () => {
+//       // Invalidate list query
+//       queryClient.invalidateQueries({ queryKey: DISCOUNT_KEYS.list });
+//     },
+//   });
+// };
 
 // // Update discount
 // export const useUpdateDiscount = () => {
