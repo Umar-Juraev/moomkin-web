@@ -75,7 +75,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               {data?.attachments.map((item, i) => (
                 <CarouselItem key={i} className="p-1">
                   <Image
-                    src={item.attachment.url}
+                    src={item.original_filename}
                     alt={data.description}
                     fill
                     className="object-cover"

@@ -97,7 +97,7 @@ export interface DiscountDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentDTO[];
+  attachments: AttachmentByIdDTO[];
   category: CategoryDTO;
   company: CompanyDTO;
 }
@@ -114,7 +114,7 @@ export interface DiscountByIdDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentDTO[];
+  attachments: AttachmentByIdDTO[];
   category: CategoryDTO;
   company: CompanyDTO;
 }
@@ -141,7 +141,7 @@ export interface StoriesDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentDTO[];
+  attachments: AttachmentByIdDTO[];
   category: CategoryDTO | null;
   company: CompanyDTO;
 }
