@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react"
 import { useRouter } from 'next/navigation';
 
 
-const page = () => {
+const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<SearchData | null>(null);
@@ -62,13 +62,13 @@ const page = () => {
   }
   return (
     <div >
-      {/* <div className="relative flex items-center">
+      <div className="relative flex items-center">
         <div onClick={handleBlack} className='absolute left-0 h-full w-[52px] flex justify-center items-center'>
           <ArrowLeft />
         </div>
         <Input ref={inputRef} type="text" placeholder="Ищите горячие скидки" className="h-12 pl-12 shadow-none rounded-none border-b border-[#B4B8CC42] focus:shadow-none text-[#919DA6] text-base  focus-visible:shadow-none ring-accent focus-visible:ring-0 focus-visible:border-[#B4B8CC42]" />
-      </div> */}
+      </div>
     </div>
   )
 }
-export default page
+export default SearchPage
