@@ -38,26 +38,6 @@ interface Props {
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const [favorite, setFavorite] = useState<boolean>(false);
 
-  const locations = [
-    "Novza",
-    "Chimgan",
-    "Ц1",
-    "Magic City",
-    "Tashkent City Mall",
-  ];
-  const socials = [
-    {
-      icon: telegramIcon,
-      to: "https://t.me/moomkinuz",
-      alt: "https://t.me/moomkinuz",
-    },
-    {
-      icon: instagramIcon,
-      to: "https://instagram.com/moomkin.uz",
-      alt: "https://instagram.com/moomkin.uz",
-    },
-    { icon: phoneIcon, to: "tel:+998901234567", alt: "+998901234567" },
-  ];
   const handleSaveTofavorite = (id: number) => {
     setFavorite((prev) => !prev);
   };
@@ -65,7 +45,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const data = discountData?.data;
 
   console.log(data);
-  
+
 
   if (isFetching || !data) return <div>...loading</div>;
 
@@ -75,7 +55,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
         <div className="relative w-full p-2 max-h-[600px] md:max-h-max md:rounded-none">
           <Carousel className="rounded-3xl overflow-hidden">
             <CarouselContent className="rounded-3xl overflow-hidden ml-0 h-[600px] w-[480px] md:max-h-[429px] md:w-full">
-              {data?.attachments.map((item, i) => (
+              {data?.attachments.filter(({type})=>type === 'original').map((item, i) => (
                 <CarouselItem key={i} className="p-1">
                   <Image
                     src={item.attachment.url}
@@ -94,7 +74,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               data.price,
               data.discount_price
             )}
-            скидка
+            {' '} скидка
           </span>
           <span className="absolute bottom-[21px] left-[21px] overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314]">
             <Image
@@ -134,27 +114,27 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
           <div className="text-lg font-bold py-2">Адреса</div>
           <Tabs
             className="border-none shadow-none p-0 m-0"
-            defaultValue={locations[0]}
+            defaultValue={data.company.addresses[0].name}
           >
             <TabsList className="border-none shadow-none p-0 m-0 bg-white rounded-none">
-              {locations.map((location) => (
+              {data.company.addresses.map((location) => (
                 <TabsTrigger
                   className="shadow-none  py-2.5 px-3 m-0 text-sm bg-white rounded-none"
-                  key={location}
-                  value={location}
+                  key={location.id}
+                  value={location.name}
                 >
-                  {location}
+                  {location.name}
                 </TabsTrigger>
               ))}
             </TabsList>
-            {locations.map((location) => (
+            {data.company.addresses.map((location) => (
               <TabsContent
                 className="border-none shadow-none p-0 m-0 max-h-[190px] overflow-y-auto md:overflow-y-visible md:max-h-max"
-                key={location}
-                value={location}
+                key={location.id}
+                value={location.name}
               >
                 <div className="h-42.5 flex items-center justify-center">
-                  <YMap />
+                  <YMap location={location} />
                 </div>
                 <div className="text-lg font-bold pt-6 pb-2">Время работы</div>
                 <p className="pb-1">Будние дни: 10:00 — 22:00</p>
@@ -168,13 +148,13 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   Социальные сети
                 </div>
                 <div className="flex gap-2 mb-4">
-                  {socials.map((item, i) => (
+                  {data.company.links.map((item, i) => (
                     <Link
                       className="w-12 h-12 flex items-center justify-center rounded-full bg-main-light-gray"
-                      href={item.to}
+                      href={item.value}
                       key={i}
                     >
-                      <Image src={item.icon} alt={item.alt} />
+                      <Image src={item.icon_url} width={48} height={48} alt={item.name} />
                     </Link>
                   ))}
                 </div>

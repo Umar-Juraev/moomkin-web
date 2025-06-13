@@ -68,6 +68,7 @@ export interface CompanyAddressDTO {
   home: string | null;
   lat: number;
   lng: number;
+  name:string
 }
 
 export interface LinkDTO {
@@ -112,7 +113,7 @@ export interface DiscountDTO {
   seen_count: number;
   attachments: AttachmentsDTO[];
   category: CategoryDTO;
-  company: CompanyDTO;
+  company: CompanyByIdDTO;
 }
 
 export interface DiscountByIdDTO {

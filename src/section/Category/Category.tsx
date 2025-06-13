@@ -7,6 +7,7 @@ import trendIcon from "@/assets/icons/trend.svg";
 import discountIcon from "@/assets/icons/discount.svg";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import useFilter, { FilterItem } from "@/store/slices/usefilter";
 
 const Category = () => {
   const { data, isFetching } = useCategories();
@@ -69,6 +70,31 @@ const Category = () => {
   const handleClicktoSearch = () => {
     router.push('/search')
   }
+
+  const { clickedFilters, toggleFilterButton, loadFiltersFromStorage } = useFilter();
+
+  useEffect(() => {
+    loadFiltersFromStorage();
+  }, [loadFiltersFromStorage]);
+
+  // When a filter button is clicked
+  const handleFilterClick = (button:FilterItem) => {
+    toggleFilterButton({
+      id: button.id,
+      key: button.key, // e.g., 'category', 'brand', etc.
+      value: button.value // the actual value to store
+    });
+  };
+
+  // Check if a button is active
+  const isButtonActive = (buttonId:number) => {
+    return Object.values(clickedFilters).some(value => {
+      if (Array.isArray(value)) {
+        return value.some(v => v?.id === buttonId);
+      }
+      return value?.id === buttonId;
+    });
+  };
 
   return (
     <section className="container mx-auto mb-8 md:mb-6">

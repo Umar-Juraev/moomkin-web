@@ -98,7 +98,7 @@ const Stories = () => {
         <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-40 inset-0 bg-black/70 backdrop-blur-sm">
           <Swiper
             onSwiper={(swiper) => { swiperRef.current = swiper; }}
-            effect="coverflow"
+            effect="cards"
             grabCursor={true}
             centeredSlides={true}
             slidesPerView="auto"
@@ -107,34 +107,38 @@ const Stories = () => {
             slideToClickedSlide={true}
             initialSlide={activeIndex}
             onSlideChange={handleSlideChange}
-            coverflowEffect={{
-              rotate: 0,
-              stretch: 0,
-              depth: 200,
-              modifier: 0,
-              slideShadows: false,
-            }}
+            // coverflowEffect={{
+            //   rotate: 0,
+            //   stretch: 0,
+            //   depth: 200,
+            //   modifier: 0,
+            //   slideShadows: false,
+            // }}
             modules={[EffectCoverflow, Navigation, Pagination]}
             className="mySwiper"
           >
             {data.data.map((story, index) => (
-              <SwiperSlide key={story.id} className="rounded-2xl overflow-hidden" style={{ width: '360px', height: '640px' }}>
+                <SwiperSlide
+                key={story.id}
+                className="!rounded-2xl !overflow-hidden !flex !items-center !justify-center !w-[360px] !h-[640px] md:!w-screen md:!h-screen"
+                >
                 {index === activeIndex ? (
                   // Active slide - show StoriesItem
                   <StoriesItem
                     stories={getStoriesFromAttachments(story.attachments)}
-                    defaultInterval={4000}
-                    width="360px"
-                    height="640px"
+                    defaultInterval={5000}
                     onAllStoriesEnd={handleStoryEnd}
+                    width={'100%'}
+                    height={'100%'}
                   // onStoryEnd={(s, st) => {
                   //   // Optional: handle individual story end within a card
                   // }}
                   />
                 ) : (
-                  // Inactive slide - show StoriesCard
-                  <div className="w-full h-full flex items-center justify-center">
-                    <StoriesCard className='w-[280px] h-[500px]' data={story} />
+                  <div className="w-[280px] h-[500px] md:w-full md:h-full flex items-center justify-center relative rounded-2xl overflow-hidden">
+                    <Image src={story.attachments[0].attachment.url} alt={story.name} fill
+                      className="object-cover absolute"
+                    />
                   </div>
                 )}
               </SwiperSlide>
@@ -143,7 +147,7 @@ const Stories = () => {
 
           <button
             onClick={handleSwiperClose}
-            className="absolute top-4 right-4 z-50 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer"
+            className="absolute top-4 right-4 z-50 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer md:absolute"
           >
             <X />
           </button>
