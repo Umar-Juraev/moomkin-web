@@ -17,7 +17,7 @@ const YMap: FC<Props> = ({ location }) => {
     setLoading(false)
   }
   return (
-    <div className="h-42.5 w-full rounded-[20px] overflow-hidden relative">
+    <div className="animate-fade-in h-42.5 w-full rounded-[20px] overflow-hidden relative">
       {loading && <div className="absolute flex items-center justify-center w-full h-full">...loading</div> }
         <YMaps query={{ apikey }}>
           <Map onLoad={handleLoad} defaultState={defaultState} className="w-full h-full">

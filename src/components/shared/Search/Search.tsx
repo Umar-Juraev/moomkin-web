@@ -33,7 +33,7 @@ interface SearchProps {
   className?: string;
 }
 
- function Search({
+function Search({
   placeholder = "Type to search...",
   onSearch,
   isLoading = false,
@@ -51,8 +51,8 @@ interface SearchProps {
       setShowResults(
         Boolean(
           data &&
-            ((data.suggestions && data.suggestions.length > 0) ||
-              (data.settings && data.settings.length > 0))
+          ((data.suggestions && data.suggestions.length > 0) ||
+            (data.settings && data.settings.length > 0))
         )
       );
     }
@@ -71,8 +71,8 @@ interface SearchProps {
     setShowResults(
       Boolean(
         data &&
-          ((data.suggestions && data.suggestions.length > 0) ||
-            (data.settings && data.settings.length > 0))
+        ((data.suggestions && data.suggestions.length > 0) ||
+          (data.settings && data.settings.length > 0))
       )
     );
   };
@@ -110,13 +110,13 @@ interface SearchProps {
     <>
       {isFocused && (
         <div
-          className="fixed inset-0 bg-black opacity-20 z-20"
+          className="fixed inset-0 bg-black opacity-20"
           style={{ transition: "background 0.2s" }}
         />
       )}
       <div
         ref={containerRef}
-        className={cn("relative w-full z-30", className)}
+        className={cn("relative w-full", className)}
         style={{ position: "relative" }}
       >
         <Command className={showResults ? "rounded-t-3xl" : "rounded-3xl"}>

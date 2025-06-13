@@ -61,7 +61,7 @@ const SearchPage = () => {
     router.back()
   }
   return (
-    <div >
+    <div className='animate-fade-in'>
       <div className="relative flex items-center">
         <div onClick={handleBlack} className='absolute left-0 h-full w-[52px] flex justify-center items-center'>
           <ArrowLeft />

@@ -94,7 +94,7 @@ export default function Header() {
       </div>
       <div
         className={cn(
-          "flex items-center gap-9 w-full md:justify-between md:py-1 md:z-35 md:relative")}
+          "animate-fade-in  flex items-center gap-9 w-full md:justify-between md:py-1  md:relative ", burger && 'z-16')}
       >
         <Image src={logoIcon} alt="logo" />
         <div className="flex items-center gap-[9px] font-semibold md:hidden">
@@ -118,7 +118,7 @@ export default function Header() {
 
       <div
         className={cn(
-          "fixed inset-0 w-screen h-screen px-4 bg-white z-30 transform transition-transform duration-300 pt-[120px]",
+          "fixed inset-0 w-screen h-screen px-4 bg-white z-10 transform transition-transform duration-300 pt-[120px]",
           burger ? "translate-x-0" : "-translate-x-full"
         )}
       ></div>

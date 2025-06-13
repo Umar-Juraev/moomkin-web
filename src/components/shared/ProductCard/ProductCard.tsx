@@ -7,26 +7,27 @@ import locationIcon from "@/assets/icons/location.svg";
 import { formatDateRange } from "@/utils/date";
 import { calculateDiscountPercentageFormatted } from "@/utils/data";
 import { FavoriteIcon } from "@/assets/icons";
+import { cn } from "@/lib/utils";
 
 interface Props {
   data: DiscountDTO;
   onClick: (discountId: number) => void;
+  className?: string
 }
-const ProductCard: FC<Props> = ({ data, onClick }) => {
+const ProductCard: FC<Props> = ({ data, onClick, className }) => {
   const [favorite, setFavorite] = useState<boolean>(false);
 
   const handleSaveTofavorite = (id: number) => {
     setFavorite((prev) => !prev);
   };
   return (
-    <div className="border-nonerounded-t-[22px] md:w-[296px]">
+    <div className={cn("border-nonerounded-t-[22px] md:w-[296px]", className)}>
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
         <Image
           onClick={() => onClick(data.id)}
           src={data.attachments[0].attachment.url}
           alt={data.name}
-          width={268}
-          height={152}
+          fill
           className="object-cover h-full cursor-pointer hover:opacity-60 transition-all duration-300"
         />
         <span className="absolute top-2 left-2 bg-[#16C602] rounded-[22px] text-white text-base font-bold h-8 w-15 flex items-center justify-center">

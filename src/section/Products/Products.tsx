@@ -13,16 +13,35 @@ import {
 import Image from "next/image";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import { useDiscounts } from "@/hooks/useDiscount";
+import useFilter from "@/store/slices/usefilter";
+import { Button } from "@/components/ui/button";
+
+const buildApiParams = (clickedFilters: Record<string, any>) => {
+  const params: Record<string, any> = {
+    category_id: clickedFilters.category ?? 1,
+  };
+
+  Object.entries(clickedFilters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      params[key] = value;
+    }
+  });
+
+  return params;
+};
+
 const Products = () => {
   const [responsiveDialog, showResponsiveDialog] =
     useResponsiveDialog();
 
-  const { data, isFetching } = useDiscounts({
-    category_id: 1,
-    limit: 30,
-    page: 1,
-  });
+  const { clickedFilters, clearAllFilters } = useFilter();
+  const isFilterEmpty = Object.keys(clickedFilters).length === 0
 
+const { data, isFetching } = useDiscounts({
+  ...buildApiParams(clickedFilters),
+  limit: 30,
+  page: 1,
+});
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
       content: (onClose) => (
@@ -30,79 +49,110 @@ const Products = () => {
       )
     });
   };
+
   return (
     <section className="container mx-auto mb-24">
-      <div className="relative mb-12">
-        <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
-          <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
-            Огненные скидки
-          </h2>
-          <div className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static">
-            <span>Все</span> <Image src={redChervonRight} alt="chervon right" />
+      {!isFilterEmpty &&
+        <>
+          <div className="animate-fade-in flex items-center justify-between mb-6 md:items-center md:mb-4">
+            <div>
+              <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
+                {12} места найдено
+              </h2>
+              <p className="font-normal text-base leading-5.5 tracking-[-0.5%]">{Object.keys(clickedFilters).length} фильтр применён</p>
+            </div>
+
+            <Button onClick={clearAllFilters}>Очистить</Button>
+          </div>
+
+          <div className="animate-fade-in grid grid-cols-4 gap-6 md:grid-cols-1">
+            {!isFetching ? (
+              data?.data?.data?.map((item, index) => (
+                <ProductCard
+                  onClick={handleProductClick}
+                  key={index}
+                  data={item}
+                  className="md:!w-full"
+                />
+              ))
+            ) : <div>...loading</div>}
+          </div>
+        </>
+      }
+
+      {isFilterEmpty &&
+        <div className="animate-fade-in">
+          <div className="relative mb-12">
+            <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
+              <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
+                Огненные скидки
+              </h2>
+              <div className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static">
+                <span>Все</span> <Image src={redChervonRight} alt="chervon right" />
+              </div>
+            </div>
+            {!isFetching ? (
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-2">
+                  {data?.data?.data?.map((item, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="pl-6  basis-1/4 md:basis-auto md:pl-3"
+                    >
+                      <ProductCard
+                        onClick={handleProductClick}
+                        key={index}
+                        data={item}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="absolute -top-10 right-0">
+                  <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                  <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                </div>
+              </Carousel>
+            ) : (
+              <div>...loading</div>
+            )}
+          </div>
+          <div className="relative">
+            <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
+              <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
+                Скидки на тренды
+              </h2>
+              <div className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static">
+                <span>Все</span> <Image src={redChervonRight} alt="chervon right" />
+              </div>
+            </div>
+
+            {!isFetching ? (
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-2">
+                  {data?.data?.data?.map((item, index) => (
+                    <CarouselItem
+                      key={index}
+                      className="pl-6  basis-1/4 md:basis-auto md:pl-3"
+                    >
+                      <ProductCard
+                        onClick={handleProductClick}
+                        key={index}
+                        data={item}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="absolute -top-10 right-0">
+                  <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                  <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                </div>
+              </Carousel>
+            ) : (
+              <div>...loading</div>
+            )}
           </div>
         </div>
-
-        {!isFetching ? (
-          <Carousel className="w-full">
-            <CarouselContent className="-ml-2">
-              {data?.data.data.map((item, index) => (
-                <CarouselItem
-                  key={index}
-                  className="pl-6  basis-1/4 md:basis-auto md:pl-3"
-                >
-                  <ProductCard
-                    onClick={handleProductClick}
-                    key={index}
-                    data={item}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="absolute -top-10 right-0">
-              <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-              <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-            </div>
-          </Carousel>
-        ) : (
-          <div>...loading</div>
-        )}
-      </div>
-
-      <div className="relative">
-        <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
-          <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
-            Скидки на тренды
-          </h2>
-          <div className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static">
-            <span>Все</span> <Image src={redChervonRight} alt="chervon right" />
-          </div>
-        </div>
-
-        {!isFetching ? (
-          <Carousel className="w-full">
-            <CarouselContent className="-ml-2">
-              {data?.data.data.map((item, index) => (
-                <CarouselItem
-                  key={index}
-                  className="pl-6  basis-1/4 md:basis-auto md:pl-3"
-                >
-                  <ProductCard
-                    onClick={handleProductClick}
-                    key={index}
-                    data={item}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="absolute -top-10 right-0">
-              <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-              <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-            </div>
-          </Carousel>
-        ) : (
-          <div>...loading</div>
-        )}
-      </div>
+      }
       {responsiveDialog}
     </section>
   );

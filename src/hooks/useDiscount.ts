@@ -14,16 +14,28 @@ const DISCOUNT_KEYS = {
 
 // Get discounts with pagination
 export const useDiscounts = (
-  params: PaginationParams & { category_id: number }
+  params: PaginationParams & {
+    category_id?: number;
+    search?: string;
+    order?: string;
+    tags?: number[];
+  }
 ) => {
   return useQuery({
     queryKey: [...DISCOUNT_KEYS.list, params],
     queryFn: async () => {
-      const { page, limit, category_id } = params;
+      const { page, limit, category_id, search, order, tags } = params;
       const response = await api.get<ApiResponse<PaginatedResponse<DiscountDTO[]>>>(
         "/discount",
         {
-          params: { page, limit, ...(category_id ? { category_id } : {}) },
+          params: {
+            page,
+            limit,
+            ...(category_id ? { category_id } : {}),
+            ...(search ? { search } : {}),
+            ...(order ? { order } : {}),
+            ...(tags && tags.length > 0 ? { tags: tags.join(",") } : {}),
+          },
         }
       );
       return response.data;

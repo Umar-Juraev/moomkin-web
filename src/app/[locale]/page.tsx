@@ -3,7 +3,7 @@ import { Category, Stories, Products } from "@/section";
 
 export default function RootPage() {
   return (
-    <main>
+    <main className="animate-fade-in">
       <Stories />
       <Category />
       <Products />

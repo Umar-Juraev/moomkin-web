@@ -95,7 +95,7 @@ const Stories = () => {
       </Carousel>
 
       {visible && data?.data && (
-        <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center z-40 inset-0 bg-black/70 backdrop-blur-sm">
+        <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center backdrop-blur-sm bg-black/60 z-30">
           <Swiper
             onSwiper={(swiper) => { swiperRef.current = swiper; }}
             effect="cards"
@@ -115,13 +115,13 @@ const Stories = () => {
             //   slideShadows: false,
             // }}
             modules={[EffectCoverflow, Navigation, Pagination]}
-            className="mySwiper"
+            className="mySwiper "
           >
             {data.data.map((story, index) => (
-                <SwiperSlide
+              <SwiperSlide
                 key={story.id}
                 className="!rounded-2xl !overflow-hidden !flex !items-center !justify-center !w-[360px] !h-[640px] md:!w-screen md:!h-screen"
-                >
+              >
                 {index === activeIndex ? (
                   // Active slide - show StoriesItem
                   <StoriesItem

@@ -50,7 +50,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   if (isFetching || !data) return <div>...loading</div>;
 
   return (
-    <div className="text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto">
+    <div className="animate-fade-in text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto">
       <div className="flex p-0 m-0 md:flex-col">
         <div className="relative w-full p-2 max-h-[600px] md:max-h-max md:rounded-none">
           <Carousel className="rounded-3xl overflow-hidden">
@@ -129,7 +129,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
             </TabsList>
             {data.company.addresses.map((location) => (
               <TabsContent
-                className="border-none shadow-none p-0 m-0 max-h-[190px] overflow-y-auto md:overflow-y-visible md:max-h-max"
+                className="animate-fade-in border-none shadow-none p-0 m-0 max-h-[190px] overflow-y-auto md:overflow-y-visible md:max-h-max"
                 key={location.id}
                 value={location.name}
               >
