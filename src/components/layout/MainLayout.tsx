@@ -9,10 +9,10 @@ interface MainLayoutProps {
 export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="md:hide">
+      <header className="md:hide z-[20]">
         <Header />
       </header>
-      <main className="flex-grow relative !z-0">{children}</main>
+      <main className="flex-grow">{children}</main>
       <footer className="md:hide">
         <Footer />
       </footer>

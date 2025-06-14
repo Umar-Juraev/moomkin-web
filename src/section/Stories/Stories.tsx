@@ -147,7 +147,7 @@ const Stories = () => {
 
           <button
             onClick={handleSwiperClose}
-            className="absolute top-4 right-4 z-40 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer md:absolute"
+            className="absolute top-4 right-4 z-30 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer md:absolute"
           >
             <X />
           </button>
