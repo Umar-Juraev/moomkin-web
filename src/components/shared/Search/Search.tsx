@@ -194,7 +194,7 @@ function Search({
               <CommandSeparator />
               <div className="px-4 pb-4 pt-3">
                 {!uniqueCompanies.length && searchQuery.length > 0 ? (
-                  <CommandEmpty>No results found for "{searchQuery}"</CommandEmpty>
+                  <CommandEmpty>No results found for `&quot;`{searchQuery}`&quot;`</CommandEmpty>
                 ) : (uniqueCompanies.length > 0 &&
                   <div className="flex flex-wrap gap-2">
                     {uniqueCompanies.map((name) => (

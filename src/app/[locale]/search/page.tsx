@@ -56,7 +56,7 @@ export default function SearchPage() {
       <h1
         className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] mb-8"
       >
-        “{searchQuery}”
+        `&quot;`{searchQuery}`&quot;`
       </h1>
       <div className='mb-8'>
       <Filters />
