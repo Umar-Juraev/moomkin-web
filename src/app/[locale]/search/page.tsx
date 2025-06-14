@@ -1,74 +1,80 @@
 "use client"
-import { Search } from '@/components/shared'
-import { SearchData } from '@/components/shared/Search/Search';
-import { Input } from '@/components/ui/input';
-import React, { useEffect, useRef, useState } from 'react'
-import { ArrowLeft } from "lucide-react"
-import { useRouter } from 'next/navigation';
+import { ProductCard, ProductDialogContent } from '@/components/shared'
+import React, { useEffect, useRef } from 'react'
+import { useSearchParams } from 'next/navigation';
+import { useDiscounts } from '@/hooks/useDiscount';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { useResponsiveDialog } from '@/hooks/useResponsiveDialog';
+import { buildApiParams } from '@/utils/data';
+import useFilter from '@/store/slices/usefilter';
+import { Filters } from '@/section';
 
+export default function SearchPage() {
+  const searchParams = useSearchParams();
 
-const SearchPage = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<SearchData | null>(null);
+  const searchQuery = searchParams.get('q') || '';
+
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  const router = useRouter()
-  useEffect(() => {
-    if (searchQuery.length > 0) {
-      setIsLoading(true);
+  const { clickedFilters, clearAllFilters } = useFilter();
 
-      // Simulating API call
-      setTimeout(() => {
-        setSearchResults({
-          suggestions: [
-            {
-              id: "1",
-              label: "Calendar",
-              onSelect: () => console.log("Calendar selected"),
-            },
-            {
-              id: "2",
-              label: "Search Emoji",
-              onSelect: () => console.log("Search Emoji selected"),
-            },
-          ],
-          settings: [
-            {
-              id: "4",
-              label: "Profile",
-              onSelect: () => console.log("Profile selected"),
-            },
-            {
-              id: "5",
-              label: "Settings",
-              onSelect: () => console.log("Settings selected"),
-            },
-          ],
-        });
-        setIsLoading(false);
-      }, 500);
-    } else {
-      setSearchResults(null);
-    }
-  }, [searchQuery]);
+  const { data, isFetching } = useDiscounts({ ...buildApiParams(clickedFilters), search: searchQuery });
+  const [responsiveDialog, showResponsiveDialog] =
+    useResponsiveDialog();
 
 
-  const handleBlack = () => {
-    router.back()
-  }
+  const handleProductClick = (discountId: number) => {
+    showResponsiveDialog({
+      content: (onClose) => (
+        <ProductDialogContent discountId={discountId} onClose={onClose} />
+      )
+    });
+  };
   return (
-    <div className='animate-fade-in'>
-      <div className="relative flex items-center">
-        <div onClick={handleBlack} className='absolute left-0 h-full w-[52px] flex justify-center items-center'>
-          <ArrowLeft />
-        </div>
-        <Input ref={inputRef} type="text" placeholder="Ищите горячие скидки" className="h-12 pl-12 shadow-none rounded-none border-b border-[#B4B8CC42] focus:shadow-none text-[#919DA6] text-base  focus-visible:shadow-none ring-accent focus-visible:ring-0 focus-visible:border-[#B4B8CC42]" />
+    <div className='animate-fade-in container'>
+      <Breadcrumb className='mt-6 mb-8'>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home page</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Search</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <h1
+        className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] mb-8"
+      >
+        “{searchQuery}”
+      </h1>
+      <div className='mb-8'>
+      <Filters />
       </div>
+      {!isFetching ? (
+        <div className="animate-fade-in grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
+          {data?.data?.data?.map((item, index) => (
+            <ProductCard
+              onClick={handleProductClick}
+              key={index}
+              data={item}
+              className="md:!w-full"
+            />
+          ))}
+        </div>
+      ) : <div>...loading</div>}
+
+      {responsiveDialog}
     </div>
   )
 }
-export default SearchPage

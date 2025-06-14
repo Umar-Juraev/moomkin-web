@@ -95,7 +95,7 @@ const Stories = () => {
       </Carousel>
 
       {visible && data?.data && (
-        <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center backdrop-blur-sm bg-black/60 z-30">
+        <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center backdrop-blur-sm bg-black/60 z-20">
           <Swiper
             onSwiper={(swiper) => { swiperRef.current = swiper; }}
             effect="cards"
@@ -147,7 +147,7 @@ const Stories = () => {
 
           <button
             onClick={handleSwiperClose}
-            className="absolute top-4 right-4 z-50 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer md:absolute"
+            className="absolute top-4 right-4 z-40 w-12 h-12 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors cursor-pointer md:absolute"
           >
             <X />
           </button>

@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-main-light-gray">
+    <div className="bg-main-light-gray">
       <div className="container mx-auto">
         <div className="flex justify-between pt-12 pb-10 mb-10 border-b border-[#919DA63D] md:block">
           <Image src={logo} alt="moomkin" width={183} className="md:mb-8" />
@@ -75,6 +75,6 @@ export default function Footer() {
           <LanguageSwitcher className={"md:hidden"}/>
         </div>
       </div>
-    </footer>
+    </div>
   );
 }

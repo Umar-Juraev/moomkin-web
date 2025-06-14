@@ -15,33 +15,23 @@ import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import { useDiscounts } from "@/hooks/useDiscount";
 import useFilter from "@/store/slices/usefilter";
 import { Button } from "@/components/ui/button";
+import { buildApiParams } from "@/utils/data";
 
-const buildApiParams = (clickedFilters: Record<string, any>) => {
-  const params: Record<string, any> = {
-    category_id: clickedFilters.category ?? 1,
-  };
 
-  Object.entries(clickedFilters).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
-      params[key] = value;
-    }
-  });
-
-  return params;
-};
 
 const Products = () => {
   const [responsiveDialog, showResponsiveDialog] =
     useResponsiveDialog();
 
   const { clickedFilters, clearAllFilters } = useFilter();
+
   const isFilterEmpty = Object.keys(clickedFilters).length === 0
 
-const { data, isFetching } = useDiscounts({
-  ...buildApiParams(clickedFilters),
-  limit: 30,
-  page: 1,
-});
+  const { data, isFetching } = useDiscounts({
+    ...buildApiParams(clickedFilters),
+    limit: 30,
+    page: 1,
+  });
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
       content: (onClose) => (
@@ -53,8 +43,8 @@ const { data, isFetching } = useDiscounts({
   return (
     <section className="container mx-auto mb-24">
       {!isFilterEmpty &&
-        <>
-          <div className="animate-fade-in flex items-center justify-between mb-6 md:items-center md:mb-4">
+        <div className="animate-fade-in">
+          <div className=" flex items-center justify-between mb-6 md:items-center md:mb-4">
             <div>
               <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
                 {12} места найдено
@@ -65,19 +55,19 @@ const { data, isFetching } = useDiscounts({
             <Button onClick={clearAllFilters}>Очистить</Button>
           </div>
 
-          <div className="animate-fade-in grid grid-cols-4 gap-6 md:grid-cols-1">
-            {!isFetching ? (
-              data?.data?.data?.map((item, index) => (
+          {!isFetching ? (
+            <div className="animate-fade-in grid grid-cols-4 gap-6 md:grid-cols-1">
+              {data?.data?.data?.map((item, index) => (
                 <ProductCard
                   onClick={handleProductClick}
                   key={index}
                   data={item}
                   className="md:!w-full"
                 />
-              ))
-            ) : <div>...loading</div>}
-          </div>
-        </>
+              ))}
+            </div>
+          ) : <div>...loading</div>}
+        </div>
       }
 
       {isFilterEmpty &&

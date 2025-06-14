@@ -10,8 +10,6 @@ interface Props {
   isActiveId: string | number
 }
 const CategoryItem: FC<Props> = ({ data, onClick, isActiveId }) => {
-  console.log(isActiveId);
-
   return (
     <div className="cursor-pointer flex flex-col items-center" onClick={() => onClick({ id: String(data.id), key: "category_id", value: data.id })}>
       <div className="w-26 h-26 overflow-hidden rounded-full mb-2.5 ">

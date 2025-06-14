@@ -14,8 +14,8 @@ export interface PaginatedResponse<T> {
 }
 
 export interface PaginationParams {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface AttachmentByIdDTO {
@@ -51,7 +51,7 @@ export interface ApiResponse<T> {
 export interface CategoryDTO {
   id: number;
   name: string;
-  icon_url: string; 
+  icon_url: string;
 }
 
 export interface CategoryByIdDTO {
@@ -68,7 +68,8 @@ export interface CompanyAddressDTO {
   home: string | null;
   lat: number;
   lng: number;
-  name:string
+  name: string
+  working_hours: WorkingHoursDTO[]
 }
 
 export interface LinkDTO {
@@ -91,6 +92,12 @@ export interface CompanyDTO {
   active: boolean;
   icon_url: string;
 }
+
+export interface WorkingHoursDTO {
+  day_of_week: number;
+  time_from: string;
+  time_to: string;
+}
 export interface CompanyByIdDTO {
   id: number;
   name: string;
@@ -98,6 +105,7 @@ export interface CompanyByIdDTO {
   icon_url: string;
   addresses: CompanyAddressDTO[];
   links: LinkDTO[];
+  working_hours: WorkingHoursDTO[]
 }
 export interface DiscountDTO {
   id: number;

@@ -8,6 +8,7 @@ import { formatDateRange } from "@/utils/date";
 import { calculateDiscountPercentageFormatted } from "@/utils/data";
 import { FavoriteIcon } from "@/assets/icons";
 import { cn } from "@/lib/utils";
+import useFavorites from "@/store/slices/useFavorites";
 
 interface Props {
   data: DiscountDTO;
@@ -15,10 +16,11 @@ interface Props {
   className?: string
 }
 const ProductCard: FC<Props> = ({ data, onClick, className }) => {
-  const [favorite, setFavorite] = useState<boolean>(false);
+  const {toggleFavorite, isFavorite } = useFavorites();
 
-  const handleSaveTofavorite = (id: number) => {
-    setFavorite((prev) => !prev);
+
+  const handleSaveTofavorite = (data: DiscountDTO) => {
+    toggleFavorite(data)
   };
   return (
     <div className={cn("border-nonerounded-t-[22px] md:w-[296px]", className)}>
@@ -38,9 +40,9 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
         </span>
         <span
           className="absolute top-2 right-2 cursor-pointer "
-          onClick={() => handleSaveTofavorite(data.id)}
+          onClick={() => handleSaveTofavorite(data)}
         >
-          <FavoriteIcon active={favorite} />
+          <FavoriteIcon active={isFavorite(data.id)} />
         </span>
 
         <span className="absolute bottom-[9px] left-[9px] overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314]">

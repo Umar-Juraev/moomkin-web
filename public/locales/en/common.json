@@ -2,6 +2,7 @@
   "loading": "Loading...",
   "error": "Something went wrong",
   "login": "Login",
+  "logout": "Log out",
   "buttons": {
     "submit": "Submit",
     "cancel": "Cancel",

@@ -23,6 +23,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useDiscount } from "@/hooks/useDiscount";
 import { FavoriteIcon } from "@/assets/icons";
+import useFavorites from "@/store/slices/useFavorites";
+import { DiscountDTO } from "@/types/DTO";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -36,15 +38,14 @@ interface Props {
 }
 
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
-  const [favorite, setFavorite] = useState<boolean>(false);
+  const { toggleFavorite, isFavorite } = useFavorites();
 
-  const handleSaveTofavorite = (id: number) => {
-    setFavorite((prev) => !prev);
+
+  const handleSaveTofavorite = (data: DiscountDTO) => {
+    toggleFavorite(data)
   };
   const { data: discountData, isFetching } = useDiscount(discountId);
   const data = discountData?.data;
-
-  console.log(data);
 
 
   if (isFetching || !data) return <div>...loading</div>;
@@ -55,7 +56,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
         <div className="relative w-full p-2 max-h-[600px] md:max-h-max md:rounded-none">
           <Carousel className="rounded-3xl overflow-hidden">
             <CarouselContent className="rounded-3xl overflow-hidden ml-0 h-[600px] w-[480px] md:max-h-[429px] md:w-full">
-              {data?.attachments.filter(({type})=>type === 'original').map((item, i) => (
+              {data?.attachments.filter(({ type }) => type === 'original').map((item, i) => (
                 <CarouselItem key={i} className="p-1">
                   <Image
                     src={item.attachment.url}
@@ -89,9 +90,9 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
           <div className="flex absolute top-4 left-4 gap-2">
             <div
               className="h-10 w-10 rounded-full bg-main-light-gray flex items-center justify-center"
-              onClick={() => handleSaveTofavorite(data.id)}
+              onClick={() => handleSaveTofavorite(data)}
             >
-              <FavoriteIcon active={favorite} />
+              <FavoriteIcon active={isFavorite(data.id)} />
             </div>
             <div className="h-10 w-10 rounded-full bg-main-light-gray flex items-center justify-center">
               <Image src={shareIcon} alt={data.name} />
@@ -137,8 +138,32 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   <YMap location={location} />
                 </div>
                 <div className="text-lg font-bold pt-6 pb-2">Время работы</div>
-                <p className="pb-1">Будние дни: 10:00 — 22:00</p>
-                <p>Выходные: 12:00 — 20:00</p>
+                {(() => {
+                  const workingHours = location.working_hours?.length
+                    ? location.working_hours
+                    : data.company.working_hours;
+
+                  if (!workingHours?.length) {
+                    return <p>Время работы не указано</p>;
+                  }
+
+                  const weekdays = workingHours[0];
+                  const weekends = workingHours[6];
+
+                  console.log('weekdays:', weekdays, 'weekends:', weekends);
+
+
+                  return (
+                    <>
+                      <p className="pb-1">
+                        Будние дни: {weekdays?.time_from || '—'} — {weekdays?.time_to || '—'}
+                      </p>
+                      <p>
+                        Выходные: {weekends?.time_from || '—'} — {weekends?.time_to || '—'}
+                      </p>
+                    </>
+                  );
+                })()}
                 <div className="text-lg font-bold pt-6 pb-2">
                   Телефонные номера
                 </div>

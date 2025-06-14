@@ -28,3 +28,17 @@ export function calculateDiscountPercentageFormatted(
   const percentage = calculateDiscountPercentage(originalPrice, discountedPrice);
   return `${percentage.toFixed(decimalPlaces)}%`;
 }
+
+export const buildApiParams = (clickedFilters: Record<string, any>) => {
+  const params: Record<string, any> = {
+    category_id: clickedFilters.category ?? 1,
+  };
+
+  Object.entries(clickedFilters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      params[key] = value;
+    }
+  });
+
+  return params;
+};

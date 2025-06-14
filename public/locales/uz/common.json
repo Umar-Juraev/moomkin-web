@@ -1,7 +1,8 @@
 {
   "loading": "Yuklanmoqda...",
   "error": "Nimadir xato bo'ldi",
-   "login": "Kirish",
+  "login": "Kirish",
+  "logout": "Chikish",
   "buttons": {
     "submit": "Yuborish",
     "cancel": "Bekor qilish",
