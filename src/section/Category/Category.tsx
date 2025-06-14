@@ -19,7 +19,7 @@ const Category = () => {
 
   return (
     <section className="container mx-auto mb-8 md:mb-6">
-      <Button onClick={handleClicktoSearch} className="w-full hidden  text-base md:block  md:mb-8 cursor-pointer">
+      <Button onClick={handleClicktoSearch} className="w-full hidden  text-base md:hidden  md:mb-8 cursor-pointer">
         Ищите горячие скидки
       </Button>
       <div className="flex gap-5 mb-8 md:mb-6 md:gap-3">
