@@ -45,21 +45,21 @@ const Filters = () => {
           id: 4,
           icon: discountIcon,
           label: "50%",
-          value: "1",
+          value: "10",
         },
         {
           key: 'tags',
           id: 5,
           icon: discountIcon,
           label: "30%",
-          value: "2",
+          value: "6",
         },
         {
           key: 'tags',
           id: 6,
           icon: discountIcon,
           label: "10%",
-          value: "3",
+          value: "2",
         },
       ].map((badge) => {
         let isActive = false;
