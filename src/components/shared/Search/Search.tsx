@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
+
 import { cn } from "@/lib/utils";
 import {
   Command,
@@ -52,11 +54,12 @@ function Search({
   const DEBOUNCE_MS = 300;
 
   const [searchQuery, setSearchQuery] = useState(() => {
-    return searchParams.get('q') || '';
+    return searchParams.get("q") || "";
   });
   const [showResults, setShowResults] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_MS);
 
@@ -69,6 +72,12 @@ function Search({
       setShowResults(true);
     } else {
       setShowResults(false);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
     }
   }, [isFocused]);
 
@@ -99,23 +108,26 @@ function Search({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isFocused]);
 
-  const handleCompanySelect = useCallback((companyName: string) => {
-    setSearchQuery(companyName);
-    router.push(`/search?q=${encodeURIComponent(companyName)}`);
-    setShowResults(false);
-    setIsFocused(false);
-  }, [router]);
+  const handleCompanySelect = useCallback(
+    (companyName: string) => {
+      setSearchQuery(companyName);
+      router.push(`/search?q=${encodeURIComponent(companyName)}`);
+      setShowResults(false);
+      setIsFocused(false);
+    },
+    [router]
+  );
 
   const handleClear = useCallback(() => {
     setSearchQuery("");
     setShowResults(false);
     setIsFocused(false);
-    router.push('/');
+    router.push("/");
   }, [router]);
 
   const uniqueCompanies = React.useMemo(() => {
     if (!data) return [];
-    return Array.from(new Set(data.map(item => item.company.name)));
+    return Array.from(new Set(data.map((item) => item.company.name)));
   }, [data]);
 
   useEffect(() => {
@@ -131,62 +143,136 @@ function Search({
 
   return (
     <>
-      {isFocused && (
-        <div
-          className="fixed inset-0 bg-black opacity-30 z-[100]"
-          style={{ transition: "background 0.2s" }}
-        />
-      )}
-      <div
-        ref={containerRef}
-        className={cn("relative w-full z-[200]", className)}
-      >
-        <Command className={showResults ? "rounded-t-2xl bg-white" : "rounded-2xl"}>
-          <div className="relative">
-            <CommandInput
-              placeholder={placeholder}
-              value={searchQuery}
-              onValueChange={handleInputChange}
-              onFocus={handleFocus}
-              autoFocus={false}
-              className="text-base pr-8"
-            />
-            {isLoading ? (
-              <div className="absolute right-4.5 top-1/2 -translate-y-1/2 animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-600" />
-            ) : searchQuery.length > 0 && (
-              <Button
-                onClick={handleClear}
-                className="absolute bg-[#919DA6] right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex p-0 items-center justify-center rounded-full"
+      {isFocused
+        ? createPortal(
+            <>
+              {/* Overlay */}
+              <div
+                className="fixed inset-0 bg-black opacity-30 z-[100]"
+                style={{ transition: "background 0.2s" }}
+              />
+              {/* Search UI */}
+              <div
+                ref={containerRef}
+                className={cn(
+                  "fixed left-1/2 top-8 z-[200] w-full max-w-[560px] -translate-x-1/2 px-4 md:px-0",
+                  className
+                )}
+                style={{ pointerEvents: "auto" }}
               >
-                <X color="white" size={16} />
-              </Button>
-            )}
-          </div>
-
-          {showResults && (
-            <CommandList className="bg-white border-none rounded-b-2xl shadow-lg max-h-[300px] overflow-auto">
-              <CommandSeparator />
-              <div className="px-4 pb-4 pt-3">
-                {!uniqueCompanies.length && searchQuery.length > 0 ? (
-                  <CommandEmpty>No results found for &quot;{searchQuery}&quot;</CommandEmpty>
-                ) : (uniqueCompanies.length > 0 &&
-                  <div className="flex flex-wrap gap-2">
-                    {uniqueCompanies.map((name) => (
-                      <div
-                        key={name}
-                        className="cursor-pointer px-3 py-2 bg-gray-100 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors duration-200"
-                        onClick={() => handleCompanySelect(name)}
-                      >
-                        {name}
-                      </div>
-                    ))}
+                <Command className={showResults ? "rounded-t-2xl bg-white" : "rounded-2xl"}>
+                  <div className="relative">
+                    <CommandInput
+                      ref={inputRef}
+                      placeholder={placeholder}
+                      value={searchQuery}
+                      onValueChange={handleInputChange}
+                      onFocus={handleFocus}
+                      autoFocus={false}
+                      className="text-base pr-8"
+                    />
+                    {isLoading ? (
+                      <div className="absolute right-4.5 top-1/2 -translate-y-1/2 animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-600" />
+                    ) : (
+                      searchQuery.length > 0 && (
+                        <Button
+                          onClick={handleClear}
+                          className="absolute bg-[#919DA6] right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex p-0 items-center justify-center rounded-full"
+                        >
+                          <X color="white" size={16} />
+                        </Button>
+                      )
+                    )}
                   </div>
+                  {showResults && (
+                    <CommandList className="bg-white border-none rounded-b-2xl shadow-lg max-h-[300px] overflow-auto">
+                      <CommandSeparator />
+                      <div className="px-4 pb-4 pt-3">
+                        {!uniqueCompanies.length && searchQuery.length > 0 ? (
+                          <CommandEmpty>
+                            No results found for &quot;{searchQuery}&quot;
+                          </CommandEmpty>
+                        ) : (
+                          uniqueCompanies.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                              {uniqueCompanies.map((name) => (
+                                <div
+                                  key={name}
+                                  className="cursor-pointer px-3 py-2 bg-gray-100 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors duration-200"
+                                  onClick={() => handleCompanySelect(name)}
+                                >
+                                  {name}
+                                </div>
+                              ))}
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </CommandList>
+                  )}
+                </Command>
+              </div>
+            </>,
+            document.body
+          )
+        : (
+          <div
+            ref={containerRef}
+            className={cn("relative w-full", className)}
+          >
+            <Command className={showResults ? "rounded-t-2xl bg-white" : "rounded-2xl"}>
+              <div className="relative">
+                <CommandInput
+                  ref={inputRef}
+                  placeholder={placeholder}
+                  value={searchQuery}
+                  onValueChange={handleInputChange}
+                  onFocus={handleFocus}
+                  autoFocus={false}
+                  className="text-base pr-8"
+                />
+                {isLoading ? (
+                  <div className="absolute right-4.5 top-1/2 -translate-y-1/2 animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-600" />
+                ) : (
+                  searchQuery.length > 0 && (
+                    <Button
+                      onClick={handleClear}
+                      className="absolute bg-[#919DA6] right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex p-0 items-center justify-center rounded-full"
+                    >
+                      <X color="white" size={16} />
+                    </Button>
+                  )
                 )}
               </div>
-            </CommandList>
-          )}
-        </Command>
-      </div>
+              {showResults && (
+                <CommandList className="bg-white border-none rounded-b-2xl shadow-lg max-h-[300px] overflow-auto">
+                  <CommandSeparator />
+                  <div className="px-4 pb-4 pt-3">
+                    {!uniqueCompanies.length && searchQuery.length > 0 ? (
+                      <CommandEmpty>
+                        No results found for &quot;{searchQuery}&quot;
+                      </CommandEmpty>
+                    ) : (
+                      uniqueCompanies.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {uniqueCompanies.map((name) => (
+                            <div
+                              key={name}
+                              className="cursor-pointer px-3 py-2 bg-gray-100 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() => handleCompanySelect(name)}
+                            >
+                              {name}
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </CommandList>
+              )}
+            </Command>
+          </div>
+        )}
     </>
   );
 }

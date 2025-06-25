@@ -12,7 +12,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <header className="md:hide">
         <Header />
       </header>
-      <main className="flex-grow relative z-[40]">{children}</main>
+      <main className="flex-grow">{children}</main>
       <footer className="md:hide">
         <Footer />
       </footer>
