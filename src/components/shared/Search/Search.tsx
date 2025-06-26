@@ -105,10 +105,6 @@ function Search({
   };
 
   const handleClear = () => {
-    setSearchQuery("");
-    setIsFocused(false);
-  };
-  const handleBack = () => {
     router.push("/");
     setSearchQuery("");
     setIsFocused(false);
@@ -152,7 +148,7 @@ function Search({
               >
                 <div className="relative flex items-center">
                   <ArrowLeft
-                    onClick={handleBack}
+                    onClick={handleClear}
                     color="#292C30"
                     className="size-7 text-red-300 shrink-0 hidden mr-4 md:block"
                   />

@@ -53,9 +53,14 @@ function CommandDialog({
   )
 }
 
+/**
+ * CommandInput component for search input with optional icon.
+ * @param {object} props - Props for CommandInput.
+ * @param {boolean} [props.isHideIcon=false] - If true, hides the search icon.
+ */
 function CommandInput({
   className,
-  isHideIcon,
+  isHideIcon = false,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input> & { isHideIcon?: boolean }) {
   return (

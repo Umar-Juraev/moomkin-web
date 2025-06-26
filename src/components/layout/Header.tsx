@@ -40,6 +40,7 @@ export default function Header() {
   const { data, isFetching } = useDiscounts({
     search: searchQuery,
   });
+
   return (
     <div className="flex justify-between align-center bg-white px-10 h-20 md:h-auto md:block md:px-4">
       <div className="items-center hidden gap-[9px] font-semibold md:flex pb-[9px] pt-3.5">
@@ -69,7 +70,7 @@ export default function Header() {
           placeholder="Ищите горячие скидки"
           onSearch={setSearchQuery}
           isLoading={isFetching}
-          data={Array.isArray(data?.data.data) ? data.data.data : []}
+          data={data?.data.data || []}
           className="pl-14 max-w-[560px] md:hidden"
         />
         <DropdownMenu onOpenChange={(isOpen) => setBurger(isOpen)}>
