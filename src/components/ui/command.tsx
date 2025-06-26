@@ -55,14 +55,15 @@ function CommandDialog({
 
 function CommandInput({
   className,
+  isHideIcon,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input> & { isHideIcon?: boolean }) {
   return (
     <div
       data-slot="command-input-wrapper"
       className="flex h-12 items-center gap-3.5"
     >
-      <SearchIcon className="size-4 shrink-0 opacity-50" />
+      {!isHideIcon && <SearchIcon className="size-6 shrink-0 opacity-50" />}
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(
