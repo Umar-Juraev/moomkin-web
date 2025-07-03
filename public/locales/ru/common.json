@@ -22,5 +22,8 @@
     "confirmDelete": "Вы уверены, что хотите удалить этот элемент?",
     "itemCount": "{{count}} элемент",
     "itemCount_plural": "{{count}} элементов"
+  },
+  "titles": {
+    "trends": "Скидки на тренды"
   }
 }

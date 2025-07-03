@@ -11,6 +11,7 @@ import {
   AlertCircle,
   LogOut,
   X,
+  AlignJustify,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { LanguageSwitcher, Search } from "../shared";
@@ -23,23 +24,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useDiscounts } from "@/hooks/useDiscount";
 import useFavorites from "@/store/slices/useFavorites";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
+import SettingsModule from "@/modules/Settings";
 
 export default function Header() {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [burger, setBurger] = useState(false);
+  const [settingsDialog, setSettingsDialog] = useState(false);
   const router = useRouter();
   const { favorites } = useFavorites();
 
   const { data, isFetching } = useDiscounts({
     search: searchQuery,
   });
+
+  const handleFavorite = () => {
+    if (!favorites.length) return
+    router.push("/favorites")
+  }
 
   return (
     <div className="flex justify-between align-center bg-white px-10 h-20 md:h-auto md:block md:px-4">
@@ -52,7 +70,7 @@ export default function Header() {
       </div>
       <div
         className={cn(
-          "animate-fade-in  flex items-center gap-9 w-full md:justify-between md:py-1"
+          "   flex items-center gap-9 w-full md:justify-between md:py-1"
         )}
       >
         <Link href={"/"}>
@@ -79,7 +97,7 @@ export default function Header() {
             className="md:flex  w-12 h-12 rounded-full bg-main-light-gray hover:opacity-60 hidden justify-center items-center p-0 m-0 border-none shadow-none"
           >
             {!burger ? (
-              <Button variant="outline" className="p-0">
+               <Button variant="outline" className="p-0">
                 <Image src={burgerIcon} alt="menu" />
               </Button>
             ) : (
@@ -92,15 +110,15 @@ export default function Header() {
             className="w-62 shadow-[0px_8px_24px_0px_#3333331F,0px_0px_2px_0px_#33333314] border-none rounded-2xl"
             align="end"
           >
-            <DropdownMenuGroup className="p-4 m-0">
+            {/* <DropdownMenuGroup className="p-4 m-0">
               {false ? (
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               ) : (
-                <Button className="w-full text-base font-bold">
+                 <Button variant="primary"className="w-full text-base font-bold">
                   {t("login")}
                 </Button>
               )}
-            </DropdownMenuGroup>
+            </DropdownMenuGroup> */}
             <DropdownMenuSeparator className="bg-[#919DA63D]" />
             <DropdownMenuGroup className="p-1">
               <DropdownMenuItem
@@ -119,17 +137,14 @@ export default function Header() {
                 )}
                 Saved
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
-                {" "}
+              <DropdownMenuItem
+                onClick={() => router.push("/settings")}
+                className="cursor-pointer text-base font-medium p-3"
+              >
                 <Settings size={34} color="#292C30" /> Settings
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
-                {" "}
-                <AlertCircle
-                  size={34}
-                  color="#292C30"
-                  className="rotate-180"
-                />{" "}
+                <AlertCircle size={34} color="#292C30" className="rotate-180" />
                 About the program
               </DropdownMenuItem>
             </DropdownMenuGroup>
@@ -137,7 +152,7 @@ export default function Header() {
             <DropdownMenuGroup className="p-1">
               {true && (
                 <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
-                  <LogOut size={34} className="rotate-180" color="#292C30" />{" "}
+                  <LogOut size={34} className="rotate-180" color="#292C30" />
                   {t("logout")}
                 </DropdownMenuItem>
               )}
@@ -150,7 +165,7 @@ export default function Header() {
           onlyIcon
           className="w-12 !h-12 bg-main-light-gray flex items-center justify-center rounded-full"
         />
-        <Button className="w-12" onClick={() => router.push("/favorites")}>
+         <Button variant="primary" className="w-12" onClick={handleFavorite}>
           {favorites.length ? (
             <Badge
               className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums text-xs"
@@ -159,11 +174,28 @@ export default function Header() {
               {favorites.length}
             </Badge>
           ) : (
-            <HeartIcon />
+            <HeartIcon className="size-5.5" />
           )}
         </Button>
-        <Button>{t("login")}</Button>
+        <Button
+          variant={'primary'}
+          className="w-12 md:hidden"
+          onClick={() => setSettingsDialog(true)}
+        >
+          <AlignJustify className="size-5.5" />
+        </Button>
       </div>
+      <Dialog open={settingsDialog} onOpenChange={setSettingsDialog}>
+        <DialogContent className="p-0 border-none shadow-none rounded-2xl overflow-hidden gap-0 w-[744px]">
+          <DialogHeader className="relative flex flex-row items-center px-4 h-19 border-b border-gray-200">
+            <DialogTitle className="text-2xl font-extrabold mr-auto">
+              Setting
+            </DialogTitle>
+            <DialogDescription className="hidden" />
+          </DialogHeader>
+          <SettingsModule />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

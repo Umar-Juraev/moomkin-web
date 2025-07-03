@@ -54,8 +54,8 @@ function LanguageSwitcher({ className, onlyIcon }: Props) {
 
   return (
     <Select value={currentLocale} onValueChange={handleLanguageChange}>
-      <SelectTrigger icon={false} id="language-select" className={cn("w-auto border-none rounded-none shadow-none focus-visible:ring-0", className)}>
-        <SelectValue placeholder={t("change_language")} />
+      <SelectTrigger icon={false} id="language-select" value={'xaxaxa'} className={cn("w-auto border-none rounded-none shadow-none focus-visible:ring-0", className)}>
+        <SelectValue className="font-bold text-2xl" placeholder={t("change_language")} />
       </SelectTrigger>
       <SelectContent>
         {languageOptions.map((option) => (

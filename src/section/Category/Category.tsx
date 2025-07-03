@@ -1,5 +1,5 @@
 "use client";
-import { CategoryItem, Search } from "@/components/shared";
+import { CategoryItem, Search, SkeletonCategory } from "@/components/shared";
 import { useCategories } from "@/hooks/useCategories";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ const Category = () => {
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { data: searchData, isFetching: isSearchFetching } = useDiscounts({
-    search: searchQuery ,
+    search: searchQuery,
   });
   return (
     <section className="container mx-auto mb-8 md:mb-6">
@@ -27,18 +27,16 @@ const Category = () => {
         className="hidden md:block"
       />
       <div className="flex gap-5 mb-8 overflow-x-auto md:mb-6 md:gap-3">
-        {!isFetching ? (
-          data?.data.map((category) => (
-            <CategoryItem
-              data={category}
-              isActiveId={clickedFilters.category_id}
-              key={category.id}
-              onClick={toggleFilterButton}
-            />
-          ))
-        ) : (
-          <div>...loading</div>
-        )}
+        {!isFetching
+          ? data?.data.map((category) => (
+              <CategoryItem
+                data={category}
+                isActiveId={clickedFilters.category_id}
+                key={category.id}
+                onClick={toggleFilterButton}
+              />
+            ))
+          : [...Array(5)].map((_, i) => <SkeletonCategory key={i} />)}
       </div>
       <Filters />
     </section>

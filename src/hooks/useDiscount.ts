@@ -1,8 +1,14 @@
 "use client";
 import api from "@/api/ axios";
-import { ApiResponse, DiscountCreateDTO, DiscountDTO, PaginatedResponse, PaginationParams, StoriesDTO } from "@/types/DTO";
+import {
+  ApiResponse,
+  DiscountCreateDTO,
+  DiscountDTO,
+  PaginatedResponse,
+  PaginationParams,
+  StoriesDTO,
+} from "@/types/DTO";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
 
 // Simple query keys
 const DISCOUNT_KEYS = {
@@ -19,25 +25,26 @@ export const useDiscounts = (
     search?: string;
     order?: string;
     tags?: number[];
+    page?: number;
+    limit?: number;
   }
 ) => {
   return useQuery({
     queryKey: [...DISCOUNT_KEYS.list, params],
     queryFn: async () => {
       const { page, limit, category_id, search, order, tags } = params;
-      const response = await api.get<ApiResponse<PaginatedResponse<DiscountDTO[]>>>(
-        "/discount",
-        {
-          params: {
-            page,
-            limit,
-            ...(category_id ? { category_id } : {}),
-            ...(search ? { search } : {}),
-            ...(order ? { order } : {}),
-            ...(tags && tags.length > 0 ? { tags: tags.join(",") } : {}),
-          },
-        }
-      );
+      const response = await api.get<
+        ApiResponse<PaginatedResponse<DiscountDTO[]>>
+      >("/discount", {
+        params: {
+          page,
+          limit,
+          ...(category_id ? { category_id } : {}),
+          ...(search ? { search } : {}),
+          ...(order ? { order } : {}),
+          ...(tags && tags.length > 0 ? { tags: tags.join(",") } : {}),
+        },
+      });
       return response.data;
     },
   });
@@ -48,7 +55,9 @@ export const useDiscount = (id: number) => {
   return useQuery({
     queryKey: DISCOUNT_KEYS.detail(id),
     queryFn: async () => {
-      const response = await api.get<ApiResponse<DiscountDTO>>(`/discount/${id}`);
+      const response = await api.get<ApiResponse<DiscountDTO>>(
+        `/discount/${id}`
+      );
       return response.data;
     },
     enabled: true,
@@ -59,7 +68,9 @@ export const useDiscountStories = () => {
   return useQuery({
     queryKey: DISCOUNT_KEYS.stories,
     queryFn: async () => {
-      const response = await api.get<ApiResponse<StoriesDTO[]>>(`/discount/stories`);
+      const response = await api.get<ApiResponse<StoriesDTO[]>>(
+        `/discount/stories`
+      );
       return response.data;
     },
     enabled: true,

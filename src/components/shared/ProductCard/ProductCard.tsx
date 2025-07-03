@@ -5,7 +5,6 @@ import React, { FC, useState } from "react";
 import calendarIcon from "@/assets/icons/calendar.svg";
 import locationIcon from "@/assets/icons/location.svg";
 import { formatDateRange } from "@/utils/date";
-import { calculateDiscountPercentageFormatted } from "@/utils/data";
 import { FavoriteIcon } from "@/assets/icons";
 import { cn } from "@/lib/utils";
 import useFavorites from "@/store/slices/useFavorites";
@@ -23,7 +22,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
     toggleFavorite(data)
   };
   return (
-    <div className={cn("border-nonerounded-t-[22px] md:w-[296px]", className)}>
+    <div className={cn("border-none rounded-t-[22px] md:w-[296px]", className)}>
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
         <Image
           onClick={() => onClick(data.id)}
@@ -33,10 +32,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
           className="object-cover h-full cursor-pointer hover:opacity-60 transition-all duration-300"
         />
         <span className="absolute top-2 left-2 bg-[#16C602] rounded-[22px] text-white text-base font-bold h-8 w-15 flex items-center justify-center">
-          {calculateDiscountPercentageFormatted(
-            data.price,
-            data.discount_price
-          )}
+          {data.off_percent}%
         </span>
         <span
           className="absolute top-2 right-2 cursor-pointer "
@@ -67,12 +63,12 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
             {formatDateRange(data.start_date, data.end_date)}
           </p>
         </div>
-        <div className="flex items-center gap-1">
+        {/* <div className="flex items-center gap-1">
           <Image src={locationIcon} alt={data.name} />
           <p className="font-normal text-[13px] leading-[18px] align-middle">
             Toshkent Yashnobod Aviasozlar 4
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

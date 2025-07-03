@@ -12,13 +12,13 @@ const Filters = () => {
     const badges = useMemo(
     () =>
       [
-        {
-          key: 'order',
-          id: 0,
-          icon: favoritesFilterIcon,
-          label: "Избранное",
-          value: "test1",
-        },
+        // {
+        //   key: 'order',
+        //   id: 0,
+        //   icon: favoritesFilterIcon,
+        //   label: "Избранное",
+        //   value: "test1",
+        // },
         {
           key: 'order',
           id: 1,
@@ -26,13 +26,13 @@ const Filters = () => {
           label: "В тренде",
           value: "trend",
         },
-        {
-          key: 'order',
-          id: 2,
-          icon: null,
-          label: "Самый близкий",
-          value: "test2",
-        },
+        // {
+        //   key: 'order',
+        //   id: 2,
+        //   icon: null,
+        //   label: "Самый близкий",
+        //   value: "test2",
+        // },
         {
           key: 'order',
           id: 3,

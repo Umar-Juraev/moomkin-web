@@ -1,5 +1,9 @@
 "use client";
-import { ProductCard, ProductDialogContent } from "@/components/shared";
+import {
+  ProductCard,
+  ProductDialogContent,
+  SkeletonCard,
+} from "@/components/shared";
 import redChervonRight from "@/assets/icons/redChervonRight.svg";
 
 import React from "react";
@@ -16,16 +20,14 @@ import { useDiscounts } from "@/hooks/useDiscount";
 import useFilter from "@/store/slices/usefilter";
 import { Button } from "@/components/ui/button";
 import { buildApiParams } from "@/utils/data";
-
-
+import Link from "next/link";
 
 const Products = () => {
-  const [responsiveDialog, showResponsiveDialog] =
-    useResponsiveDialog();
+  const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 
-  const isFilterEmpty = Object.keys(clickedFilters).length === 0
+  const isFilterEmpty = Object.keys(clickedFilters).length === 0;
 
   const { data, isFetching } = useDiscounts({
     ...buildApiParams(clickedFilters),
@@ -36,43 +38,47 @@ const Products = () => {
     showResponsiveDialog({
       content: (onClose) => (
         <ProductDialogContent discountId={discountId} onClose={onClose} />
-      )
+      ),
+      hideHeader: true,
     });
   };
 
   return (
     <section className="container mx-auto mb-24">
-      {!isFilterEmpty &&
-        <div className="animate-fade-in">
+      {!isFilterEmpty && (
+        <div className=" ">
           <div className=" flex items-center justify-between mb-6 md:items-center md:mb-4">
             <div>
               <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
                 {12} места найдено
               </h2>
-              <p className="font-normal text-base leading-5.5 tracking-[-0.5%]">{Object.keys(clickedFilters).length} фильтр применён</p>
+              <p className="font-normal text-base leading-5.5 tracking-[-0.5%]">
+                {Object.keys(clickedFilters).length} фильтр применён
+              </p>
             </div>
 
-            <Button onClick={clearAllFilters}>Очистить</Button>
+            <Button variant="primary" onClick={clearAllFilters}>
+              Очистить
+            </Button>
           </div>
 
-          {!isFetching ? (
-            <div className="animate-fade-in grid grid-cols-4 gap-6 md:grid-cols-1">
-              {data?.data?.data?.map((item, index) => (
-                <ProductCard
-                  onClick={handleProductClick}
-                  key={index}
-                  data={item}
-                  className="md:!w-full"
-                />
-              ))}
-            </div>
-          ) : <div>...loading</div>}
+          <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
+            {!isFetching
+              ? data?.data?.data?.map((item, index) => (
+                  <ProductCard
+                    onClick={handleProductClick}
+                    key={index}
+                    data={item}
+                    className="md:!w-full"
+                  />
+                ))
+              : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
+          </div>
         </div>
-      }
-
-      {isFilterEmpty &&
-        <div className="animate-fade-in">
-          <div className="relative mb-12">
+      )}
+      {isFilterEmpty && (
+        <div className=" ">
+          {/* <div className="relative mb-12">
             <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
                 Огненные скидки
@@ -105,17 +111,20 @@ const Products = () => {
             ) : (
               <div>...loading</div>
             )}
-          </div>
+          </div> */}
           <div className="relative">
             <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
                 Скидки на тренды
               </h2>
-              <div className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static">
-                <span>Все</span> <Image src={redChervonRight} alt="chervon right" />
-              </div>
+              <Link
+                href={`/trends`}
+                className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
+              >
+                <span>Все</span>{" "}
+                <Image src={redChervonRight} alt="chervon right" />
+              </Link>
             </div>
-
             {!isFetching ? (
               <Carousel className="w-full">
                 <CarouselContent className="-ml-2">
@@ -138,11 +147,15 @@ const Products = () => {
                 </div>
               </Carousel>
             ) : (
-              <div>...loading</div>
+              <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
+                {[...Array(4)].map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
             )}
           </div>
         </div>
-      }
+      )}
       {responsiveDialog}
     </section>
   );

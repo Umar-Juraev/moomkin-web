@@ -22,5 +22,8 @@
     "confirmDelete": "Bu elementni o'chirishga ishonchingiz komilmi?",
     "itemCount": "{{count}} ta element",
     "itemCount_plural": "{{count}} ta element"
+  },
+  "titles": {
+    "trends": "Trendlar bo'yicha chegirmalar"
   }
 }

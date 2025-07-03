@@ -1,3 +1,4 @@
+import { ContactTypeIdEnum } from "@/constants/enums";
 
 export interface DiscountCreateDTO {
   name: string;
@@ -10,7 +11,8 @@ export interface DiscountCreateDTO {
 export interface PaginatedResponse<T> {
   data: T;
   total: number;
-  next: number;
+  page: number;
+  limit: number;
 }
 
 export interface PaginationParams {
@@ -78,6 +80,7 @@ export interface LinkDTO {
   name: string;
   icon_url: string;
   company_id: number;
+  type_id:ContactTypeIdEnum
 }
 
 export interface ContactLinkDTO {

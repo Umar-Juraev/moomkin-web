@@ -1,12 +1,11 @@
 "use client";
+
 import {
+  Pagination,
   ProductCard,
   ProductDialogContent,
   SkeletonCard,
 } from "@/components/shared";
-import React, { useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
-import { useDiscounts } from "@/hooks/useDiscount";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,26 +14,30 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useDiscounts } from "@/hooks/useDiscount";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
-import { buildApiParams } from "@/utils/data";
-import useFilter from "@/store/slices/usefilter";
 import { Filters } from "@/section";
+import useFilter from "@/store/slices/usefilter";
+import { buildApiParams } from "@/utils/data";
+import { useParams, useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
-export default function SearchPage() {
-  const searchParams = useSearchParams();
-
-  const searchQuery = searchParams.get("q") || "";
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+export default function ProductPage() {
+  const params = useParams();
+  const { products } = params as { locale: string; products: string };
+  const { t } = useTranslation();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get("page");
+  const page = pageParam ? parseInt(pageParam, 10) : 1;
+  const limit = 8;
+
   const { data, isFetching } = useDiscounts({
     ...buildApiParams(clickedFilters),
-    search: searchQuery,
+    page,
+    limit,
   });
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
 
@@ -45,8 +48,11 @@ export default function SearchPage() {
       ),
     });
   };
+
+  console.log(data?.data.limit, data?.data.page, data?.data.total);
+
   return (
-    <div className="  container">
+    <div className="container">
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -54,18 +60,18 @@ export default function SearchPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Search</BreadcrumbPage>
+            <BreadcrumbPage> {t(`titles.${products}`)}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] mb-8">
-        &quot;{searchQuery}&quot;
+        {t(`titles.${products}`)}
       </h1>
+
       <div className="mb-8">
         <Filters />
       </div>
-
-      <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
+      <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">
         {!isFetching
           ? data?.data?.data?.map((item, index) => (
               <ProductCard
@@ -78,6 +84,15 @@ export default function SearchPage() {
           : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
       </div>
 
+      {data?.data && data.data.total < data.data.limit && (
+        <div className="mb-8">
+          <Pagination
+            limit={data.data.limit}
+            page={data.data.page}
+            total={data.data.total}
+          />
+        </div>
+      )}
       {responsiveDialog}
     </div>
   );

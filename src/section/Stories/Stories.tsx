@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { StoriesCard } from "@/components/shared";
+import { SkeletonStories, StoriesCard } from "@/components/shared";
 import { useDiscountStories } from "@/hooks/useDiscount";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
@@ -99,7 +99,11 @@ const Stories = () => {
               </CarouselItem>
             ))
           ) : (
-            <div>...loading</div>
+            <div className="grid grid-cols-4 gap-3">
+              {[...Array(4)].map((_, i) => (
+                <SkeletonStories key={i} />
+              ))}
+            </div>
           )}
         </CarouselContent>
         <CarouselNext className="w-11 h-11 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
