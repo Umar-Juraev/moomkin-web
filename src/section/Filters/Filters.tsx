@@ -1,43 +1,45 @@
 "use client";
 import { Badge } from "@/components/shared";
-import React, {useMemo } from "react";
+import React, { useMemo } from "react";
 import favoritesFilterIcon from "@/assets/icons/favoritesFilter.svg";
 import trendIcon from "@/assets/icons/trend.svg";
 import discountIcon from "@/assets/icons/discount.svg";
 import useFilter from "@/store/slices/usefilter";
+import { useTranslation } from "react-i18next";
 
 const Filters = () => {
   const { clickedFilters, toggleFilterButton } = useFilter();
+  const { t } = useTranslation();
 
-    const badges = useMemo(
+  const badges = useMemo(
     () =>
       [
         // {
         //   key: 'order',
         //   id: 0,
         //   icon: favoritesFilterIcon,
-        //   label: "Избранное",
+        //   label: t('category.favorites'),
         //   value: "test1",
         // },
         {
           key: 'order',
           id: 1,
           icon: trendIcon,
-          label: "В тренде",
+          label: t('category.trend'),
           value: "trend",
         },
         // {
         //   key: 'order',
         //   id: 2,
         //   icon: null,
-        //   label: "Самый близкий",
+        //   label: t('category.nearest'),
         //   value: "test2",
         // },
         {
           key: 'order',
           id: 3,
           icon: null,
-          label: "Самый новый",
+          label: t('category.newest'),
           value: "created_at",
         },
         {
@@ -79,17 +81,17 @@ const Filters = () => {
   );
 
   return (
-      <div className="flex gap-5 overflow-x-auto md:gap-2">
-        {badges.map((data) => (
-          <Badge
-            data={data}
-            key={data.id}
-            onClick={(data) => {
-              toggleFilterButton({ id: String(data.id), key: data.key, value: data.value })
-            }}
-          />
-        ))}
-      </div>
+    <div className="flex gap-5 overflow-x-auto md:gap-2">
+      {badges.map((data) => (
+        <Badge
+          data={data}
+          key={data.id}
+          onClick={(data) => {
+            toggleFilterButton({ id: String(data.id), key: data.key, value: data.value })
+          }}
+        />
+      ))}
+    </div>
   );
 };
 

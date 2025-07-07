@@ -21,9 +21,11 @@ import useFilter from "@/store/slices/usefilter";
 import { Button } from "@/components/ui/button";
 import { buildApiParams } from "@/utils/data";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
+  const { t } = useTranslation();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 
@@ -33,6 +35,13 @@ const Products = () => {
     ...buildApiParams(clickedFilters),
     limit: 30,
     page: 1,
+  });
+
+  const { data:hotData, isFetching:hotIsFetching } = useDiscounts({
+    ...buildApiParams(clickedFilters),
+    limit: 30,
+    page: 1,
+    order: 'hot'
   });
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
@@ -46,7 +55,7 @@ const Products = () => {
   return (
     <section className="container mx-auto mb-24">
       {!isFilterEmpty && (
-        <div className=" ">
+        <>
           <div className=" flex items-center justify-between mb-6 md:items-center md:mb-4">
             <div>
               <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
@@ -65,32 +74,36 @@ const Products = () => {
           <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
             {!isFetching
               ? data?.data?.data?.map((item, index) => (
-                  <ProductCard
-                    onClick={handleProductClick}
-                    key={index}
-                    data={item}
-                    className="md:!w-full"
-                  />
-                ))
+                <ProductCard
+                  onClick={handleProductClick}
+                  key={index}
+                  data={item}
+                  className="md:!w-full"
+                />
+              ))
               : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
-        </div>
+        </>
       )}
       {isFilterEmpty && (
-        <div className=" ">
-          {/* <div className="relative mb-12">
+        <>
+          <div className="relative mb-12">
             <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
-                Огненные скидки
+               {t('titles.hot')}
               </h2>
-              <div className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static">
-                <span>Все</span> <Image src={redChervonRight} alt="chervon right" />
-              </div>
+              <Link
+                href={`/hot`}
+                className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
+              >
+                <span>Все</span>
+                <Image src={redChervonRight} alt="chervon right" />
+              </Link>
             </div>
-            {!isFetching ? (
+            {!hotIsFetching ? (
               <Carousel className="w-full">
                 <CarouselContent className="-ml-2">
-                  {data?.data?.data?.map((item, index) => (
+                  {hotData?.data?.data?.map((item, index) => (
                     <CarouselItem
                       key={index}
                       className="pl-6  basis-1/4 md:basis-auto md:pl-3"
@@ -109,13 +122,17 @@ const Products = () => {
                 </div>
               </Carousel>
             ) : (
-              <div>...loading</div>
+              <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
+                {[...Array(4)].map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
             )}
-          </div> */}
+          </div>
           <div className="relative">
             <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
-                Скидки на тренды
+                {t('titles.hot')}
               </h2>
               <Link
                 href={`/trends`}
@@ -154,7 +171,7 @@ const Products = () => {
               </div>
             )}
           </div>
-        </div>
+        </>
       )}
       {responsiveDialog}
     </section>

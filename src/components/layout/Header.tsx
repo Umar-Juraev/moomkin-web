@@ -65,7 +65,7 @@ export default function Header() {
         <MapPin />
         <div className="whitespace-nowrap">
           {/* <LocationDisplay /> */}
-          Город Ташкент
+          {t('header.location')}
         </div>
       </div>
       <div
@@ -80,12 +80,12 @@ export default function Header() {
           <MapPin />
           <div className="whitespace-nowrap">
             {/* <LocationDisplay /> */}
-            Город Ташкент
+            {t('header.location')}
           </div>
         </div>
 
         <Search
-          placeholder="Ищите горячие скидки"
+          placeholder={t('placeholder.search')}
           onSearch={setSearchQuery}
           isLoading={isFetching}
           data={data?.data.data || []}
@@ -119,7 +119,7 @@ export default function Header() {
                 </Button>
               )}
             </DropdownMenuGroup> */}
-            <DropdownMenuSeparator className="bg-[#919DA63D]" />
+            {/* <DropdownMenuSeparator className="bg-[#919DA63D]" /> */}
             <DropdownMenuGroup className="p-1">
               <DropdownMenuItem
                 onClick={() => router.push("/favorites")}
@@ -135,7 +135,7 @@ export default function Header() {
                 ) : (
                   <HeartIcon size={34} color="#292C30" />
                 )}
-                Saved
+                {t('header.saved')}
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => router.push("/settings")}
@@ -145,7 +145,7 @@ export default function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
                 <AlertCircle size={34} color="#292C30" className="rotate-180" />
-                About the program
+               {t('header.aboutProgram')}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-[#919DA63D]" />
@@ -189,7 +189,7 @@ export default function Header() {
         <DialogContent className="p-0 border-none shadow-none rounded-2xl overflow-hidden gap-0 w-[744px]">
           <DialogHeader className="relative flex flex-row items-center px-4 h-19 border-b border-gray-200">
             <DialogTitle className="text-2xl font-extrabold mr-auto">
-              Setting
+              {t('settings.title')}
             </DialogTitle>
             <DialogDescription className="hidden" />
           </DialogHeader>

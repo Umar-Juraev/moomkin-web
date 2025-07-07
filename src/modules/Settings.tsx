@@ -10,26 +10,30 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
-const tabItems = [
-  {
-    value: "general",
-    label: "General",
-    icon: <SettingsIcon className="size-5.5" />,
-  },
-  {
-    value: "security",
-    label: "Security",
-    icon: <Shield className="size-5.5" />,
-  },
-  {
-    value: "support",
-    label: "Support",
-    icon: <LifeBuoy className="size-5.5" />,
-  },
-];
+
 
 const Settings = () => {
+
+  const { t } = useTranslation();
+  const tabItems = [
+    {
+      value: "general",
+      label: t('settings.general'),
+      icon: <SettingsIcon className="size-5.5" />,
+    },
+    // {
+    //   value: "security",
+    //   label: "Security",
+    //   icon: <Shield className="size-5.5" />,
+    // },
+    {
+      value: "support",
+      label: t('settings.support'),
+      icon: <LifeBuoy className="size-5.5" />,
+    },
+  ];
   const [tab, setTab] = useState("general");
   const [notifications, setNotifications] = useState(false);
   const router = useRouter();
@@ -42,16 +46,15 @@ const Settings = () => {
         >
           <ArrowLeft />
         </div>
-        <h4 className="text-center text-lg leading-6 font-bold">Settings</h4>
+        <h4 className="text-center text-lg leading-6 font-bold">{t('settings.title')}</h4>
       </div>
       <div className="flex flex-col  p-6 min-w-[220px] md:flex-row md:p-0 md:px-2">
         {tabItems.map((item) => (
           <button
             key={item.value}
             onClick={() => setTab(item.value)}
-            className={`relative cursor-pointer flex items-center w-full text-base p-3 font-medium gap-3 transition rounded-[12px] md:flex md:justify-center md:w-auto  ${
-              tab === item.value ? "bg-[#F2F5F7] md:bg-white" : "bg-transparent"
-            }`}
+            className={`relative cursor-pointer flex items-center w-full text-base p-3 font-medium gap-3 transition rounded-[12px] md:flex md:justify-center md:w-auto  ${tab === item.value ? "bg-[#F2F5F7] md:bg-white" : "bg-transparent"
+              }`}
           >
             <div className="md:hidden">{item.icon}</div>
             <div>{item.label}</div>
@@ -70,11 +73,9 @@ const Settings = () => {
           <div className="flex flex-col gap-10">
             <div className="flex items-start justify-between ">
               <div>
-                <div className="font-medium text-base mb-1">Ilova tili</div>
+                <div className="font-medium text-base mb-1">{t('settings.appLang')}</div>
                 <p className="text-[#919DA6] text-[13px] leading-4.5 max-w-xl">
-                  Hisobingiz va barcha bog&apos;liq ma&apos;lumotlaringiz
-                  butunlay o&apos;chiriladi. Bu amalni bekor qilib
-                  bo&apos;lmaydi.
+                  {t('settings.appLangDesc')}
                 </p>
               </div>
               <div>
@@ -82,7 +83,7 @@ const Settings = () => {
               </div>
             </div>
             {/* Notification */}
-            <div className="flex items-start justify-between ">
+            {/* <div className="flex items-start justify-between ">
               <div className="w-[88%]">
                 <div className="font-medium text-base mb-1">Xabarnoma</div>
                 <p className="text-[#919DA6] text-[13px]  leading-4.5 ">
@@ -97,11 +98,11 @@ const Settings = () => {
                 className="w-[51px] h-[31px] data-[state=checked]:bg-red data-[state=unchecked]:bg-[#E5E7EB] transition-colors duration-200 border-none shadow-md [&_[data-slot=switch-thumb]]:w-[29px] [&_[data-slot=switch-thumb]]:h-[28px] [&_[data-slot=switch-thumb]]:bg-white [&_[data-slot=switch-thumb]]:shadow-md"
                 aria-pressed={notifications}
               />
-            </div>
+            </div> */}
           </div>
         )}
 
-        {tab === "security" && (
+        {/* {tab === "security" && (
           <div className="flex items-start justify-between ">
             <div>
               <div className="font-medium text-base mb-1">
@@ -116,7 +117,7 @@ const Settings = () => {
               Hisobni o&apos;chirish
             </button>
           </div>
-        )}
+        )} */}
         {tab === "support" && (
           <div className="flex flex-col gap-10">
             {/* Phone Support */}
@@ -126,13 +127,12 @@ const Settings = () => {
                   +998990370117
                 </div>
                 <p className="text-[#919DA6] text-[13px]  leading-4.5 max-w-xl">
-                  Hisobingiz va barcha bog&apos;liq ma&apos;lumotlaringiz
-                  butunlay o&apos;chiriladi.
+                  {t('settings.phoneDesc')}
                 </p>
               </div>
               <a href="tel:+998990370117" className="cursor-pointer">
                 <button className="cursor-pointer bg-[#F6F7F8] rounded-full h-10 px-4 text-sm font-bold text-[#23272F] whitespace-nowrap hover:opacity-90 transition">
-                  Qo&apos;ng&apos;iroq qilish
+                 {t('settings.call')}
                 </button>
               </a>
             </div>
@@ -143,8 +143,7 @@ const Settings = () => {
                   @moomkinadmin
                 </div>
                 <p className="text-[#919DA6] text-[13px]  leading-4.5 w-[90%]">
-                  Hisobingiz va barcha bog&apos;liq ma&apos;lumotlaringiz
-                  butunlay o&apos;chiriladi.
+                  {t('settings.tgDesc')}
                 </p>
               </div>
               <a
@@ -154,7 +153,7 @@ const Settings = () => {
                 className="cursor-pointer"
               >
                 <button className="cursor-pointer bg-[#F6F7F8] rounded-full h-10 px-4 text-sm font-bold text-[#23272F] whitespace-nowrap hover:opacity-90 transition">
-                  Yozish
+                 {t('settings.write')}
                 </button>
               </a>
             </div>
