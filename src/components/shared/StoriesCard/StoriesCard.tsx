@@ -1,4 +1,3 @@
-
 // 'use client';
 
 // import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,7 +53,11 @@ const StoriesCard: FC<Props> = ({ data, className }) => {
   return (
     <Card className={cn("w-40 h-50 md:h-30 md:w-24 overflow-hidden rounded-2xl border-none shadow-none relative cursor-pointer p-0",className)}>
       <CardContent className="p-0">
-        <Image src={data.attachments[0].attachment.url} alt={data.name} fill className="object-cover" />
+        {data.attachments.length > 0 && data.attachments[0].attachment.url ? (
+          <Image src={data.attachments[0].attachment.url} alt={data.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 160px" />
+        ) : (
+          <div className="bg-gray-200 w-full h-full" />
+        )}
         {/* <span className="absolute text-xl text-white font-semibold w-full left-1/2 -translate-x-1/2 bottom-5 px-4 md:px-2 md:text-base md:bottom-1">{data.name}</span> */}
       </CardContent>
     </Card>

@@ -35,13 +35,14 @@ const Products = () => {
     ...buildApiParams(clickedFilters),
     limit: 30,
     page: 1,
+    order: "trend",
   });
 
-  const { data:hotData, isFetching:hotIsFetching } = useDiscounts({
+  const { data: hotData, isFetching: hotIsFetching } = useDiscounts({
     ...buildApiParams(clickedFilters),
     limit: 30,
     page: 1,
-    order: 'hot'
+    order: "hot",
   });
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
@@ -90,20 +91,20 @@ const Products = () => {
           <div className="relative mb-12">
             <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
-               {t('titles.hot')}
+                {t("titles.trends")}
               </h2>
               <Link
-                href={`/hot`}
+                href={`/trends`}
                 className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
               >
-                <span>Все</span>
+                <span>Все</span>{" "}
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
-            {!hotIsFetching ? (
+            {!isFetching ? (
               <Carousel className="w-full">
                 <CarouselContent className="-ml-2">
-                  {hotData?.data?.data?.map((item, index) => (
+                  {data?.data?.data?.map((item, index) => (
                     <CarouselItem
                       key={index}
                       className="pl-6  basis-1/4 md:basis-auto md:pl-3"
@@ -132,20 +133,20 @@ const Products = () => {
           <div className="relative">
             <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
-                {t('titles.hot')}
+                {t("titles.hot")}
               </h2>
               <Link
-                href={`/trends`}
+                href={`/hot`}
                 className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
               >
-                <span>Все</span>{" "}
+                <span>Все</span>
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
-            {!isFetching ? (
+            {!hotIsFetching ? (
               <Carousel className="w-full">
                 <CarouselContent className="-ml-2">
-                  {data?.data?.data?.map((item, index) => (
+                  {hotData?.data?.data?.map((item, index) => (
                     <CarouselItem
                       key={index}
                       className="pl-6  basis-1/4 md:basis-auto md:pl-3"

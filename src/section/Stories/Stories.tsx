@@ -76,6 +76,7 @@ const Stories = () => {
             alt="Story"
             className="w-full h-full object-cover"
             fill
+            sizes="(max-width: 768px) 100vw, 360px"
           />
         </div>
       ),
@@ -152,12 +153,17 @@ const Stories = () => {
                     />
                   ) : (
                     <div className="w-[280px] h-[500px] md:w-full md:h-full flex items-center justify-center relative rounded-2xl overflow-hidden">
-                      <Image
-                        src={story.attachments[0].attachment.url}
-                        alt={story.name}
-                        fill
-                        className="object-cover absolute"
-                      />
+                      {story.attachments.length > 0 && story.attachments[0].attachment.url ? (
+                        <Image
+                          src={story.attachments[0].attachment.url}
+                          alt={story.name}
+                          fill
+                          className="object-cover absolute"
+                          sizes="(max-width: 768px) 100vw, 280px"
+                        />
+                      ) : (
+                        <div className="bg-gray-200 w-full h-full" />
+                      )}
                     </div>
                   )}
                 </SwiperSlide>
