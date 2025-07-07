@@ -1,14 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import 'swiper/css';
+@import 'swiper/css/effect-coverflow';
 
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
   font-family: "Pretendard";
   src: url("/fonts/Pretendard-Black.woff") format("woff");
-  font-weight: 900; /* Or 800-900 if it's very heavy */
+  font-weight: 900;
+  /* Or 800-900 if it's very heavy */
   font-style: normal;
-  font-display: swap; /* Recommended for better performance and user experience */
+  font-display: swap;
+  /* Recommended for better performance and user experience */
 }
 
 /* Pretendard Bold */
@@ -98,7 +102,7 @@ body {
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #17181A;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: #f4f5f7;
   --secondary-foreground: #292c30;
@@ -170,38 +174,39 @@ body {
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
+
 @utility container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 148px;
+  padding-right: 148px;
 
   /* Desktop-first: start with largest, override down */
-  max-width: 71.5rem; /* 1144px */
+  max-width: 100%;
 
-  @media (max-width: 96rem) {
-    max-width: 64rem; /* 1024px */
-  }
+
   @media (max-width: 64rem) {
-    max-width: 48rem; /* 768px */
-  }
-  @media (max-width: 48rem) {
-    max-width: 40rem; /* 640px */
-  }
-  @media (max-width: 40rem) {
-    max-width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 16px;
+    padding-right: 16px;
+    /* 768px */
   }
 }
-@custom-variant 3xl (@media (max-width: 1599px)); /* Applies up to 1599px */
-@custom-variant 2xl (@media (max-width: 1278px)); /* Applies up to 1399px */
-@custom-variant xl (@media (max-width: 1199px));  /* Applies up to 1199px */
-@custom-variant lg (@media (max-width: 991px));   /* Applies up to 991px */
-@custom-variant md (@media (max-width: 768px));   /* Applies up to 767px */
-@custom-variant sm (@media (max-width: 578px));   /* Applies up to 575px */
-@custom-variant xs (@media (max-width: 479px));   /* Applies up to 479px */
+
+@custom-variant 3xl (@media (max-width: 1599px));
+/* Applies up to 1599px */
+@custom-variant 2xl (@media (max-width: 1278px));
+/* Applies up to 1399px */
+@custom-variant xl (@media (max-width: 1199px));
+/* Applies up to 1199px */
+@custom-variant lg (@media (max-width: 991px));
+/* Applies up to 991px */
+@custom-variant md (@media (max-width: 768px));
+/* Applies up to 767px */
+@custom-variant sm (@media (max-width: 578px));
+/* Applies up to 575px */
+@custom-variant xs (@media (max-width: 479px));
+/* Applies up to 479px */
 
 .dark {
   --background: oklch(0.145 0 0);
@@ -241,6 +246,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -248,4 +254,19 @@ body {
 
 body {
   color: var(--color-text-dark);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.5s ease both;
+  }
 }

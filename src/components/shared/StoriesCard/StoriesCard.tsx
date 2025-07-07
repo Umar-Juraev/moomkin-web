@@ -1,89 +1,64 @@
-import { Card, CardContent } from "@/components/ui/card";
-import React, { FC } from "react";
 
+// 'use client';
+
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
+// import 'swiper/css';
+// import 'swiper/css/effect-coverflow';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
+
+// export default function StoriesCard() {
+//   return (
+//     <Swiper
+//       effect="coverflow"
+//       grabCursor={true}
+//       centeredSlides={true}
+//       slidesPerView="auto"
+//       coverflowEffect={{
+//         rotate: 0,
+//         stretch: 0,
+//         depth: 100,
+//         modifier: 2.5,
+//         slideShadows: false,
+//       }}
+//       navigation
+//       pagination={{ clickable: true }}
+//       modules={[EffectCoverflow, Navigation, Pagination]}
+//       className="mySwiper"
+//     >
+//       {[...Array(5)].map((_, index) => (
+//         <SwiperSlide key={index} style={{ width: '300px' }}>
+//           <div className="rounded-xl bg-blue-500 p-6 text-white shadow-lg">
+//             <h2 className="text-2xl font-bold">Grocery Delivery</h2>
+//             <p className="mt-2">From Yandex Lavka</p>
+//           </div>
+//         </SwiperSlide>
+//       ))}
+//     </Swiper>
+//   );
+// }
+
+
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { StoriesDTO } from "@/types/DTO";
+import Image from "next/image";
+import React, { FC } from "react";
 interface Props {
-  index?:number
+  data: StoriesDTO,
+  className?: string
 }
 
-const StoriesCard: FC<Props> = ({ index }) => {
+const StoriesCard: FC<Props> = ({ data, className }) => {
   return (
-    <Card className="w-40 h-50 md:h-30 md:w-24 rounded-2xl bg-amber-200 border-none shadow-none">
-      <CardContent>
-        <span className="text-2xl font-semibold">{index}</span>
+    <Card className={cn("w-40 h-50 md:h-30 md:w-24 overflow-hidden rounded-2xl border-none shadow-none relative cursor-pointer p-0",className)}>
+      <CardContent className="p-0">
+        <Image src={data.attachments[0].attachment.url} alt={data.name} fill className="object-cover" />
+        {/* <span className="absolute text-xl text-white font-semibold w-full left-1/2 -translate-x-1/2 bottom-5 px-4 md:px-2 md:text-base md:bottom-1">{data.name}</span> */}
       </CardContent>
     </Card>
   );
 };
 
 export default StoriesCard;
-
-// "use client"
-// import React, { useState } from "react";
-// import Stories from "react-insta-stories";
-// import Image from "next/image";
-// import spa from "../../../../public/images/spa.png";
-
-// interface ImageCaptionPost {
-//   image: string;
-//   caption: string;
-//   captionColor: string;
-// }
-
-
-// const storiesData: ImageCaptionPost[] = [
-//   {
-//     image: "../../../../public/images/spa.png",
-//     caption: "Delicious 😋",
-//     captionColor: "white",
-//   },
-//   {
-//     image: "../../../../public/images/pin.png",
-//     caption: "Yummy",
-//     captionColor: "white",
-//   },
-//   {
-//     image: "../../../../public/images/spa.png",
-//     caption: "Wow",
-//     captionColor: "white",
-//   },
-// ];
-
-// export default function StoriesCard() {
-//   function redirectToHome() {
-//     console.log("xaxa");
-//   }
-//   function getStoriesObject() {
-//     const stories = storiesData.map((item) => {
-//         return {
-//           content: (props) => (
-//             <div className="sr">
-//               <div
-//                 className=""
-//                 style={{ backgroundImage: `url(${item.image})` }}
-//               >
-//                 <div
-//                   className=""
-//                   style={{ color: item.captionColor }}
-//                 >
-//                   <span>{item.caption}</span>
-//                 </div>
-//               </div>
-//             </div>
-//           ),
-//         };
-//     });
-//     return stories;
-//   }
-//   return (
-//     <div className="stories-container w-screen h-screen">
-//       <Stories
-//         stories={getStoriesObject()}
-//         defaultInterval={5000}
-//         width={"100%"}
-//         height="100vh"
-//         onAllStoriesEnd={redirectToHome}
-//         onStoryEnd={() => console.log('end story')}
-//       />
-//     </div>
-//   );
-// }

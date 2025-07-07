@@ -3,22 +3,29 @@ import { Badge as BadgeShadcn } from "@/components/ui/badge";
 import Image from "next/image";
 import { Nullable } from "@/types/common";
 
+
+interface IData {
+    key: string;
+    id: number;
+    icon: any;
+    label: string;
+    value: string;
+    isActive:boolean
+}
 interface Props {
-  label: string;
-  svg?: Nullable<string>;
-  value: string;
-  onClick: (value: string) => void;
+  data: IData
+  onClick: (value: IData) => void;
 }
 
-const Badge: FC<Props> = ({ svg, label, value, onClick }) => {
+const Badge: FC<Props> = ({data, onClick }) => {
   return (
     <BadgeShadcn
-      variant={"secondary"}
-      onClick={() => onClick(value)}
-      className="rounded-[22px] pl-3 pr-4 py-[11px] font-bold text-base flex items-center gap-1.5"
+      variant={data.isActive ? 'default' : 'secondary'}
+      onClick={() => onClick(data)}
+      className="rounded-[22px] pl-3 pr-4 py-0 h-11 font-bold text-base flex items-center gap-1.5 cursor-pointer"
     >
-      {svg && <Image src={svg} alt={label} />}
-      {label}
+      {data.icon && <Image src={data.icon} alt={data.label} />}
+      {data.label}
     </BadgeShadcn>
   );
 };

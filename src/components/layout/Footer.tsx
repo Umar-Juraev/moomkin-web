@@ -16,22 +16,32 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-main-light-gray">
+    <div className="bg-main-light-gray">
       <div className="container mx-auto">
         <div className="flex justify-between pt-12 pb-10 mb-10 border-b border-[#919DA63D] md:block">
           <Image src={logo} alt="moomkin" width={183} className="md:mb-8" />
           <div className="flex gap-6 w-[62%] md:flex-col md:w-[90%] md:gap-6">
             <div>
-              <h6 className="mb-1 font-bold text-lg leading-6">1080</h6>
+              <a
+                href="tel:+998990370117"
+                className="mb-1 font-bold text-lg leading-6  hover:underline"
+              >
+                +998990370117
+              </a>
               <p className="text-[#85919E] font-normal text-sm leading-5">
                 Savollar va takliflarga javob berish uchun ishonch telefon
                 raqami. Qo‘ng‘iroq qilish bepul.
               </p>
             </div>
             <div>
-              <h6 className="mb-1 font-bold text-lg leading-6">
-                @moomkinsupport
-              </h6>
+              <a
+                href="https://t.me/moomkinadmin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mb-1 font-bold text-lg leading-6 hover:underline"
+              >
+                @moomkinadmin
+              </a>
               <p className="text-[#85919E] font-normal text-sm leading-5">
                 Botda mavjud bo‘lgan imkoniyatlar haqida qisqacha izoh yozib
                 ketish kerak.
@@ -42,7 +52,12 @@ export default function Footer() {
 
         <div className="flex justify-between items-center mb-13.5 md:block md:mb-16">
           <div className="flex gap-6 items-center">
-            <Image src={qrcodeIcon} alt="download our app" width={120} className="md:hidden"/>
+            <Image
+              src={qrcodeIcon}
+              alt="download our app"
+              width={120}
+              className="md:hidden"
+            />
             <div className="md:mb-8">
               <div className="flex gap-3 mb-4">
                 <Image src={googlePlayIcon} alt="Google play" width={162} />
@@ -55,26 +70,26 @@ export default function Footer() {
             </div>
           </div>
           <div className="flex gap-4">
-            <Link href="https://instagram.com/moomkin.uz" target="_blank" >
+            <Link href="https://instagram.com/moomkin.uz" target="_blank">
               <Image src={instagramIcon} alt="Instagram" width={56} />
             </Link>
-            <Link href="https://facebook.com/moomkin.uz" target="_blank" >
+            <Link href="https://facebook.com/moomkin.uz" target="_blank">
               <Image src={facebookIcon} alt="Facebook" width={56} />
             </Link>
-            <Link href="https://t.me/moomkinuz" target="_blank" >
+            <Link href="https://t.me/moomkinuz" target="_blank">
               <Image src={telegramIcon} alt="Telegram" width={56} />
             </Link>
-            <Link href="https://www.youtube.com/@moomkinuz" target="_blank" >
+            <Link href="https://www.youtube.com/@moomkinuz" target="_blank">
               <Image src={youtubeIcon} alt="You Tube" width={56} />
             </Link>
           </div>
         </div>
 
-        <div className="flex justify-between items-center mb-12 md:mb-8 md:text-sm">
+        <div className="flex justify-between items-center pb-12 md:pb-8 md:text-sm">
           <p>© 2025 moomkin.uz · Barcha huquqlar himoyalangan </p>
-          <LanguageSwitcher className={"md:hidden"}/>
+          <LanguageSwitcher className={"md:hidden"} />
         </div>
       </div>
-    </footer>
+    </div>
   );
 }

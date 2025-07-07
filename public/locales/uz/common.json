@@ -1,7 +1,8 @@
 {
   "loading": "Yuklanmoqda...",
   "error": "Nimadir xato bo'ldi",
-   "login": "Kirish",
+  "login": "Kirish",
+  "logout": "Chikish",
   "buttons": {
     "submit": "Yuborish",
     "cancel": "Bekor qilish",
@@ -21,5 +22,34 @@
     "confirmDelete": "Bu elementni o'chirishga ishonchingiz komilmi?",
     "itemCount": "{{count}} ta element",
     "itemCount_plural": "{{count}} ta element"
+  },
+  "titles": {
+    "trends": "Trendlar bo'yicha chegirmalar",
+    "hot":"Olov chegirmalar"
+  },
+  "header": {
+    "location": "Toshkent shahri",
+    "aboutProgram": "Dastur haqida",
+    "saved": "Saqlanganlar"
+  },
+  "placeholder": {
+    "search": "Qaynoq chegirmalarni qidiring"
+  },
+  "settings": {
+    "title": "Sozlamalar",
+    "general": "Asosiy",
+    "support": "Qo'llab-quvvatlash",
+    "appLang": "Ilova tili",
+    "appLangDesc": "Hisobingiz va barcha bog'liq ma'lumotlaringiz butunlay o'chiriladi. Bu amalni bekor qilib bo'lmaydi.",
+    "phoneDesc": "Tijoriy takliflar yuzasidan aloqa uchun.",
+    "tgDesc": "Tijoriy takliflar yuzasidan murojaat uchun.",
+    "call": "Qo‘ng‘iroq qilish",
+    "write": "Yozish"
+  },
+  "category": {
+    "trend": "Trendda",
+    "newest": "Eng yangi",
+    "favorites": "Sevimlilar",
+    "nearest": "Eng yaqin"
   }
 }

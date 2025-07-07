@@ -2,6 +2,7 @@
   "loading": "Loading...",
   "error": "Something went wrong",
   "login": "Login",
+  "logout": "Log out",
   "buttons": {
     "submit": "Submit",
     "cancel": "Cancel",
@@ -21,5 +22,35 @@
     "confirmDelete": "Are you sure you want to delete this item?",
     "itemCount": "{{count}} item",
     "itemCount_plural": "{{count}} items"
+  },
+  "titles": {
+    "trends": "Trends discounts",
+    "hot":"Hot discounts"
+  },
+  "header": {
+    "location": "City Tashkent",
+    "aboutProgram": "About the program",
+    "saved": "Saved",
+    "settings": "Settings"
+  },
+  "placeholder": {
+    "search": "Search for hot discounts"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "support": "Support",
+    "appLang": "App language",
+    "appLangDesc": "Your account and all related data will be completely deleted. This action is irreversible.",
+    "phoneDesc": "For commercial inquiries, please contact us by phone.",
+    "tgDesc": "For commercial inquiries, please contact us via Telegram.",
+    "call": "Call",
+    "write": "Write"
+  },
+  "category": {
+    "trend": "Trend",
+    "newest": "Newest",
+    "favorites": "Favorites",
+    "nearest": "Nearest"
   }
 }

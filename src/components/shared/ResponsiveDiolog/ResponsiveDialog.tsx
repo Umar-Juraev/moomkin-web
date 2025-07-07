@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-import { cn } from "@/lib/utils"; 
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +20,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useMediaQuery } from "@/hooks/useMediaQuery"; 
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface ResponsiveDialogProps {
   children: React.ReactNode;
@@ -29,7 +30,7 @@ interface ResponsiveDialogProps {
   hideHeader?: boolean;
   dialogContentClassName?: string;
   drawerContentClassName?: string;
-  open?: boolean; 
+  open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
@@ -38,7 +39,7 @@ function ResponsiveDialog({
   trigger,
   title,
   description,
-  hideHeader = false, 
+  hideHeader,
   dialogContentClassName,
   drawerContentClassName,
   open,
@@ -47,7 +48,7 @@ function ResponsiveDialog({
   const [internalOpen, setInternalOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const isOpen = open ?? internalOpen; 
+  const isOpen = open ?? internalOpen;
   const setIsOpen = onOpenChange ?? setInternalOpen;
 
   if (isDesktop) {
@@ -60,15 +61,6 @@ function ResponsiveDialog({
             dialogContentClassName
           )}
         >
-          {!hideHeader &&
-            title && (
-              <DialogHeader>
-                <DialogTitle>{title}</DialogTitle>
-                {description && (
-                  <DialogDescription>{description}</DialogDescription>
-                )}
-              </DialogHeader>
-            )}
           {children}
         </DialogContent>
       </Dialog>
@@ -76,24 +68,23 @@ function ResponsiveDialog({
   }
 
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+    <Drawer
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      snapPoints={[1]} // Still want it to try and snap to 100%
+    >
       {trigger && <DrawerTrigger asChild>{trigger}</DrawerTrigger>}
       <DrawerContent
+        // Keep these styles for the content, but ensure it's within a truly full-height parent
         className={cn(
-          "mt-0 m-0 p-0 border-none shadow-none top-0",
+          "data-[vaul-drawer-direction=bottom]:max-h-[100vh] pb-19", // Ensure DrawerContent also tries to take full height
           drawerContentClassName
         )}
       >
-        {!hideHeader &&
-          title && (
-            <DrawerHeader className="text-left">
-              <DrawerTitle>{title}</DrawerTitle>
-              {description && (
-                <DrawerDescription>{description}</DrawerDescription>
-              )}
-            </DrawerHeader>
-          )}
-        {children}
+        {/* The children area should now take the remaining space */}
+        <div className="flex-grow overflow-auto">
+          {children}
+        </div>
       </DrawerContent>
     </Drawer>
   );

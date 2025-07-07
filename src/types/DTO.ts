@@ -1,3 +1,4 @@
+import { ContactTypeIdEnum } from "@/constants/enums";
 
 export interface DiscountCreateDTO {
   name: string;
@@ -10,12 +11,13 @@ export interface DiscountCreateDTO {
 export interface PaginatedResponse<T> {
   data: T;
   total: number;
-  next: number;
+  page: number;
+  limit: number;
 }
 
 export interface PaginationParams {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 }
 
 export interface AttachmentByIdDTO {
@@ -28,6 +30,19 @@ export interface AttachmentByIdDTO {
   original_filename: string;
 }
 
+export interface AttachmentDTO {
+  id: number;
+  size: number;
+  url: string;
+  file_name: string;
+  content_type: string;
+}
+
+export interface AttachmentsDTO {
+  id: number;
+  attachment: AttachmentDTO;
+  type: string;
+}
 export interface ApiResponse<T> {
   success: boolean;
   statusCode: number;
@@ -38,7 +53,7 @@ export interface ApiResponse<T> {
 export interface CategoryDTO {
   id: number;
   name: string;
-  icon_url: string; 
+  icon_url: string;
 }
 
 export interface CategoryByIdDTO {
@@ -55,6 +70,8 @@ export interface CompanyAddressDTO {
   home: string | null;
   lat: number;
   lng: number;
+  name: string
+  working_hours: WorkingHoursDTO[]
 }
 
 export interface LinkDTO {
@@ -63,6 +80,7 @@ export interface LinkDTO {
   name: string;
   icon_url: string;
   company_id: number;
+  type_id:ContactTypeIdEnum
 }
 
 export interface ContactLinkDTO {
@@ -77,6 +95,12 @@ export interface CompanyDTO {
   active: boolean;
   icon_url: string;
 }
+
+export interface WorkingHoursDTO {
+  day_of_week: number;
+  time_from: string;
+  time_to: string;
+}
 export interface CompanyByIdDTO {
   id: number;
   name: string;
@@ -84,6 +108,7 @@ export interface CompanyByIdDTO {
   icon_url: string;
   addresses: CompanyAddressDTO[];
   links: LinkDTO[];
+  working_hours: WorkingHoursDTO[]
 }
 export interface DiscountDTO {
   id: number;
@@ -97,9 +122,9 @@ export interface DiscountDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentByIdDTO[];
+  attachments: AttachmentsDTO[];
   category: CategoryDTO;
-  company: CompanyDTO;
+  company: CompanyByIdDTO;
 }
 
 export interface DiscountByIdDTO {
@@ -141,7 +166,7 @@ export interface StoriesDTO {
   discount_price: number;
   off_percent: number;
   seen_count: number;
-  attachments: AttachmentByIdDTO[];
+  attachments: AttachmentsDTO[];
   category: CategoryDTO | null;
   company: CompanyDTO;
 }

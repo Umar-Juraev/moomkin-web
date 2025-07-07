@@ -13,11 +13,13 @@ export default function MainLayout({ children }: MainLayoutProps) {
   }, [])
   return (
     <div className="flex flex-col min-h-screen">
-      {/* <Header />
-      <main className="flex-grow">
-        {children}
-      </main>
-      <Footer /> */}
+      <header className="md:hide">
+        <Header />
+      </header>
+      <main className="flex-grow">{children}</main>
+      <footer className="md:hide">
+        <Footer />
+      </footer>
     </div>
   );
-} 
+}

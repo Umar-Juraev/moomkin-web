@@ -1,5 +1,12 @@
-import { redirect } from 'next/navigation';
+"use client";
+import { Category, Stories, Products } from "@/section";
 
 export default function RootPage() {
-  redirect('/home');
+  return (
+    <main className=" ">
+      <Stories />
+      <Category />
+      <Products />
+    </main>
+  );
 }
