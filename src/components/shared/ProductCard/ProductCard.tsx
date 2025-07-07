@@ -24,14 +24,18 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
   return (
     <div className={cn("border-none rounded-t-[22px] md:w-[296px]", className)}>
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
-        <Image
-          onClick={() => onClick(data.id)}
-          src={data.attachments[0].attachment.url}
-          alt={data.name}
-          fill
-          className="object-cover h-full cursor-pointer hover:opacity-60 transition-all duration-300"
-          sizes="(max-width: 768px) 100vw, 296px"
-        />
+        {data.attachments[0]?.attachment?.url ? (
+          <Image
+            onClick={() => onClick(data.id)}
+            src={data.attachments[0].attachment.url}
+            alt={data.name}
+            fill
+            className="object-cover h-full cursor-pointer hover:opacity-60 transition-all duration-300"
+            sizes="(max-width: 768px) 100vw, 296px"
+          />
+        ) : (
+          <div className="bg-gray-200 w-full h-full" />
+        )}
         <span className="absolute top-2 left-2 bg-[#16C602] rounded-[22px] text-white text-base font-bold h-8 w-15 flex items-center justify-center">
           {data.off_percent}%
         </span>
@@ -43,12 +47,16 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
         </span>
 
         <span className="absolute bottom-[9px] left-[9px] overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314]">
-          <Image
-            src={data.company.icon_url}
-            alt={data.company.name}
-            width={54}
-            height={54}
-          />
+          {data.company?.icon_url ? (
+            <Image
+              src={data.company.icon_url}
+              alt={data.company.name}
+              width={54}
+              height={54}
+            />
+          ) : (
+            <div className="bg-gray-200 w-[54px] h-[54px]" />
+          )}
         </span>
       </div>
       <div>

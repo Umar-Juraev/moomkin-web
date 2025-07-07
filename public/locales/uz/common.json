@@ -25,7 +25,12 @@
   },
   "titles": {
     "trends": "Trendlar bo'yicha chegirmalar",
-    "hot":"Olov chegirmalar"
+    "hot": "Olov chegirmalar"
+  },
+  "pages": {
+    "home": "Asosiy sahifa",
+    "search": "Qidiruv",
+    "favorites": "Sevimlilar"
   },
   "header": {
     "location": "Toshkent shahri",
@@ -51,5 +56,11 @@
     "newest": "Eng yangi",
     "favorites": "Sevimlilar",
     "nearest": "Eng yaqin"
+  },
+  "footer": {
+    "phone.desc": "Savollar va takliflarga javob berish uchun ishonch telefon raqami. Qo‘ng‘iroq qilish bepul.",
+    "phone.tg": "Botda mavjud bo‘lgan imkoniyatlar haqida qisqacha izoh yozib ketish kerak.",
+    "faq": "Barcha huquqlar himoyalangan",
+    "appDesc": "Telefoningiz kamerasi orqali QR kodni skanerlab mobil ilovani yuklab oling"
   }
 }

@@ -56,7 +56,7 @@ export default function ProductPage() {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home page</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t('pages.home')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -84,7 +84,7 @@ export default function ProductPage() {
           : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
       </div>
 
-      {data?.data && data.data.total < data.data.limit && (
+      {data?.data && data.data.total > data.data.limit && (
         <div className="mb-8">
           <Pagination
             limit={data.data.limit}

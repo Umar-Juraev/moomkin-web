@@ -77,7 +77,7 @@ const Filters = () => {
         }
         return { ...badge, isActive };
       }),
-    [clickedFilters]
+    [clickedFilters, t]
   );
 
   return (

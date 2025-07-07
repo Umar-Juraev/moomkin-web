@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import MainLayout from "@/components/layout/MainLayout";
 import I18nProvider from "./i18n-provider";
+import ProgressBarClient from "@/components/layout/ProgressBarClient";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ProgressBarClient />
         <I18nProvider initialLocale={param.locale}>
           <MainLayout>{children}</MainLayout>
         </I18nProvider>
