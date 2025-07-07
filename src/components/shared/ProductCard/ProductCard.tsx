@@ -30,6 +30,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
           alt={data.name}
           fill
           className="object-cover h-full cursor-pointer hover:opacity-60 transition-all duration-300"
+          sizes="(max-width: 768px) 100vw, 296px"
         />
         <span className="absolute top-2 left-2 bg-[#16C602] rounded-[22px] text-white text-base font-bold h-8 w-15 flex items-center justify-center">
           {data.off_percent}%

@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
+        protocol: 'https',
         // hostname: 'api.moomkin.uz',
         hostname: 'test.moomkin.uz',
         port: '',
