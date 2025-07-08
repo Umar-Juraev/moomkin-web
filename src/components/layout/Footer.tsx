@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import logo from "@/assets/icons/Logo.svg";
 
@@ -13,8 +14,11 @@ import qrcodeIcon from "@/assets/images/qrcode.png";
 import Image from "next/image";
 import { LanguageSwitcher } from "../shared";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-main-light-gray">
       <div className="container mx-auto">
@@ -29,8 +33,7 @@ export default function Footer() {
                 +998990370117
               </a>
               <p className="text-[#85919E] font-normal text-sm leading-5">
-                Savollar va takliflarga javob berish uchun ishonch telefon
-                raqami. Qo‘ng‘iroq qilish bepul.
+                {t('footer.phone.desc')}
               </p>
             </div>
             <div>
@@ -43,8 +46,7 @@ export default function Footer() {
                 @moomkinadmin
               </a>
               <p className="text-[#85919E] font-normal text-sm leading-5">
-                Botda mavjud bo‘lgan imkoniyatlar haqida qisqacha izoh yozib
-                ketish kerak.
+                {t('footer.phone.tg')}
               </p>
             </div>
           </div>
@@ -64,8 +66,7 @@ export default function Footer() {
                 <Image src={appStoreIcon} alt="App store" width={144} />
               </div>
               <p className="text-[#85919E] font-normal text-sm leading-5 w-[65%] md:w-[70%]">
-                Telefoningiz kamerasi orqali QR kodni skanerlab mobil ilovani
-                yuklab oling
+               {t('footer.appDesc')}
               </p>
             </div>
           </div>
@@ -86,7 +87,7 @@ export default function Footer() {
         </div>
 
         <div className="flex justify-between items-center pb-12 md:pb-8 md:text-sm">
-          <p>© 2025 moomkin.uz · Barcha huquqlar himoyalangan </p>
+          <p>© 2025 moomkin.uz · {t('footer.faq')} </p>
           <LanguageSwitcher className={"md:hidden"} />
         </div>
       </div>

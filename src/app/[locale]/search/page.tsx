@@ -19,9 +19,12 @@ import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import { buildApiParams } from "@/utils/data";
 import useFilter from "@/store/slices/usefilter";
 import { Filters } from "@/section";
+import { useTranslation } from "react-i18next";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
+
 
   const searchQuery = searchParams.get("q") || "";
 
@@ -50,11 +53,11 @@ export default function SearchPage() {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home page</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t('pages.home')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Search</BreadcrumbPage>
+            <BreadcrumbPage>{t("pages.search")}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -68,13 +71,13 @@ export default function SearchPage() {
       <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
         {!isFetching
           ? data?.data?.data?.map((item, index) => (
-              <ProductCard
-                onClick={handleProductClick}
-                key={index}
-                data={item}
-                className="md:!w-full"
-              />
-            ))
+            <ProductCard
+              onClick={handleProductClick}
+              key={index}
+              data={item}
+              className="md:!w-full"
+            />
+          ))
           : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
       </div>
 

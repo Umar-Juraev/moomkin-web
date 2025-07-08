@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { buildApiParams } from "@/utils/data";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import Pagination from "@/components/shared/Pagination/Pagination";
+import { useSearchParams } from "next/navigation";
 
 const Products = () => {
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
@@ -31,19 +33,13 @@ const Products = () => {
 
   const isFilterEmpty = Object.keys(clickedFilters).length === 0;
 
-  const { data, isFetching } = useDiscounts({
-    ...buildApiParams(clickedFilters),
-    limit: 30,
-    page: 1,
-    order: "trend",
-  });
+  const { data, isFetching } = useDiscounts(
+    buildApiParams(clickedFilters, { order: "trend" })
+  );
 
-  const { data: hotData, isFetching: hotIsFetching } = useDiscounts({
-    ...buildApiParams(clickedFilters),
-    limit: 30,
-    page: 1,
-    order: "hot",
-  });
+  const { data: hotData, isFetching: hotIsFetching } = useDiscounts(
+    buildApiParams(clickedFilters, { order: "hot"})
+  );
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
       content: (onClose) => (
@@ -75,15 +71,24 @@ const Products = () => {
           <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
             {!isFetching
               ? data?.data?.data?.map((item, index) => (
-                <ProductCard
-                  onClick={handleProductClick}
-                  key={index}
-                  data={item}
-                  className="md:!w-full"
-                />
-              ))
+                  <ProductCard
+                    onClick={handleProductClick}
+                    key={index}
+                    data={item}
+                    className="md:!w-full"
+                  />
+                ))
               : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
+          {/* {data?.data && data.data.total > data.data.limit && (
+            <div className="mb-8">
+              <Pagination
+                limit={data.data.limit}
+                page={data.data.page}
+                total={data.data.total}
+              />
+            </div>
+          )} */}
         </>
       )}
       {isFilterEmpty && (

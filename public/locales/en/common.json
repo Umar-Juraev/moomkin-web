@@ -25,7 +25,13 @@
   },
   "titles": {
     "trends": "Trends discounts",
-    "hot":"Hot discounts"
+    "hot": "Hot discounts",
+    "home": "Home page"
+  },
+  "pages": {
+    "home": "Home",
+    "search": "Search",
+    "favorites": "Favorites"
   },
   "header": {
     "location": "City Tashkent",
@@ -52,5 +58,11 @@
     "newest": "Newest",
     "favorites": "Favorites",
     "nearest": "Nearest"
+  },
+  "footer": {
+    "phone.desc": "A hotline number for answering questions and suggestions. Calls are free.",
+    "phone.tg": "A brief note should be left about the features available in the bot.",
+    "faq": "All rights reserved",
+    "appDesc": "Scan the QR code with your phone's camera to download the mobile app"
   }
 }

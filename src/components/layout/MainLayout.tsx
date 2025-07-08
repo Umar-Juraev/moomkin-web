@@ -8,18 +8,18 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-  useEffect(() => {
-    window.location.href = 'https://moomkin.taplink.ws' // ← your target URL
-  }, [])
+  // useEffect(() => {
+  //   window.location.href = 'https://moomkin.taplink.ws' // ← your target URL
+  // }, [])
   return (
     <div className="flex flex-col min-h-screen">
-      {/* <header className="md:hide">
+      <header className="md:hide">
         <Header />
       </header>
       <main className="flex-grow">{children}</main>
       <footer className="md:hide">
         <Footer />
-      </footer> */}
+      </footer>
     </div>
   );
 }
