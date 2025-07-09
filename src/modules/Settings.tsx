@@ -12,15 +12,12 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
-
-
 const Settings = () => {
-
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const tabItems = [
     {
       value: "general",
-      label: t('settings.general'),
+      label: t("settings.general"),
       icon: <SettingsIcon className="size-5.5" />,
     },
     // {
@@ -30,7 +27,7 @@ const Settings = () => {
     // },
     {
       value: "support",
-      label: t('settings.support'),
+      label: t("settings.support"),
       icon: <LifeBuoy className="size-5.5" />,
     },
   ];
@@ -42,24 +39,28 @@ const Settings = () => {
       <div className="hidden w-full  py-3 relative md:flex md:justify-center">
         <div
           className="w-10 absolute left-[21px]"
-          onClick={() => router.back()}
+          onClick={() => router.push(`/${i18n.language}`)}
         >
           <ArrowLeft />
         </div>
-        <h4 className="text-center text-lg leading-6 font-bold">{t('settings.title')}</h4>
+        <h4 className="text-center text-lg leading-6 font-bold">
+          {t("settings.title")}
+        </h4>
       </div>
       <div className="flex flex-col  p-6 min-w-[220px] md:flex-row md:p-0 md:px-2">
         {tabItems.map((item) => (
           <button
             key={item.value}
             onClick={() => setTab(item.value)}
-            className={`relative cursor-pointer flex items-center w-full text-base p-3 font-medium gap-3 transition rounded-[12px] md:flex md:justify-center md:w-auto  ${tab === item.value ? "bg-[#F2F5F7] md:bg-white" : "bg-transparent"
-              }`}
+            className={`relative cursor-pointer flex items-center w-full text-base p-3 font-medium gap-3 transition rounded-[12px] md:flex md:justify-center md:w-auto  ${
+              tab === item.value ? "bg-[#F2F5F7] md:bg-white" : "bg-transparent"
+            }`}
           >
             <div className="md:hidden">{item.icon}</div>
             <div>{item.label}</div>
             <div
-              className={cn('hidden md:block',
+              className={cn(
+                "hidden md:block",
                 tab === item.value
                   ? "absolute w-[37px] h-[3px] bg-red bottom-1 rounded-2xl"
                   : "absolute w-[37px] h-[3px] bg-white bottom-1 rounded-2xl"
@@ -73,9 +74,11 @@ const Settings = () => {
           <div className="flex flex-col gap-10">
             <div className="flex items-start justify-between ">
               <div>
-                <div className="font-medium text-base mb-1">{t('settings.appLang')}</div>
+                <div className="font-medium text-base mb-1">
+                  {t("settings.appLang")}
+                </div>
                 <p className="text-[#919DA6] text-[13px] leading-4.5 max-w-xl">
-                  {t('settings.appLangDesc')}
+                  {t("settings.appLangDesc")}
                 </p>
               </div>
               <div>
@@ -127,12 +130,12 @@ const Settings = () => {
                   +998990370117
                 </div>
                 <p className="text-[#919DA6] text-[13px]  leading-4.5 max-w-xl">
-                  {t('settings.phoneDesc')}
+                  {t("settings.phoneDesc")}
                 </p>
               </div>
               <a href="tel:+998990370117" className="cursor-pointer">
                 <button className="cursor-pointer bg-[#F6F7F8] rounded-full h-10 px-4 text-sm font-bold text-[#23272F] whitespace-nowrap hover:opacity-90 transition">
-                 {t('settings.call')}
+                  {t("settings.call")}
                 </button>
               </a>
             </div>
@@ -143,7 +146,7 @@ const Settings = () => {
                   @moomkinadmin
                 </div>
                 <p className="text-[#919DA6] text-[13px]  leading-4.5 w-[90%]">
-                  {t('settings.tgDesc')}
+                  {t("settings.tgDesc")}
                 </p>
               </div>
               <a
@@ -153,7 +156,7 @@ const Settings = () => {
                 className="cursor-pointer"
               >
                 <button className="cursor-pointer bg-[#F6F7F8] rounded-full h-10 px-4 text-sm font-bold text-[#23272F] whitespace-nowrap hover:opacity-90 transition">
-                 {t('settings.write')}
+                  {t("settings.write")}
                 </button>
               </a>
             </div>

@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useRouter, usePathname } from "next/navigation";
 import i18nConfig from "../../../i18nConfig";
 import { cn } from "@/lib/utils"
+import NProgress from "nprogress";
 
 interface LanguageOption {
   value: string;
@@ -49,6 +50,7 @@ function LanguageSwitcher({ className, onlyIcon }: Props) {
       newPath = segments.join("/");
     }
 
+    NProgress.start();
     router.push(newPath || "/");
   };
 

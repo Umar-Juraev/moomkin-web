@@ -35,7 +35,8 @@
   "header": {
     "location": "Toshkent shahri",
     "aboutProgram": "Dastur haqida",
-    "saved": "Saqlanganlar"
+    "saved": "Saqlanganlar",
+    "settings":"Sozlamalar"
   },
   "placeholder": {
     "search": "Qaynoq chegirmalarni qidiring"

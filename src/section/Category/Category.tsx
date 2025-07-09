@@ -17,12 +17,14 @@ const Category = () => {
   const { data: searchData, isFetching: isSearchFetching } = useDiscounts({
     search: searchQuery,
   });
+  
   return (
     <section className="container mx-auto mb-8 md:mb-6">
       <Search
         placeholder="Ищите горячие скидки"
         onSearch={setSearchQuery}
         isLoading={isSearchFetching}
+        onOpen={()=>{}}
         data={searchData?.data.data || []}
         className="hidden md:block"
       />

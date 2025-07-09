@@ -41,9 +41,10 @@ import useFavorites from "@/store/slices/useFavorites";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
 import SettingsModule from "@/modules/Settings";
+import NProgress from "nprogress";
 
 export default function Header() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [burger, setBurger] = useState(false);
   const [settingsDialog, setSettingsDialog] = useState(false);
@@ -56,7 +57,13 @@ export default function Header() {
 
   const handleFavorite = () => {
     if (!favorites.length) return
+    NProgress.start();
     router.push("/favorites")
+  }
+  const handleSearchOpen = (isOpen:boolean)=>{
+    if (isOpen) {
+      
+    }
   }
 
   return (
@@ -73,7 +80,7 @@ export default function Header() {
           "   flex items-center gap-9 w-full md:justify-between md:py-1"
         )}
       >
-        <Link href={"/"}>
+        <Link href={`/${i18n.language}`}>
           <Image src={logoIcon} alt="logo" />
         </Link>
         <div className="flex items-center gap-[9px] font-semibold md:hidden">
@@ -88,6 +95,7 @@ export default function Header() {
           placeholder={t('placeholder.search')}
           onSearch={setSearchQuery}
           isLoading={isFetching}
+          onOpen={handleSearchOpen}
           data={data?.data.data || []}
           className="pl-14 max-w-[560px] md:hidden"
         />
@@ -122,7 +130,7 @@ export default function Header() {
             {/* <DropdownMenuSeparator className="bg-[#919DA63D]" /> */}
             <DropdownMenuGroup className="p-1">
               <DropdownMenuItem
-                onClick={() => router.push("/favorites")}
+                onClick={() => { NProgress.start(); router.push("/favorites") }}
                 className="cursor-pointer text-base font-medium p-3 relative"
               >
                 {favorites.length ? (
@@ -138,17 +146,17 @@ export default function Header() {
                 {t('header.saved')}
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => router.push("/settings")}
+                onClick={() => { NProgress.start(); router.push("/settings") }}
                 className="cursor-pointer text-base font-medium p-3"
               >
-                <Settings size={34} color="#292C30" /> Settings
+                <Settings size={34} color="#292C30" />{t('header.settings')}
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
                 <AlertCircle size={34} color="#292C30" className="rotate-180" />
                {t('header.aboutProgram')}
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator className="bg-[#919DA63D]" />
+            {/* <DropdownMenuSeparator className="bg-[#919DA63D]" />
             <DropdownMenuGroup className="p-1">
               {true && (
                 <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
@@ -156,7 +164,7 @@ export default function Header() {
                   {t("logout")}
                 </DropdownMenuItem>
               )}
-            </DropdownMenuGroup>
+            </DropdownMenuGroup> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

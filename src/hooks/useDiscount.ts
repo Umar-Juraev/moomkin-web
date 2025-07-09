@@ -27,7 +27,7 @@ export const useDiscounts = (
     tags?: number[];
     page?: number;
     limit?: number;
-  }
+  },
 ) => {
   return useQuery({
     queryKey: [...DISCOUNT_KEYS.list, params],

@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
 
 
   const searchQuery = searchParams.get("q") || "";
@@ -53,7 +53,7 @@ export default function SearchPage() {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">{t('pages.home')}</BreadcrumbLink>
+            <BreadcrumbLink href={`/${i18n.language}`}>{t('pages.home')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -61,7 +61,7 @@ export default function SearchPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] mb-8">
+      <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-8">
         &quot;{searchQuery}&quot;
       </h1>
       <div className="mb-8">

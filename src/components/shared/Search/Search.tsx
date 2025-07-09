@@ -16,6 +16,8 @@ import { X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DiscountDTO } from "@/types/DTO";
 import { useRouter, useSearchParams } from "next/navigation";
+import NProgress from "nprogress";
+import { useTranslation } from "react-i18next";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -38,6 +40,7 @@ interface SearchProps {
   onSearch: (value: string) => void;
   isLoading?: boolean;
   data?: DiscountDTO[];
+  onOpen: (isOpen: boolean) => void;
   className?: string;
 }
 
@@ -45,11 +48,13 @@ function Search({
   placeholder = "Type to search...",
   onSearch,
   isLoading = false,
+  onOpen,
   data = [],
   className,
 }: SearchProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { i18n } = useTranslation();
 
   const DEBOUNCE_MS = 300;
 
@@ -66,7 +71,6 @@ function Search({
     onSearch(debouncedSearchQuery);
   }, [debouncedSearchQuery, onSearch]);
 
-
   useEffect(() => {
     if (isFocused && inputRef.current) {
       inputRef.current.focus();
@@ -79,6 +83,7 @@ function Search({
   }, []);
 
   const handleFocus = useCallback(() => {
+    onOpen(true);
     setIsFocused(true);
   }, []);
 
@@ -91,6 +96,7 @@ function Search({
         !containerRef.current.contains(event.target as Node)
       ) {
         setIsFocused(false);
+        onOpen(false);
       }
     };
 
@@ -100,14 +106,19 @@ function Search({
 
   const handleCompanySelect = (companyName: string) => {
     setSearchQuery(companyName);
+    NProgress.start();
     router.push(`/search?q=${encodeURIComponent(companyName)}`);
     setIsFocused(false);
+    onOpen(false);
   };
 
   const handleClear = () => {
-    router.push("/");
+    NProgress.start();
+    const locale = i18n.language;
+    router.push(`/${locale}`);
     setSearchQuery("");
     setIsFocused(false);
+    onOpen(false);
   };
 
   const uniqueCompanies = React.useMemo(() => {

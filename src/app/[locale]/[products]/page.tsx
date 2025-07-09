@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 export default function ProductPage() {
   const params = useParams();
   const { products } = params as { locale: string; products: string };
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 
@@ -56,7 +56,7 @@ export default function ProductPage() {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">{t('pages.home')}</BreadcrumbLink>
+            <BreadcrumbLink href={`/${i18n.language}`}>{t('pages.home')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -64,7 +64,7 @@ export default function ProductPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] mb-8">
+      <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-8">
         {t(`titles.${products}`)}
       </h1>
 
