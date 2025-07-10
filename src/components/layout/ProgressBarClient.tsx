@@ -70,9 +70,6 @@ export default function ProgressBarClient() {
         width: 100%;
         height: 3px;
       }
-      #nprogress .peg {
-        box-shadow: 0 0 10px #E50000, 0 0 5px #E50000;
-      }
     `;
     document.head.appendChild(style);
     return () => {
