@@ -24,6 +24,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { useSearchParams } from "next/navigation";
+import { Inbox } from "lucide-react";
 
 const Products = () => {
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
@@ -69,7 +70,11 @@ const Products = () => {
           </div>
 
           <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
-            {!isFetching
+            {!isFetching && data?.data?.data?.length === 0 ? (
+              <div className="col-span-4 flex flex-col items-center justify-center py-16">
+                <Inbox className="w-20 h-20 text-gray-300 mb-4" />
+              </div>
+            ) : !isFetching
               ? data?.data?.data?.map((item, index) => (
                   <ProductCard
                     onClick={handleProductClick}
@@ -107,26 +112,32 @@ const Products = () => {
               </Link>
             </div>
             {!isFetching ? (
-              <Carousel className="w-full">
-                <CarouselContent className="-ml-2">
-                  {data?.data?.data?.map((item, index) => (
-                    <CarouselItem
-                      key={index}
-                      className="pl-6  basis-1/4 md:basis-auto md:pl-3"
-                    >
-                      <ProductCard
-                        onClick={handleProductClick}
-                        key={index}
-                        data={item}
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <div className="absolute -top-10 right-0">
-                  <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-                  <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+              data?.data?.data?.length === 0 ? (
+                <div className="col-span-4 flex flex-col items-center justify-center py-16">
+                  <Inbox className="w-20 h-20 text-gray-300 mb-4" />
                 </div>
-              </Carousel>
+              ) : (
+                <Carousel className="w-full">
+                  <CarouselContent className="-ml-2">
+                    {data?.data?.data?.map((item, index) => (
+                      <CarouselItem
+                        key={index}
+                        className="pl-6  basis-1/4 md:basis-auto md:pl-3"
+                      >
+                        <ProductCard
+                          onClick={handleProductClick}
+                          key={index}
+                          data={item}
+                        />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="absolute -top-10 right-0">
+                    <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                    <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                  </div>
+                </Carousel>
+              )
             ) : (
               <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
                 {[...Array(4)].map((_, i) => (

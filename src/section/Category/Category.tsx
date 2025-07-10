@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import useFilter from "@/store/slices/usefilter";
 import Filters from "../Filters/Filters";
 import { useDiscounts } from "@/hooks/useDiscount";
+import { Inbox } from "lucide-react";
 
 const Category = () => {
   const { data, isFetching } = useCategories();
@@ -29,7 +30,11 @@ const Category = () => {
         className="hidden md:block"
       />
       <div className="flex gap-5 mb-8 overflow-x-auto md:mb-6 md:gap-3">
-        {!isFetching
+        {!isFetching && (!data?.data || data.data.length === 0) ? (
+          <div className="col-span-4 flex flex-col items-center justify-center py-16">
+            <Inbox className="w-20 h-20 text-gray-300 mb-4" />
+          </div>
+        ) : !isFetching
           ? data?.data.map((category) => (
               <CategoryItem
                 data={category}

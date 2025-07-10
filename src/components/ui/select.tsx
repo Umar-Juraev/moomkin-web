@@ -7,9 +7,10 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function Select({
+  placeholder = "",
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} />;
+}: React.ComponentProps<typeof SelectPrimitive.Root> & { placeholder?: string }) {
+  return <SelectPrimitive.Root data-slot="select" data-placeholder={placeholder ?? ""} {...props} />;
 }
 
 function SelectGroup({
@@ -19,9 +20,10 @@ function SelectGroup({
 }
 
 function SelectValue({
+  placeholder = "",
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Value>) {
-  return <SelectPrimitive.Value data-slot="select-value" {...props} />;
+}: React.ComponentProps<typeof SelectPrimitive.Value> & { placeholder?: string }) {
+  return <SelectPrimitive.Value data-slot="select-value" data-placeholder={placeholder ?? ""} {...props} />;
 }
 
 function SelectTrigger({

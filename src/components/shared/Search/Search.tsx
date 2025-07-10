@@ -15,7 +15,7 @@ import {
 import { X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DiscountDTO } from "@/types/DTO";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import NProgress from "nprogress";
 import { useTranslation } from "react-i18next";
 
@@ -53,6 +53,8 @@ function Search({
   className,
 }: SearchProps) {
   const router = useRouter();
+  const params = useParams();
+  const locale = params?.locale || "uz";
   const searchParams = useSearchParams();
   const { i18n } = useTranslation();
 
@@ -114,7 +116,6 @@ function Search({
 
   const handleClear = () => {
     NProgress.start();
-    const locale = i18n.language;
     router.push(`/${locale}`);
     setSearchQuery("");
     setIsFocused(false);

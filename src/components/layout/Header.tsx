@@ -35,7 +35,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useDiscounts } from "@/hooks/useDiscount";
 import useFavorites from "@/store/slices/useFavorites";
 import { Badge } from "../ui/badge";
@@ -45,6 +45,8 @@ import NProgress from "nprogress";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
+  const params = useParams();
+  const locale = params?.locale || "uz";
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [burger, setBurger] = useState(false);
   const [settingsDialog, setSettingsDialog] = useState(false);
@@ -80,7 +82,7 @@ export default function Header() {
           "   flex items-center gap-9 w-full md:justify-between md:py-1"
         )}
       >
-        <Link href={`/${i18n.language}`}>
+        <Link href={`/${locale}`}>
           <Image src={logoIcon} alt="logo" />
         </Link>
         <div className="flex items-center gap-[9px] font-semibold md:hidden">

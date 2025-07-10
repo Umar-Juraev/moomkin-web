@@ -8,6 +8,7 @@ import { formatDateRange } from "@/utils/date";
 import { FavoriteIcon } from "@/assets/icons";
 import { cn } from "@/lib/utils";
 import useFavorites from "@/store/slices/useFavorites";
+import { useOptimistic } from "react";
 
 interface Props {
   data: DiscountDTO;
@@ -15,12 +16,25 @@ interface Props {
   className?: string
 }
 const ProductCard: FC<Props> = ({ data, onClick, className }) => {
-  const {toggleFavorite, isFavorite } = useFavorites();
+  const { toggleFavorite, isFavorite, favorites } = useFavorites();
+  const [optimisticFavorites, addFavorite] = useOptimistic(
+    favorites,
+    (state, discount: DiscountDTO) => {
+      const exists = state.some(item => item.id === discount.id);
+      return exists
+        ? state.filter(item => item.id !== discount.id)
+        : [...state, discount];
+    }
+  );
 
+  const handleSaveTofavorite = React.useCallback(
+    (data: DiscountDTO) => {
+      addFavorite(data); // instant UI update
+      toggleFavorite(data); // server update
+    },
+    [addFavorite, toggleFavorite]
+  );
 
-  const handleSaveTofavorite = (data: DiscountDTO) => {
-    toggleFavorite(data)
-  };
   return (
     <div className={cn("border-none rounded-t-[22px] md:w-[296px]", className)}>
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
@@ -43,7 +57,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
           className="absolute top-2 right-2 cursor-pointer "
           onClick={() => handleSaveTofavorite(data)}
         >
-          <FavoriteIcon active={isFavorite(data.id)} />
+          <FavoriteIcon active={optimisticFavorites.some(item => item.id === data.id)} />
         </span>
 
         <span className="absolute bottom-[9px] left-[9px] overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314]">

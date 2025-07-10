@@ -25,7 +25,7 @@ const Filters = () => {
           key: 'order',
           id: 1,
           icon: trendIcon,
-          label: t('category.trend'),
+          label: 'category.trend',
           value: "trend",
         },
         // {
@@ -39,7 +39,7 @@ const Filters = () => {
           key: 'order',
           id: 3,
           icon: null,
-          label: t('category.newest'),
+          label: 'category.newest',
           value: "created_at",
         },
         {

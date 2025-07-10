@@ -8,12 +8,14 @@ import {
   Shield,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const Settings = () => {
   const { t, i18n } = useTranslation();
+  const params = useParams();
+  const locale = params?.locale || "uz";
   const tabItems = [
     {
       value: "general",
@@ -39,7 +41,7 @@ const Settings = () => {
       <div className="hidden w-full  py-3 relative md:flex md:justify-center">
         <div
           className="w-10 absolute left-[21px]"
-          onClick={() => router.push(`/${i18n.language}`)}
+          onClick={() => router.push(`/${locale}`)}
         >
           <ArrowLeft />
         </div>

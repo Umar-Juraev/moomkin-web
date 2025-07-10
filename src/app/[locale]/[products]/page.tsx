@@ -21,9 +21,12 @@ import useFilter from "@/store/slices/usefilter";
 import { buildApiParams } from "@/utils/data";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
+import { Inbox } from "lucide-react";
 
 export default function ProductPage() {
   const params = useParams();
+  const locale = params?.locale || "uz";
   const { products } = params as { locale: string; products: string };
   const { t,i18n } = useTranslation();
 
@@ -56,7 +59,7 @@ export default function ProductPage() {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${i18n.language}`}>{t('pages.home')}</BreadcrumbLink>
+            <BreadcrumbLink href={`/${locale}`}>{t('pages.home')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -72,16 +75,24 @@ export default function ProductPage() {
         <Filters />
       </div>
       <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">
-        {!isFetching
-          ? data?.data?.data?.map((item, index) => (
-              <ProductCard
-                onClick={handleProductClick}
-                key={index}
-                data={item}
-                className="md:!w-full"
-              />
-            ))
-          : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
+        <Suspense fallback={
+          [...Array(4)].map((_, i) => <SkeletonCard key={i} />)
+        }>
+          {!isFetching && data?.data?.data?.length === 0 ? (
+            <div className="col-span-4 flex flex-col items-center justify-center py-16">
+              <Inbox className="w-20 h-20 text-gray-300 mb-4" />
+            </div>
+          ) : !isFetching
+            ? data?.data?.data?.map((item, index) => (
+                <ProductCard
+                  onClick={handleProductClick}
+                  key={index}
+                  data={item}
+                  className="md:!w-full"
+                />
+              ))
+            : null}
+        </Suspense>
       </div>
 
       {data?.data && data.data.total > data.data.limit && (

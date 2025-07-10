@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,6 +21,8 @@ import NProgress from "nprogress";
 import { Inbox } from "lucide-react";
 
 const FavoritesPage = () => {
+  const params = useParams();
+  const locale = params?.locale || "uz";
   const { favorites, clearFavorites } = useFavorites();
   const router = useRouter();
   const { t,i18n } = useTranslation();
@@ -40,7 +42,7 @@ const FavoritesPage = () => {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${i18n.language}`}>{t("pages.home")}</BreadcrumbLink>
+            <BreadcrumbLink href={`/${locale}`}>{t("pages.home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

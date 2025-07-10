@@ -5,10 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        // hostname: 'api.moomkin.uz',
-        hostname: 'test.moomkin.uz',
-        port: '',
-        pathname: '/files/**',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
       },
     ],
   },

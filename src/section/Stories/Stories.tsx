@@ -15,7 +15,7 @@ import StoriesItem from "react-insta-stories";
 import Image from "next/image";
 import { AttachmentsDTO } from "@/types/DTO";
 import type { Swiper as SwiperType } from "swiper";
-import { X } from "lucide-react";
+import { X, Inbox } from "lucide-react";
 import useViewedStories from "@/store/slices/useStoryView";
 import { createPortal } from "react-dom";
 
@@ -88,17 +88,23 @@ const Stories = () => {
       <Carousel className="w-full">
         <CarouselContent className="pl-3">
           {!isFetching ? (
-            data?.data.map((story) => (
-              <CarouselItem
-                onClick={() => handleSwiperOpen(story.id)}
-                key={story.id}
-                className="basis-auto pl-3"
-              >
-                <div className={isViewed(story.id) ? "" : "opacity-50"}>
-                  <StoriesCard data={story} />
-                </div>
-              </CarouselItem>
-            ))
+            data?.data?.length === 0 ? (
+              <div className="col-span-4 flex flex-col items-center justify-center py-16">
+                <Inbox className="w-20 h-20 text-gray-300 mb-4" />
+              </div>
+            ) : (
+              data?.data?.map((story) => (
+                <CarouselItem
+                  onClick={() => handleSwiperOpen(story.id)}
+                  key={story.id}
+                  className="basis-auto pl-3"
+                >
+                  <div className={isViewed(story.id) ? "" : "opacity-50"}>
+                    <StoriesCard data={story} />
+                  </div>
+                </CarouselItem>
+              ))
+            )
           ) : (
             <div className="grid grid-cols-4 gap-3">
               {[...Array(4)].map((_, i) => (
