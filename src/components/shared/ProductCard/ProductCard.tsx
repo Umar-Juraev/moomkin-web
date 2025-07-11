@@ -67,6 +67,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
               alt={data.company.name}
               width={54}
               height={54}
+              className="object-cover h-[54px]"
             />
           ) : (
             <div className="bg-gray-200 w-[54px] h-[54px]" />

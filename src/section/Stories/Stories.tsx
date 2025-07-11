@@ -138,7 +138,7 @@ const Stories = () => {
               initialSlide={activeIndex}
               onSlideChange={handleSlideChange}
               modules={[EffectCoverflow, Navigation, Pagination]}
-              className="mySwiper "
+              className="mySwiper w-full"
             >
               {data.data.map((story, index) => (
                 <SwiperSlide
