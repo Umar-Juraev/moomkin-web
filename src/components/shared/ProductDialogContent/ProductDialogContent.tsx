@@ -255,14 +255,14 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   })()}
                 </div>
 
-                <div className="flex gap-2 py-4 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0">
+                <div className="flex gap-2 py-4 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] md:w-[92%]">
                   <Button
                     onClick={() => handleNavigate(location.lat, location.lng)}
-                    className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center md:w-[167.5px]"
+                    className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center md:w-auto"
                   >
                     Маршрут
                   </Button>
-                   <Button variant="primary"className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-[167.5px]">
+                   <Button variant="primary"className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
                     Позвонить
                   </Button>
                 </div>
