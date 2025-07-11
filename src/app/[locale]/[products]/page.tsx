@@ -52,7 +52,6 @@ export default function ProductPage() {
     });
   };
 
-  console.log(data?.data.limit, data?.data.page, data?.data.total);
 
   return (
     <div className="container">

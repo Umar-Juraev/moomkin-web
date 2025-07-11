@@ -9,7 +9,13 @@ interface I18nProviderProps {
   children: React.ReactNode;
   initialLocale: string;
 }
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 export default function I18nProvider({
   children,
   initialLocale,
