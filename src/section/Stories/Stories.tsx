@@ -84,7 +84,7 @@ const Stories = () => {
   };
 
   return (
-    <div className="container mx-auto mt-6 mb-12 md:mt-6 md:mb-8">
+    <div className="container mx-auto mt-6 mb-12 md:mt-6 md:mb-8 md:p-0 md:pl-2">
       <Carousel className="w-full">
         <CarouselContent className="pl-3">
           {!isFetching ? (

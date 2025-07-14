@@ -53,7 +53,8 @@ export default function SearchPage() {
     });
   };
   return (
-    <div className="  container">
+    <>
+    <div className="container">
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -68,11 +69,12 @@ export default function SearchPage() {
       <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-8">
         &quot;{searchQuery}&quot;
       </h1>
-      <div className="mb-8">
+    </div>
+      <div className="container mb-8 md:p-0 md:pl-4">
         <Filters />
       </div>
 
-      <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
+      <div className="container grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
         {!isFetching && data?.data?.data?.length === 0 ? (
           <div className="col-span-4 flex flex-col items-center justify-center py-16">
             <Inbox className="w-20 h-20 text-gray-300 mb-4" />
@@ -90,6 +92,6 @@ export default function SearchPage() {
       </div>
 
       {responsiveDialog}
-    </div>
+    </>
   );
 }

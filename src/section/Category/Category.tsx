@@ -20,7 +20,7 @@ const Category = () => {
   });
   
   return (
-    <section className="container mx-auto mb-8 md:mb-6">
+    <section className="container mx-auto mb-8 md:mb-6 md:p-0 md:pl-4">
       <Search
         placeholder="Ищите горячие скидки"
         onSearch={setSearchQuery}

@@ -28,7 +28,7 @@ export default function ProductPage() {
   const params = useParams();
   const locale = params?.locale || "uz";
   const { products } = params as { locale: string; products: string };
-  const { t,i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 
@@ -54,26 +54,28 @@ export default function ProductPage() {
 
 
   return (
-    <div className="container">
-      <Breadcrumb className="mt-6 mb-8">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href={`/${locale}`}>{t('pages.home')}</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage> {t(`titles.${products}`)}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <h1 className="font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-8">
-        {t(`titles.${products}`)}
-      </h1>
+    <>
+      <div className="container ">
+        <Breadcrumb className=" mt-6 mb-8">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/${locale}`}>{t('pages.home')}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage> {t(`titles.${products}`)}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <h1 className=" font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-8">
+          {t(`titles.${products}`)}
+        </h1>
+      </div>
 
-      <div className="mb-8">
+      <div className="mb-8 container md:p-0 md:pl-4">
         <Filters />
       </div>
-      <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">
+      <div className="container grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">
         <Suspense fallback={
           [...Array(4)].map((_, i) => <SkeletonCard key={i} />)
         }>
@@ -83,13 +85,13 @@ export default function ProductPage() {
             </div>
           ) : !isFetching
             ? data?.data?.data?.map((item, index) => (
-                <ProductCard
-                  onClick={handleProductClick}
-                  key={index}
-                  data={item}
-                  className="md:!w-full"
-                />
-              ))
+              <ProductCard
+                onClick={handleProductClick}
+                key={index}
+                data={item}
+                className="md:!w-full"
+              />
+            ))
             : null}
         </Suspense>
       </div>
@@ -104,6 +106,6 @@ export default function ProductPage() {
         </div>
       )}
       {responsiveDialog}
-    </div>
+    </>
   );
 }

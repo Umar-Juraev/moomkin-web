@@ -51,7 +51,7 @@ const Products = () => {
   };
 
   return (
-    <section className="container mx-auto mb-24">
+    <section className="container mx-auto mb-24 md:p-0 md:pl-4">
       {!isFilterEmpty && (
         <>
           <div className=" flex items-center justify-between mb-6 md:items-center md:mb-4">
