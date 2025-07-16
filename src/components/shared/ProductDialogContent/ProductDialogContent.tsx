@@ -106,6 +106,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
           {data.tags.map((tag) => {
             return (
               <span
+                key={tag.id}
                 className={`
               absolute left-5 bg-[${tag.Color}] rounded-[22px] text-[${tag.TextColor}] px-2 text-base font-bold h-8 flex items-center justify-center
               ${"md:bottom-5 md:top-auto md:left-32"} top-5
@@ -282,7 +283,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                     const links = data?.company.links || [];
                     const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
                     return (
-                      
+
                       <Button variant="primary" className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
                         <Link href={`tel:${phoneLinks[0].value}`}>
                           {t('call')}
