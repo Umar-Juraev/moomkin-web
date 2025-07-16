@@ -35,7 +35,7 @@ export const buildApiParams = (
 ) => {
   const params: Record<string, any> = {
     ...defaults,
-    category_id: clickedFilters.category ?? 1,
+    category_id: clickedFilters.category,
   };
 
   Object.entries(clickedFilters).forEach(([key, value]) => {

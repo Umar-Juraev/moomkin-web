@@ -3,6 +3,14 @@
   "error": "Nimadir xato bo'ldi",
   "login": "Kirish",
   "logout": "Chikish",
+  "call": "Telefon qilish",
+  "route": "Yo'l tuzish",
+  "phoneNumbers": "Telefon raqamlar",
+  "socialNetworks": "Ijtimoiy tarmoqlar",
+  "weekends": "Dam olish kunlari:",
+  "weekdays": "Ish kunlari:",
+  "workTime": "Ish vaqti",
+  "addresses": "Manzillar",
   "buttons": {
     "submit": "Yuborish",
     "cancel": "Bekor qilish",
@@ -36,7 +44,7 @@
     "location": "Toshkent shahri",
     "aboutProgram": "Dastur haqida",
     "saved": "Saqlanganlar",
-    "settings":"Sozlamalar"
+    "settings": "Sozlamalar"
   },
   "placeholder": {
     "search": "Qaynoq chegirmalarni qidiring"

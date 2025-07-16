@@ -23,11 +23,12 @@ import { Button } from "@/components/ui/button";
 import { useDiscount } from "@/hooks/useDiscount";
 import { CloseIcon, FavoriteIcon, ShareIcon } from "@/assets/icons";
 import useFavorites from "@/store/slices/useFavorites";
-import { DiscountDTO } from "@/types/DTO";
+import { CompanyAddressDTO, DiscountDTO } from "@/types/DTO";
 import { ContactTypeIdEnum } from "@/constants/enums";
 import { X } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonDialog from "../SkeletonDialog/SkeletonDialog";
+import { useTranslation } from "react-i18next";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -42,10 +43,15 @@ interface Props {
 
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { toggleFavorite, isFavorite } = useFavorites();
+  const [location, setLocation] = useState<CompanyAddressDTO>()
+  const { t } = useTranslation();
 
   const handleSaveTofavorite = (data: DiscountDTO) => {
     toggleFavorite(data);
   };
+  const handleGetLocation = (location: CompanyAddressDTO) => {
+    setLocation(location)
+  }
   const { data: discountData, isFetching } = useDiscount(discountId);
   const data = discountData?.data;
   const handleShare = async () => {
@@ -66,10 +72,10 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   };
   const handleNavigate = (lat: number, lng: number) => {
     const url = `https://yandex.com/maps/?rtext=~${lat},${lng}`;
-    window.open(url, "_blank"); // opens in a new tab
+    window.open(url, "_self");
   };
 
-  if (isFetching || !data) return <SkeletonDialog/>;
+  if (isFetching || !data) return <SkeletonDialog />;
 
   return (
     <div className="  text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto">
@@ -90,24 +96,32 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="left-3 w-11 h-11 bg-[#000000CC] text-white" />
-            <CarouselNext className="right-3 w-11 h-11 bg-[#000000CC] text-white" />
+            {data?.attachments.length > 1 &&
+              <>
+                <CarouselPrevious className="left-3 w-11 h-11 bg-[#000000CC] text-white" />
+                <CarouselNext className="right-3 w-11 h-11 bg-[#000000CC] text-white" />
+              </>
+            }
           </Carousel>
-          <span
-            className={`
-              absolute left-5 bg-[#16C602] rounded-[22px] text-white text-base font-bold h-8 w-15 flex items-center justify-center
-              ${"md:bottom-5 md:top-auto md:left-32" } top-5
+          {data.tags.map((tag) => {
+            return (
+              <span
+                className={`
+              absolute left-5 bg-[${tag.Color}] rounded-[22px] text-[${tag.TextColor}] px-2 text-base font-bold h-8 flex items-center justify-center
+              ${"md:bottom-5 md:top-auto md:left-32"} top-5
             `}
-          >
-            {data.off_percent}%
-          </span>
+              >
+                {tag.Name}
+              </span>
+            )
+          })}
           <span className="absolute bottom-5 left-5 overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314] md:bottom-5">
             <Image
               src={data.company.icon_url}
               alt={data.company.name}
               width={94}
               height={94}
-               className="object-cover h-[94px]"
+              className="object-cover h-[94px]"
             />
           </span>
         </div>
@@ -117,19 +131,19 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               className="h-10 w-10 rounded-full bg-main-light-gray flex items-center justify-center md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)]"
               onClick={() => handleSaveTofavorite(data)}
             >
-              <FavoriteIcon  active={isFavorite(data.id)} />
+              <FavoriteIcon active={isFavorite(data.id)} />
             </div>
             <div
               onClick={handleShare}
               className="h-10 w-10 rounded-full bg-main-light-gray flex items-center justify-center cursor-pointer md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)]"
             >
-              <ShareIcon/>
+              <ShareIcon />
             </div>
             <div
               onClick={onClose}
               className="hidden h-10 w-10 rounded-full bg-main-light-gray md:flex items-center justify-center cursor-pointer md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)] md:absolute md:right-3 md:top-0"
             >
-              <CloseIcon/>
+              <CloseIcon />
             </div>
           </div>
           <p className="hidden md:block text-base font-medium text-[#656E78] uppercase">{data.company.name}</p>
@@ -144,10 +158,10 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
             </div>
             <div className="flex items-center gap-1">
               <Image src={locationIcon} alt={data.name} />
-              <p className="font-normal  align-middle">Novzas</p>
+              <p className="font-normal  align-middle">{location?.name || data.company.addresses[0].name}</p>
             </div>
           </div>
-          <div className="text-lg font-bold py-2">Адреса</div>
+          <div className="text-lg font-bold py-2">{t('addresses')}</div>
           <Tabs
             className="border-none shadow-none p-0 m-0 "
             defaultValue={data.company.addresses[0].name}
@@ -155,6 +169,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
             <TabsList className="border-none shadow-none p-0 m-0 bg-white rounded-none mr-6">
               {data.company.addresses.map((location) => (
                 <TabsTrigger
+                  onClick={() => handleGetLocation(location)}
                   className="shadow-none  py-2.5 px-3 m-0 text-sm bg-white rounded-none"
                   key={location.id}
                   value={location.name}
@@ -174,7 +189,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                     <YMap location={location} />
                   </div>
                   <div className="text-lg font-bold pt-6 pb-2">
-                    Время работы
+                    {('workTime')}
                   </div>
                   {(() => {
                     const workingHours = location.working_hours?.length
@@ -190,19 +205,18 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                     return (
                       <>
                         <p className="pb-1">
-                          Будние дни: {weekdays?.time_from || "—"} —{" "}
+                          {t('weekdays')} {weekdays?.time_from || "—"} —{" "}
                           {weekdays?.time_to || "—"}
                         </p>
                         <p>
-                          Выходные: {weekends?.time_from || "—"} —{" "}
+                          {t('weekends')}  {weekends?.time_from || "—"} —{" "}
                           {weekends?.time_to || "—"}
                         </p>
                       </>
                     );
                   })()}
                   {(() => {
-                    const links = data.company.links || [];
-
+                    const links = data?.company.links || [];
                     const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
                     const socialLinks = links
                       .filter(link => link.type_id !== ContactTypeIdEnum.Phone)
@@ -215,7 +229,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                       <>
                         {phoneLinks.length > 0 && (
                           <div className="pt-6">
-                            <div className="text-lg font-bold pb-2">Телефонные номера</div>
+                            <div className="text-lg font-bold pb-2">{t('phoneNumbers')}</div>
                             {phoneLinks.map(({ value }, i) => (
                               <p className="pb-1" key={i}>
                                 <Link href={`tel:${value}`}>
@@ -228,7 +242,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
 
                         {socialLinks.length > 0 && (
                           <div className="pt-6">
-                            <div className="text-lg font-bold pb-2">Социальные сети</div>
+                            <div className="text-lg font-bold pb-2">{t('socialNetworks')}</div>
                             <div className="flex gap-2 mb-4">
                               {socialLinks.map(({ value, icon_url, name }, i) => (
                                 <Link
@@ -260,11 +274,23 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                     onClick={() => handleNavigate(location.lat, location.lng)}
                     className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center md:w-auto"
                   >
-                    Маршрут
+                    {t('route')}
                   </Button>
-                   <Button variant="primary"className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
-                    Позвонить
-                  </Button>
+
+
+                  {(() => {
+                    const links = data?.company.links || [];
+                    const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
+                    return (
+                      
+                      <Button variant="primary" className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
+                        <Link href={`tel:${phoneLinks[0].value}`}>
+                          {t('call')}
+                        </Link>
+                      </Button>
+                    );
+
+                  })()}
                 </div>
               </TabsContent>
             ))}

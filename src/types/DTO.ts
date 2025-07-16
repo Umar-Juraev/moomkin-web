@@ -125,6 +125,7 @@ export interface DiscountDTO {
   attachments: AttachmentsDTO[];
   category: CategoryDTO;
   company: CompanyByIdDTO;
+  tags:DiscountTagDTO[]
 }
 
 export interface DiscountByIdDTO {
@@ -142,6 +143,7 @@ export interface DiscountByIdDTO {
   attachments: AttachmentByIdDTO[];
   category: CategoryDTO;
   company: CompanyDTO;
+  tags:DiscountTagDTO[]
 }
 
 
