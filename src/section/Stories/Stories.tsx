@@ -84,8 +84,9 @@ const Stories = () => {
   };
 
   return (
-    <div className="container mx-auto mt-6 mb-12 md:mt-6 md:mb-8 md:p-0 md:pl-2">
+    <div className="container mx-auto mt-6 mb-12 md:mt-6 md:mb-8 md:p-0">
       <Carousel className="w-full">
+        {/* -ml-2 md:ml-1 */}
         <CarouselContent className="pl-3">
           {!isFetching ? (
             data?.data?.length === 0 ? (
@@ -106,7 +107,7 @@ const Stories = () => {
               ))
             )
           ) : (
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-3 md:relative md:left-4">
               {[...Array(4)].map((_, i) => (
                 <SkeletonStories key={i} />
               ))}

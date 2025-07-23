@@ -6,6 +6,7 @@ import trendIcon from "@/assets/icons/trend.svg";
 import discountIcon from "@/assets/icons/discount.svg";
 import useFilter from "@/store/slices/usefilter";
 import { useTranslation } from "react-i18next";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 const Filters = () => {
   const { clickedFilters, toggleFilterButton } = useFilter();
@@ -81,17 +82,36 @@ const Filters = () => {
   );
 
   return (
-    <div className="flex gap-5 overflow-x-auto md:gap-2">
-      {badges.map((data) => (
-        <Badge
-          data={data}
-          key={data.id}
-          onClick={(data) => {
-            toggleFilterButton({ id: String(data.id), key: data.key, value: data.value })
-          }}
-        />
-      ))}
-    </div>
+    // <div className="flex gap-5 overflow-x-auto md:gap-2">
+    //   {badges.map((data) => (
+    //     <Badge
+    //       data={data}
+    //       key={data.id}
+    //       onClick={(data) => {
+    //         toggleFilterButton({ id: String(data.id), key: data.key, value: data.value })
+    //       }}
+    //     />
+    //   ))}
+
+      <Carousel className="w-full">
+        <CarouselContent className="-ml-2 md:ml-1">
+          {badges.map((data, index) => (
+            <CarouselItem
+              key={index}
+              className="pl-6  basis-auto md:basis-auto md:pl-3"
+            >
+              <Badge
+                data={data}
+                key={data.id}
+                onClick={(data) => {
+                  toggleFilterButton({ id: String(data.id), key: data.key, value: data.value })
+                }}
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    // </div>
   );
 };
 

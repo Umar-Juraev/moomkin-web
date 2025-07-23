@@ -72,28 +72,26 @@ export default function ProductPage() {
         </h1>
       </div>
 
-      <div className="mb-8 container md:p-0 md:pl-4">
+      <div className="mb-8 container md:p-0">
         <Filters />
       </div>
       <div className="container grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">
-        <Suspense fallback={
-          [...Array(4)].map((_, i) => <SkeletonCard key={i} />)
-        }>
-          {!isFetching && data?.data?.data?.length === 0 ? (
-            <div className="col-span-4 flex flex-col items-center justify-center py-16">
-              <Inbox className="w-20 h-20 text-gray-300 mb-4" />
-            </div>
-          ) : !isFetching
-            ? data?.data?.data?.map((item, index) => (
-              <ProductCard
-                onClick={handleProductClick}
-                key={index}
-                data={item}
-                className="md:!w-full"
-              />
-            ))
-            : null}
-        </Suspense>
+        {isFetching ? (
+          [...Array(4)].map((_, i) => <SkeletonCard fullscreen key={i} />)
+        ) : data?.data?.data?.length === 0 ? (
+          <div className="col-span-4 flex flex-col items-center justify-center py-16">
+            <Inbox className="w-20 h-20 text-gray-300 mb-4" />
+          </div>
+        ) : (
+          data?.data?.data?.map((item, index) => (
+            <ProductCard
+              key={index}
+              data={item}
+              onClick={handleProductClick}
+              className="md:!w-full"
+            />
+          ))
+        )}
       </div>
 
       {data?.data && data.data.total > data.data.limit && (

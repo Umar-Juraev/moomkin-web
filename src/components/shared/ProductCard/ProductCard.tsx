@@ -1,7 +1,7 @@
 "use client";
 import { DiscountDTO } from "@/types/DTO";
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useTransition } from "react";
 import calendarIcon from "@/assets/icons/calendar.svg";
 import locationIcon from "@/assets/icons/location.svg";
 import { formatDateRange } from "@/utils/date";
@@ -9,6 +9,8 @@ import { FavoriteIcon } from "@/assets/icons";
 import { cn } from "@/lib/utils";
 import useFavorites from "@/store/slices/useFavorites";
 import { useOptimistic } from "react";
+import { log } from "util";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: DiscountDTO;
@@ -17,6 +19,7 @@ interface Props {
 }
 const ProductCard: FC<Props> = ({ data, onClick, className }) => {
   const { toggleFavorite, isFavorite, favorites } = useFavorites();
+  const { t, i18n } = useTranslation();
   const [optimisticFavorites, addFavorite] = useOptimistic(
     favorites,
     (state, discount: DiscountDTO) => {
@@ -35,6 +38,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
     [addFavorite, toggleFavorite]
   );
 
+
   return (
     <div className={cn("border-none rounded-t-[22px] md:w-[296px]", className)}>
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
@@ -50,9 +54,19 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
         ) : (
           <div className="bg-gray-200 w-full h-full" />
         )}
-        <span className="absolute top-2 left-2 bg-[#16C602] rounded-[22px] text-white text-base font-bold h-8 w-15 flex items-center justify-center">
-          {data.off_percent}%
-        </span>
+
+        {data.tags.map((tag) => (
+          <span
+            key={tag.id}
+            className="absolute top-2 left-2 rounded-[22px] px-2 text-base font-bold h-8 flex items-center justify-center"
+            style={{
+              backgroundColor: tag.Color,
+              color: tag.TextColor,
+            }}
+          >
+            {tag.Name}
+          </span>
+        ))}
         <span
           className="absolute top-2 right-2 cursor-pointer "
           onClick={() => handleSaveTofavorite(data)}
@@ -84,7 +98,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
         <div className="flex items-center gap-1 mb-0.5">
           <Image src={calendarIcon} alt={data.name} />
           <p className="font-normal text-[13px] leading-[18px] align-middle">
-            {formatDateRange(data.start_date, data.end_date)}
+            {formatDateRange(data.start_date, data.end_date, (i18n.resolvedLanguage as 'ru' | 'en' | 'uz'))}
           </p>
         </div>
         {/* <div className="flex items-center gap-1">

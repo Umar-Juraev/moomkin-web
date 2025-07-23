@@ -108,9 +108,13 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               <span
                 key={tag.id}
                 className={`
-              absolute left-5 bg-[${tag.Color}] rounded-[22px] text-[${tag.TextColor}] px-2 text-base font-bold h-8 flex items-center justify-center
+              absolute left-5  rounded-[22px]  px-2 text-base font-bold h-8 flex items-center justify-center
               ${"md:bottom-5 md:top-auto md:left-32"} top-5
             `}
+                style={{
+                  backgroundColor: tag.Color,
+                  color: tag.TextColor,
+                }}
               >
                 {tag.Name}
               </span>

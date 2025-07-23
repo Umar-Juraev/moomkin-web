@@ -39,7 +39,7 @@ const Products = () => {
   );
 
   const { data: hotData, isFetching: hotIsFetching } = useDiscounts(
-    buildApiParams(clickedFilters, { order: "hot"})
+    buildApiParams(clickedFilters, { order: "hot" })
   );
   const handleProductClick = (discountId: number) => {
     showResponsiveDialog({
@@ -51,10 +51,10 @@ const Products = () => {
   };
 
   return (
-    <section className="container mx-auto mb-24 md:p-0 md:pl-4">
+    <section className="mx-auto mb-24">
       {!isFilterEmpty && (
         <>
-          <div className=" flex items-center justify-between mb-6 md:items-center md:mb-4">
+          <div className="container flex items-center justify-between mb-6 md:items-center md:mb-4">
             <div>
               <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
                 {12} места найдено
@@ -69,21 +69,21 @@ const Products = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
+          <div className="container grid grid-cols-4 gap-6 md:grid-cols-1">
             {!isFetching && data?.data?.data?.length === 0 ? (
               <div className="col-span-4 flex flex-col items-center justify-center py-16">
                 <Inbox className="w-20 h-20 text-gray-300 mb-4" />
               </div>
             ) : !isFetching
               ? data?.data?.data?.map((item, index) => (
-                  <ProductCard
-                    onClick={handleProductClick}
-                    key={index}
-                    data={item}
-                    className="md:!w-full"
-                  />
-                ))
-              : [...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
+                <ProductCard
+                  onClick={handleProductClick}
+                  key={index}
+                  data={item}
+                  className="md:!w-full"
+                />
+              ))
+              : [...Array(4)].map((_, i) => <SkeletonCard fullscreen key={i} />)}
           </div>
           {/* {data?.data && data.data.total > data.data.limit && (
             <div className="mb-8">
@@ -99,55 +99,58 @@ const Products = () => {
       {isFilterEmpty && (
         <>
           <div className="relative mb-12">
-            <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
-              <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
+            <div className="container flex items-end justify-between mb-6 md:items-center md:mb-4">
+              <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl md:leading-normal">
                 {t("titles.trends")}
               </h2>
               <Link
                 href={`/trends`}
                 className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
               >
-                <span>Все</span>{" "}
+                <span>Все</span>
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
-            {!isFetching ? (
-              data?.data?.data?.length === 0 ? (
-                <div className="col-span-4 flex flex-col items-center justify-center py-16">
-                  <Inbox className="w-20 h-20 text-gray-300 mb-4" />
-                </div>
-              ) : (
-                <Carousel className="w-full">
-                  <CarouselContent className="-ml-2">
-                    {data?.data?.data?.map((item, index) => (
+            <Carousel className="container w-full md:px-0">
+              <CarouselContent className="-ml-2 md:ml-1">
+                {!isFetching
+                  ? data?.data?.data?.length === 0
+                    ? (
+                      <CarouselItem className="pl-6 basis-full md:pl-3">
+                        <div className="col-span-4 flex flex-col items-center justify-center py-16 w-full">
+                          <Inbox className="w-20 h-20 text-gray-300 mb-4" />
+                        </div>
+                      </CarouselItem>
+                    )
+                    : data?.data?.data?.map((item, index) => (
                       <CarouselItem
                         key={index}
-                        className="pl-6  basis-1/4 md:basis-auto md:pl-3"
+                        className="pl-6 basis-1/4 md:basis-auto md:pl-3"
                       >
                         <ProductCard
                           onClick={handleProductClick}
-                          key={index}
                           data={item}
                         />
                       </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <div className="absolute -top-10 right-0">
-                    <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-                    <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-                  </div>
-                </Carousel>
-              )
-            ) : (
-              <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
-                {[...Array(4)].map((_, i) => (
-                  <SkeletonCard key={i} />
-                ))}
+                    ))
+                  : [...Array(4)].map((_, i) => (
+                    <CarouselItem
+                      key={i}
+                      className="pl-6 basis-1/4 md:basis-auto md:pl-3"
+                    >
+                      <SkeletonCard  />
+                    </CarouselItem>
+                  ))}
+              </CarouselContent>
+
+              <div className=" absolute -top-10 right-[148px]">
+                <CarouselNext className="w-9 h-9 -right-0 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                <CarouselPrevious className="w-9 h-9 -left-20 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
               </div>
-            )}
+            </Carousel>
           </div>
           <div className="relative">
-            <div className="flex items-end justify-between mb-6 md:items-center md:mb-4">
+            <div className="container flex items-end justify-between mb-6 md:items-center md:mb-4">
               <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl">
                 {t("titles.hot")}
               </h2>
@@ -159,34 +162,35 @@ const Products = () => {
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
-            {!hotIsFetching ? (
-              <Carousel className="w-full">
-                <CarouselContent className="-ml-2">
-                  {hotData?.data?.data?.map((item, index) => (
+            <Carousel className="container w-full md:px-0">
+              <CarouselContent className="-ml-2 md:ml-1">
+                {!hotIsFetching
+                  ? hotData?.data?.data?.map((item, index) => (
                     <CarouselItem
                       key={index}
-                      className="pl-6  basis-1/4 md:basis-auto md:pl-3"
+                      className="pl-6 basis-1/4 md:basis-auto md:pl-3"
                     >
                       <ProductCard
                         onClick={handleProductClick}
-                        key={index}
                         data={item}
                       />
                     </CarouselItem>
+                  ))
+                  : [...Array(4)].map((_, i) => (
+                    <CarouselItem
+                      key={i}
+                      className="pl-6 basis-1/4 md:basis-auto md:pl-3"
+                    >
+                      <SkeletonCard />
+                    </CarouselItem>
                   ))}
-                </CarouselContent>
-                <div className="absolute -top-10 right-0">
-                  <CarouselNext className="w-9 h-9 -right-0 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-                  <CarouselPrevious className="w-9 h-9 -left-20 border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
-                </div>
-              </Carousel>
-            ) : (
-              <div className="grid grid-cols-4 gap-6 md:grid-cols-1">
-                {[...Array(4)].map((_, i) => (
-                  <SkeletonCard key={i} />
-                ))}
+              </CarouselContent>
+
+              <div className="absolute -top-10 right-[148px]">
+                <CarouselNext className="w-9 h-9 -right-0 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
+                <CarouselPrevious className="w-9 h-9 -left-20 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
               </div>
-            )}
+            </Carousel>
           </div>
         </>
       )}
