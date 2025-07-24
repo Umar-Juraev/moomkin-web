@@ -11,6 +11,9 @@
   "weekdays": "Ish kunlari:",
   "workTime": "Ish vaqti",
   "addresses": "Manzillar",
+  "readmore": "Ko'proq o'qish",
+  "readless": "Yashirish",
+  "search": "Qidirish",
   "buttons": {
     "submit": "Yuborish",
     "cancel": "Bekor qilish",

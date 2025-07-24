@@ -11,6 +11,9 @@
   "weekdays": "Weekdays:",
   "workTime": "Work time",
   "addresses": "Addresses",
+  "readmore": "Read more",
+  "readless": "Hide",
+  "search": "Search",
   "buttons": {
     "submit": "Submit",
     "cancel": "Cancel",

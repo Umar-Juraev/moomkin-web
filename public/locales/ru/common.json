@@ -11,6 +11,9 @@
   "weekdays": "Будние дни:",
   "workTime": "Время работы",
   "addresses": "Адреса",
+  "readmore": "Читать больше",
+  "readless": "Скрыть",
+  "search": "Поиск",
   "buttons": {
     "submit": "Отправить",
     "cancel": "Отмена",

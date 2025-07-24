@@ -15,7 +15,7 @@ import telegramIcon from "@/assets/icons/telegram.svg";
 import instagramIcon from "@/assets/icons/instagram.svg";
 import phoneIcon from "@/assets/icons/phone.svg";
 // import shareIcon from "@/assets/icons/share.svg";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import YMap from "../YMap/YMap";
 import Link from "next/link";
@@ -29,6 +29,7 @@ import { X } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonDialog from "../SkeletonDialog/SkeletonDialog";
 import { useTranslation } from "react-i18next";
+import ReadMore from "../Readmore/Readmore";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -43,17 +44,19 @@ interface Props {
 
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { toggleFavorite, isFavorite } = useFavorites();
-  const [location, setLocation] = useState<CompanyAddressDTO>()
   const { t } = useTranslation();
 
   const handleSaveTofavorite = (data: DiscountDTO) => {
     toggleFavorite(data);
   };
+
+  const { data: discountData, isFetching } = useDiscount(discountId);
+  const data = discountData?.data;
+
+  const [location, setLocation] = useState<CompanyAddressDTO>();
   const handleGetLocation = (location: CompanyAddressDTO) => {
     setLocation(location)
   }
-  const { data: discountData, isFetching } = useDiscount(discountId);
-  const data = discountData?.data;
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -75,26 +78,36 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
     window.open(url, "_self");
   };
 
+  useEffect(() => {
+    if (data?.company?.addresses && data.company.addresses.length > 0) {
+      setLocation(data.company.addresses[0]);
+    }
+  }, [data]);
+
   if (isFetching || !data) return <SkeletonDialog />;
 
   return (
-    <div className="  text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto">
+    <div className="text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto md:h-max">
       <div className="flex p-0 m-0 md:flex-col md:relative">
-        <div className="relative w-full p-2 max-h-[620px] md:max-h-max md:rounded-none">
+        <div className="relative md:w-full p-2 md:pt-1 md:rounded-none">
           <Carousel className="rounded-3xl overflow-hidden">
-            <CarouselContent className="rounded-3xl overflow-hidden ml-0 h-[600px] w-[480px] md:max-h-[429px] md:w-full">
+            <CarouselContent className="rounded-3xl ml-0 h-[600px] w-[480px] md:max-h-[429px] md:w-full">
               {data?.attachments
                 .filter(({ type }) => type === "original")
-                .map((item, i) => (
-                  <CarouselItem key={i} className="p-1 md:pb-0">
-                    <Image
-                      src={item.attachment.url}
-                      alt={data.description}
-                      fill
-                      className="object-cover"
-                    />
-                  </CarouselItem>
-                ))}
+                .map((item) => {
+
+                  return (
+                    // Add relative positioning to CarouselItem
+                    <CarouselItem key={item.id} className="p-1 md:pb-0 relative">
+                      <Image
+                        src={item.attachment.url}
+                        alt={data.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </CarouselItem>
+                  )
+                })}
             </CarouselContent>
             {data?.attachments.length > 1 &&
               <>
@@ -130,7 +143,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
             />
           </span>
         </div>
-        <div className="pt-16 pl-4 relative md:static md:pt-1">
+        <div className="w-[432px] pt-16 pl-4 relative md:static md:pt-1">
           <div className="flex absolute top-4 left-4 gap-2 mr-6 md:w-[92%] md:top-5 md:left-5">
             <div
               className="h-10 w-10 rounded-full bg-main-light-gray flex items-center justify-center md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)]"
@@ -151,155 +164,163 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               <CloseIcon />
             </div>
           </div>
-          <p className="hidden md:block text-base font-medium text-[#656E78] uppercase">{data.company.name}</p>
-          <h6 className="mb-2 font-bold text-[28px] mr-6 md:text-2xl">{data.name}</h6>
-          <p className="mb-3 mr-6">{data.description}</p>
-          <div className="bg-main-light-gray rounded-2xl px-3 py-2 mb-3 mr-6">
-            <div className="flex items-center gap-1 mb-0.5">
-              <Image src={calendarIcon} alt={data.name} />
-              <p className="font-normal  align-middle">
-                {formatDateRange(data.start_date, data.end_date)}
-              </p>
+
+          <div className="h-[464px]  overflow-y-auto md:overflow-y-visible md:h-max">
+            <p className="hidden md:block text-base font-medium text-[#656E78] uppercase">{data.company.name}</p>
+            <h6 className="mb-2 font-bold text-[28px] mr-6 md:text-2xl">{data.name}</h6>
+            <ReadMore className='mb-3 mr-6' text={data.description} maxChars={130} />
+            <div className="bg-main-light-gray rounded-2xl px-3 py-2 mb-3 mr-6">
+              <div className="flex items-center gap-1 mb-0.5">
+                <Image src={calendarIcon} alt={data.name} />
+                <p className="font-normal  align-middle">
+                  {formatDateRange(data.start_date, data.end_date)}
+                </p>
+              </div>
+              {data.company.addresses &&
+                <div className="flex items-center gap-1">
+                  <Image src={locationIcon} alt={data.name} />
+                  <p className="font-normal  align-middle">{location?.name || data.company.addresses[0].name}</p>
+                </div>
+              }
             </div>
-            <div className="flex items-center gap-1">
-              <Image src={locationIcon} alt={data.name} />
-              <p className="font-normal  align-middle">{location?.name || data.company.addresses[0].name}</p>
-            </div>
-          </div>
-          <div className="text-lg font-bold py-2">{t('addresses')}</div>
-          <Tabs
-            className="border-none shadow-none p-0 m-0 "
-            defaultValue={data.company.addresses[0].name}
-          >
-            <TabsList className="border-none shadow-none p-0 m-0 bg-white rounded-none mr-6">
-              {data.company.addresses.map((location) => (
-                <TabsTrigger
-                  onClick={() => handleGetLocation(location)}
-                  className="shadow-none  py-2.5 px-3 m-0 text-sm bg-white rounded-none"
-                  key={location.id}
-                  value={location.name}
-                >
-                  {location.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {data.company.addresses.map((location) => (
-              <TabsContent
-                className="  border-none shadow-none p-0 m-0"
-                key={location.id}
-                value={location.name}
+            {data.company.addresses && <div className="text-lg font-bold py-2">{t('addresses')}</div>}
+            {data.company.addresses &&
+              <Tabs
+                className="border-none shadow-none p-0 m-0 "
+                defaultValue={data.company.addresses[0].name}
               >
-                <div className="max-h-[190px] overflow-y-auto md:overflow-y-visible md:max-h-max mr-6">
-                  <div className="h-42.5 flex items-center justify-center">
-                    <YMap location={location} />
-                  </div>
-                  <div className="text-lg font-bold pt-6 pb-2">
-                    {('workTime')}
-                  </div>
-                  {(() => {
-                    const workingHours = location.working_hours?.length
-                      ? location.working_hours
-                      : data.company.working_hours;
+                <TabsList className="border-none shadow-none p-0 m-0 bg-white rounded-none mr-6">
+                  {data.company.addresses.map((location) => (
+                    <TabsTrigger
+                      onClick={() => handleGetLocation(location)}
+                      className="shadow-none  py-2.5 px-3 m-0 text-sm bg-white rounded-none"
+                      key={location.id}
+                      value={location.name}
+                    >
+                      {location.name}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+                {
+                  data.company.addresses.map((location) => (
+                    <TabsContent
+                      className="  border-none shadow-none p-0 m-0"
+                      key={location.id}
+                      value={location.name}
+                    >
+                      <div className="mr-6">
+                        <div className="h-42.5 flex items-center justify-center">
+                          <YMap location={location} />
+                        </div>
+                        <div className="text-lg font-bold pt-6 pb-2">
+                          {('workTime')}
+                        </div>
+                        {(() => {
+                          const workingHours = location.working_hours?.length
+                            ? location.working_hours
+                            : data.company.working_hours;
 
-                    if (!workingHours?.length) {
-                      return <p>Время работы не указано</p>;
-                    }
+                          if (!workingHours?.length) {
+                            return <p>Время работы не указано</p>;
+                          }
 
-                    const weekdays = workingHours[0];
-                    const weekends = workingHours[6];
-                    return (
-                      <>
-                        <p className="pb-1">
-                          {t('weekdays')} {weekdays?.time_from || "—"} —{" "}
-                          {weekdays?.time_to || "—"}
-                        </p>
-                        <p>
-                          {t('weekends')}  {weekends?.time_from || "—"} —{" "}
-                          {weekends?.time_to || "—"}
-                        </p>
-                      </>
-                    );
-                  })()}
-                  {(() => {
-                    const links = data?.company.links || [];
-                    const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
-                    const socialLinks = links
-                      .filter(link => link.type_id !== ContactTypeIdEnum.Phone)
-                      .map(link => ({
-                        ...link,
-                        value: link.type_id === ContactTypeIdEnum.Email ? `mailto:${link.value}` : link.value,
-                      }));
-
-                    return (
-                      <>
-                        {phoneLinks.length > 0 && (
-                          <div className="pt-6">
-                            <div className="text-lg font-bold pb-2">{t('phoneNumbers')}</div>
-                            {phoneLinks.map(({ value }, i) => (
-                              <p className="pb-1" key={i}>
-                                <Link href={`tel:${value}`}>
-                                  {value}
-                                </Link>
+                          const weekdays = workingHours[0];
+                          const weekends = workingHours[6];
+                          return (
+                            <>
+                              <p className="pb-1">
+                                {t('weekdays')} {weekdays?.time_from || "—"} —{" "}
+                                {weekdays?.time_to || "—"}
                               </p>
-                            ))}
-                          </div>
-                        )}
+                              <p>
+                                {t('weekends')}  {weekends?.time_from || "—"} —{" "}
+                                {weekends?.time_to || "—"}
+                              </p>
+                            </>
+                          );
+                        })()}
+                        {(() => {
+                          const links = data?.company.links || [];
+                          const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
+                          const socialLinks = links
+                            .filter(link => link.type_id !== ContactTypeIdEnum.Phone)
+                            .map(link => ({
+                              ...link,
+                              value: link.type_id === ContactTypeIdEnum.Email ? `mailto:${link.value}` : link.value,
+                            }));
 
-                        {socialLinks.length > 0 && (
-                          <div className="pt-6">
-                            <div className="text-lg font-bold pb-2">{t('socialNetworks')}</div>
-                            <div className="flex gap-2 mb-4">
-                              {socialLinks.map(({ value, icon_url, name }, i) => (
-                                <Link
-                                  key={i}
-                                  href={value}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="w-12 h-12 flex items-center justify-center rounded-full bg-main-light-gray"
-                                >
-                                  <Image
-                                    src={icon_url}
-                                    width={48}
-                                    height={48}
-                                    alt={name}
-                                  />
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </>
-                    );
+                          return (
+                            <>
+                              {phoneLinks.length > 0 && (
+                                <div className="pt-6">
+                                  <div className="text-lg font-bold pb-2">{t('phoneNumbers')}</div>
+                                  {phoneLinks.map(({ value }, i) => (
+                                    <p className="pb-1" key={i}>
+                                      <Link href={`tel:${value}`}>
+                                        {value}
+                                      </Link>
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
 
-                  })()}
-                </div>
+                              {socialLinks.length > 0 && (
+                                <div className="pt-6">
+                                  <div className="text-lg font-bold pb-2">{t('socialNetworks')}</div>
+                                  <div className="flex gap-2 mb-4">
+                                    {socialLinks.map(({ value, icon_url, name }, i) => (
+                                      <Link
+                                        key={i}
+                                        href={value}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-12 h-12 flex items-center justify-center rounded-full bg-main-light-gray"
+                                      >
+                                        <Image
+                                          src={icon_url}
+                                          width={48}
+                                          height={48}
+                                          alt={name}
+                                        />
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </>
+                          );
 
-                <div className="flex gap-2 py-4 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] md:w-[92%]">
-                  <Button
-                    onClick={() => handleNavigate(location.lat, location.lng)}
-                    className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center md:w-auto"
-                  >
-                    {t('route')}
-                  </Button>
+                        })()}
+                      </div>
+                    </TabsContent>
+                  ))}
+              </Tabs>
+            }
+          </div>
 
+          <div className="flex gap-2 py-4  bottom-0 right-0 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] md:w-full md:px-4">
+            {location && (<Button
+              onClick={() => handleNavigate(location.lat, location.lng)}
+              className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center md:w-auto"
+            >
+              {t('route')}
+            </Button>
+            )}
+            {(() => {
+              const links = data?.company.links || [];
+              const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
+              return (
 
-                  {(() => {
-                    const links = data?.company.links || [];
-                    const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
-                    return (
+                <Button variant="primary" className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
+                  <Link href={`tel:${phoneLinks[0].value}`}>
+                    {t('call')}
+                  </Link>
+                </Button>
+              );
 
-                      <Button variant="primary" className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
-                        <Link href={`tel:${phoneLinks[0].value}`}>
-                          {t('call')}
-                        </Link>
-                      </Button>
-                    );
+            })()}
+          </div>
 
-                  })()}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
         </div>
       </div>
     </div>

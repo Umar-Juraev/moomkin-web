@@ -13,3 +13,4 @@ export { default as SkeletonCategory } from './SkeletonCategory/SkeletonCategory
 export { default as SkeletonStories } from './SkeletonStories/SkeletonStories'
 export { default as SkeletonMap } from './SkeletonMap/SkeletonMap'
 export { default as SkeletonDialog } from './SkeletonDialog/SkeletonDialog'
+export { default as Readmore } from './Readmore/Readmore'
