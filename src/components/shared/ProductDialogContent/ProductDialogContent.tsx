@@ -101,9 +101,11 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                     <CarouselItem key={item.id} className="p-1 md:pb-0 relative">
                       <Image
                         src={item.attachment.url}
+                        blurDataURL={item.attachment.url}
                         alt={data.name}
                         fill
                         className="object-cover"
+                        placeholder="blur"
                       />
                     </CarouselItem>
                   )
