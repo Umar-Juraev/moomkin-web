@@ -88,7 +88,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
           )}
         </span>
       </div>
-      <div>
+      <div className="md:px-2">
         <p className="font-medium text-sm leading-5 align-middle text-[#656E78] mb-0.5">
           {data.company.name}
         </p>

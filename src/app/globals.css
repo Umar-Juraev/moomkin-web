@@ -175,21 +175,56 @@ body {
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* @utility container { */
+  /* width: 100%; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  /* padding-left: 148px;
+  padding-right: 148px; */
+      /* padding-left: 16px; */
+    /* padding-right: 16px; */
+
+  /* Desktop-first: start with largest, override down */
+  /* max-width: 100%; */
+
+
+  /* 768px */
+  /* @media (max-width: 64rem) {
+    padding-left: 16px;
+    padding-right: 16px;
+  } */
+/* } */
+
 @utility container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 148px;
-  padding-right: 148px;
+  padding-left: 1rem;
+  padding-right: 1rem;
 
   /* Desktop-first: start with largest, override down */
-  max-width: 100%;
+  max-width: 71.5rem;
+  /* 1144px */
 
+  @media (max-width: 96rem) {
+    max-width: 64rem;
+    /* 1024px */
+  }
 
   @media (max-width: 64rem) {
-    padding-left: 16px;
-    padding-right: 16px;
+    max-width: 48rem;
     /* 768px */
+  }
+
+  @media (max-width: 48rem) {
+    max-width: 40rem;
+    /* 640px */
+  }
+
+  @media (max-width: 40rem) {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
@@ -269,4 +304,9 @@ body {
   .animate-fade-in {
     animation: fade-in 0.5s ease both;
   }
+}
+
+
+#nprogress .peg {
+  box-shadow: none !important;
 }

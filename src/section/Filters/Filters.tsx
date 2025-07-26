@@ -98,7 +98,7 @@ const Filters = () => {
           {badges.map((data, index) => (
             <CarouselItem
               key={index}
-              className="pl-6  basis-auto md:basis-auto md:pl-3"
+              className="pl-2 basis-auto md:basis-auto"
             >
               <Badge
                 data={data}

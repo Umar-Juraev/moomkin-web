@@ -2,6 +2,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -21,7 +22,7 @@ import YMap from "../YMap/YMap";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useDiscount } from "@/hooks/useDiscount";
-import { CloseIcon, FavoriteIcon, ShareIcon } from "@/assets/icons";
+import { CloseIcon, FavoriteDialogIcon, ShareIcon } from "@/assets/icons";
 import useFavorites from "@/store/slices/useFavorites";
 import { CompanyAddressDTO, DiscountDTO } from "@/types/DTO";
 import { ContactTypeIdEnum } from "@/constants/enums";
@@ -30,6 +31,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonDialog from "../SkeletonDialog/SkeletonDialog";
 import { useTranslation } from "react-i18next";
 import ReadMore from "../Readmore/Readmore";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import CarouselIndicators from "../CarouselIndicators/CarouselIndicators";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -45,7 +48,9 @@ interface Props {
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const { t } = useTranslation();
-
+  const [api, setApi] = React.useState<CarouselApi>()
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  
   const handleSaveTofavorite = (data: DiscountDTO) => {
     toggleFavorite(data);
   };
@@ -90,7 +95,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
     <div className="text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto md:h-max">
       <div className="flex p-0 m-0 md:flex-col md:relative">
         <div className="relative md:w-full p-2 md:pt-1 md:rounded-none">
-          <Carousel className="rounded-3xl overflow-hidden">
+          <Carousel setApi={setApi} className="rounded-3xl overflow-hidden">
             <CarouselContent className="rounded-3xl ml-0 h-[600px] w-[480px] md:max-h-[429px] md:w-full">
               {data?.attachments
                 .filter(({ type }) => type === "original")
@@ -111,12 +116,13 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   )
                 })}
             </CarouselContent>
-            {data?.attachments.length > 1 &&
+            {(data?.attachments.length > 1 && !isMobile) &&
               <>
-                <CarouselPrevious className="left-3 w-11 h-11 bg-[#000000CC] text-white" />
-                <CarouselNext className="right-3 w-11 h-11 bg-[#000000CC] text-white" />
+                <CarouselPrevious className="left-3 w-11 h-11 bg-[#000000CC] text-white border-none" />
+                <CarouselNext className="right-3 w-11 h-11 bg-[#000000CC] text-white border-none" />
               </>
             }
+            { (isMobile && data?.attachments.length > 1) && (<CarouselIndicators className="absolute bottom-3 right-3" api={api}/>)}
           </Carousel>
           {data.tags.map((tag) => {
             return (
@@ -145,13 +151,13 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
             />
           </span>
         </div>
-        <div className="w-[432px] pt-16 pl-4 relative md:static md:pt-1">
-          <div className="flex absolute top-4 left-4 gap-2 mr-6 md:w-[92%] md:top-5 md:left-5">
+        <div className="w-[432px] pt-16 pl-4 relative md:static md:pt-1 md:w-full md:px-4">
+          <div className="flex absolute top-4 left-4 gap-2 mr-6 md:mr-0 md:w-[92%] md:top-4.5 md:left-5">
             <div
-              className="h-10 w-10 rounded-full bg-main-light-gray flex items-center justify-center md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)]"
+              className="h-10 w-10 cursor-pointer rounded-full bg-main-light-gray flex items-center justify-center md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)]"
               onClick={() => handleSaveTofavorite(data)}
             >
-              <FavoriteIcon active={isFavorite(data.id)} />
+              <FavoriteDialogIcon active={isFavorite(data.id)} />
             </div>
             <div
               onClick={handleShare}
@@ -161,7 +167,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
             </div>
             <div
               onClick={onClose}
-              className="hidden h-10 w-10 rounded-full bg-main-light-gray md:flex items-center justify-center cursor-pointer md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)] md:absolute md:right-3 md:top-0"
+              className="hidden h-10 w-10 rounded-full bg-main-light-gray md:flex items-center justify-center cursor-pointer md:backdrop-blur-[4px] md:bg-[var(--Background-Tertiary,#B4C0CC47)] md:absolute md:right-1.5 md:top-0"
             >
               <CloseIcon />
             </div>
@@ -169,9 +175,9 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
 
           <div className="h-[464px]  overflow-y-auto md:overflow-y-visible md:h-max">
             <p className="hidden md:block text-base font-medium text-[#656E78] uppercase">{data.company.name}</p>
-            <h6 className="mb-2 font-bold text-[28px] mr-6 md:text-2xl">{data.name}</h6>
-            <ReadMore className='mb-3 mr-6' text={data.description} maxChars={130} />
-            <div className="bg-main-light-gray rounded-2xl px-3 py-2 mb-3 mr-6">
+            <h6 className="mb-2 font-bold text-[28px] mr-6 md:mr-0 md:text-2xl">{data.name}</h6>
+            <ReadMore className='mb-3 mr-6 md:mr-0' text={data.description} maxChars={130} />
+            <div className="bg-main-light-gray rounded-2xl px-3 py-2 mb-3 mr-6 md:mr-0">
               <div className="flex items-center gap-1 mb-0.5">
                 <Image src={calendarIcon} alt={data.name} />
                 <p className="font-normal  align-middle">
@@ -185,24 +191,26 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                 </div>
               }
             </div>
-            {data.company.addresses && <div className="text-lg font-bold py-2">{t('addresses')}</div>}
+            {data.company.addresses?.length > 1 && <div className="text-lg font-bold py-2">{t('addresses')}</div>}
             {data.company.addresses &&
               <Tabs
                 className="border-none shadow-none p-0 m-0 "
                 defaultValue={data.company.addresses[0].name}
               >
-                <TabsList className="border-none shadow-none p-0 m-0 bg-white rounded-none mr-6">
-                  {data.company.addresses.map((location) => (
-                    <TabsTrigger
-                      onClick={() => handleGetLocation(location)}
-                      className="shadow-none  py-2.5 px-3 m-0 text-sm bg-white rounded-none"
-                      key={location.id}
-                      value={location.name}
-                    >
-                      {location.name}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
+                {data.company.addresses.length > 1 && (
+                  <TabsList className="border-none shadow-none p-0 m-0 bg-white rounded-none mr-6 md:mr-0">
+                    {data.company.addresses.map((location) => (
+                      <TabsTrigger
+                        onClick={() => handleGetLocation(location)}
+                        className="shadow-none  py-2.5 px-3 m-0 text-sm bg-white rounded-none"
+                        key={location.id}
+                        value={location.name}
+                      >
+                        {location.name}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                )}
                 {
                   data.company.addresses.map((location) => (
                     <TabsContent
@@ -210,8 +218,8 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                       key={location.id}
                       value={location.name}
                     >
-                      <div className="mr-6">
-                        <div className="h-42.5 flex items-center justify-center">
+                      <div className="mr-6 md:mr-0 md:mb-6">
+                        <div className="mt-3 h-42.5 flex items-center justify-center">
                           <YMap location={location} />
                         </div>
                         <div className="text-lg font-bold pt-6 pb-2">
@@ -280,8 +288,8 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                                       >
                                         <Image
                                           src={icon_url}
-                                          width={48}
-                                          height={48}
+                                          width={24}
+                                          height={24}
                                           alt={name}
                                         />
                                       </Link>
@@ -303,7 +311,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
           <div className="flex gap-2 py-4  bottom-0 right-0 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] md:w-full md:px-4">
             {location && (<Button
               onClick={() => handleNavigate(location.lat, location.lng)}
-              className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center md:w-auto"
+              className="text-lg font-semibold w-[190px] h-14 rounded-4xl flex items-center justify-center md:w-auto"
             >
               {t('route')}
             </Button>
@@ -313,7 +321,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
               return (
 
-                <Button variant="primary" className="text-lg font-semibold w-50 h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
+                <Button variant="primary" className="text-lg font-semibold w-[200px] h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
                   <Link href={`tel:${phoneLinks[0].value}`}>
                     {t('call')}
                   </Link>

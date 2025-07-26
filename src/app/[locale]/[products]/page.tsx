@@ -67,7 +67,7 @@ export default function ProductPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className=" font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-8">
+        <h1 className=" font-pretendard font-extrabold text-[56px] leading-[64px] tracking-[-0.5%] md:text-5xl mb-6">
           {t(`titles.${products}`)}
         </h1>
       </div>

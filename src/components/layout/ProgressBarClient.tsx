@@ -60,7 +60,7 @@ export default function ProgressBarClient() {
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
-      #nprogress { pointer-events: none; }
+      #nprogress { pointer-events: none;}
       #nprogress .bar {
         background: #E50000 !important;
         position: fixed;

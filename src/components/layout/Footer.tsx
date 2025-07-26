@@ -22,10 +22,10 @@ export default function Footer() {
   return (
     <div className="bg-main-light-gray">
       <div className="container mx-auto">
-        <div className="flex justify-between pt-12 pb-10 mb-10 border-b border-[#919DA63D] md:block">
+        <div className="flex justify-between pt-8 pb-10 mb-10 border-b border-[#919DA63D] md:block">
           <Image src={logo} alt="moomkin" width={183} className="md:mb-8" />
           <div className="flex gap-6 w-[62%] md:flex-col md:w-[90%] md:gap-6">
-            <div>
+            <div className="flex flex-col gap-1">
               <a
                 href="tel:+998990370117"
                 className="mb-1 font-bold text-lg leading-6  hover:underline"
@@ -36,7 +36,7 @@ export default function Footer() {
                 {t('footer.phone.desc')}
               </p>
             </div>
-            <div>
+            <div className="flex flex-col gap-1">
               <a
                 href="https://t.me/moomkinadmin"
                 target="_blank"
@@ -86,7 +86,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center pb-12 md:pb-8 md:text-sm">
+        <div className="flex justify-between items-center pb-12 md:pb-8 text-sm">
           <p>© 2025 moomkin.uz · {t('footer.faq')} </p>
           <LanguageSwitcher className={"md:hidden"} />
         </div>

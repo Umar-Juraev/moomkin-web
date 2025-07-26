@@ -51,7 +51,7 @@ const Products = () => {
   };
 
   return (
-    <section className="mx-auto mb-24">
+    <section className="mx-auto mb-16">
       {!isFilterEmpty && (
         <>
           <div className="container flex items-center justify-between mb-6 md:items-center md:mb-4">
@@ -105,9 +105,9 @@ const Products = () => {
               </h2>
               <Link
                 href={`/trends`}
-                className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
+                className="font-medium text-base text-red relative right-20 flex items-center gap-1.5 md:static cursor-pointer"
               >
-                <span>Все</span>
+                <span>{t('all')}</span>
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
@@ -138,12 +138,12 @@ const Products = () => {
                       key={i}
                       className="pl-6 basis-1/4 md:basis-auto md:pl-3"
                     >
-                      <SkeletonCard  />
+                      <SkeletonCard />
                     </CarouselItem>
                   ))}
               </CarouselContent>
 
-              <div className=" absolute -top-10 right-[148px]">
+              <div className=" absolute -top-9 right-0">
                 <CarouselNext className="w-9 h-9 -right-0 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
                 <CarouselPrevious className="w-9 h-9 -left-20 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
               </div>
@@ -156,9 +156,9 @@ const Products = () => {
               </h2>
               <Link
                 href={`/hot`}
-                className="font-medium text-base text-red relative right-25 flex items-center gap-1.5 md:static cursor-pointer"
+                className="font-medium text-base text-red relative right-20 flex items-center gap-1.5 md:static cursor-pointer"
               >
-                <span>Все</span>
+                <span>{t('all')}</span>
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
@@ -186,7 +186,7 @@ const Products = () => {
                   ))}
               </CarouselContent>
 
-              <div className="absolute -top-10 right-[148px]">
+              <div className="absolute -top-9 right-0">
                 <CarouselNext className="w-9 h-9 -right-0 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
                 <CarouselPrevious className="w-9 h-9 -left-20 bg-main-light-gray border-none shadow-[0px 2px 6px 0px #3333331F] md:hidden" />
               </div>

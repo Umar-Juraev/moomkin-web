@@ -11,6 +11,7 @@ import {
   CommandList,
   CommandEmpty,
   CommandSeparator,
+  CommandGroup,
 } from "@/components/ui/command";
 import { X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,7 +57,7 @@ function Search({
   const params = useParams();
   const locale = params?.locale || "uz";
   const searchParams = useSearchParams();
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const DEBOUNCE_MS = 300;
 
@@ -116,7 +117,7 @@ function Search({
 
   const handleClear = () => {
     NProgress.start();
-    router.push(`/${locale}`);
+    router.replace(`/${locale}`);
     setSearchQuery("");
     setIsFocused(false);
     onOpen(false);
@@ -144,13 +145,13 @@ function Search({
         createPortal(
           <>
             <div
-              className="fixed inset-0 bg-black opacity-30 z-[100] md:bg-white md:opacity-100"
+              className="fixed inset-0 bg-black opacity-30 z-[100]  md:bg-white md:opacity-100"
               style={{ transition: "background 0.2s" }}
             />
             <div
               ref={containerRef}
               className={cn(
-                "fixed left-1/2 top-4 z-[200] w-full max-w-[560px] -translate-x-1/2 px-4 md:px-0 ",
+                "fixed left-1/2 top-4 z-[200] !w-[560px] -translate-x-1/2 px-4 md:top-0 md:px-0 ",
                 className
               )}
               style={{ pointerEvents: "auto" }}
@@ -158,7 +159,7 @@ function Search({
               <Command
                 className={isFocused ? "rounded-t-2xl bg-white" : "rounded-2xl"}
               >
-                <div className="relative flex items-center">
+                <div className="relative flex items-center ">
                   <ArrowLeft
                     onClick={handleClear}
                     color="#292C30"
@@ -188,8 +189,9 @@ function Search({
                   )}
                 </div>
                 {isFocused && (
-                  <CommandList className="bg-white border-none rounded-b-2xl shadow-lg max-h-[300px] overflow-auto md:shadow-none md:overflow-visible">
+                  <CommandList className="bg-white  border-none rounded-b-2xl shadow-lg max-h-[300px] overflow-auto md:shadow-none md:overflow-visible">
                     <CommandSeparator />
+                    <p className="font-bold text-lg text-dark px-4 mt-4">{t('companies')}</p>
                     <div className="px-4 pb-4 pt-3">
                       {!uniqueCompanies.length && searchQuery.length > 0 ? (
                         <CommandEmpty>
