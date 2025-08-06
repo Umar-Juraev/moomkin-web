@@ -1,4 +1,4 @@
-import { ContactTypeIdEnum } from "@/constants/enums";
+import { ContactTypeIdEnum, AttachmentTypeEnum } from "@/constants/enums";
 
 export interface DiscountCreateDTO {
   name: string;
@@ -41,7 +41,7 @@ export interface AttachmentDTO {
 export interface AttachmentsDTO {
   id: number;
   attachment: AttachmentDTO;
-  type: string;
+  type: AttachmentTypeEnum;
 }
 export interface ApiResponse<T> {
   success: boolean;

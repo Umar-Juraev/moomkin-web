@@ -15,14 +15,20 @@
   "readless": "Hide",
   "search": "Search",
   "all": "All",
+  "hours": "hours",
+  "everyDay": "Every day",
+  "foundPlaces": "found places",
+  "appliedFilters": "applied filters",
   "companies": "Companies",
   "buttons": {
     "submit": "Submit",
     "cancel": "Cancel",
     "save": "Save",
+    "clear": "Clear",
     "delete": "Delete",
     "edit": "Edit",
-    "close": "Close"
+    "close": "Close",
+    "seeMore": "See more"
   },
   "forms": {
     "required": "This field is required",

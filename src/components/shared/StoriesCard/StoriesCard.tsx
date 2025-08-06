@@ -40,6 +40,7 @@
 
 
 import { Card, CardContent } from "@/components/ui/card";
+import { AttachmentTypeEnum } from "@/constants/enums";
 import { cn } from "@/lib/utils";
 import { StoriesDTO } from "@/types/DTO";
 import Image from "next/image";
@@ -50,11 +51,13 @@ interface Props {
 }
 
 const StoriesCard: FC<Props> = ({ data, className }) => {
+
+  const rendererItem = data.attachments.find(item=>item.type === AttachmentTypeEnum.STORY_COVER) || data.attachments[0]
   return (
     <Card className={cn("w-40 h-50 md:h-30 md:w-24 overflow-hidden rounded-2xl border-none shadow-none relative cursor-pointer p-0",className)}>
       <CardContent className="p-0">
-        {data.attachments.length > 0 && data.attachments[0].attachment.url ? (
-          <Image src={data.attachments[0].attachment.url} alt={data.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 160px" />
+        {data.attachments.length > 0 ? (
+          <Image src={rendererItem.attachment.url} alt={data.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 160px" />
         ) : (
           <div className="bg-gray-200 w-full h-full" />
         )}

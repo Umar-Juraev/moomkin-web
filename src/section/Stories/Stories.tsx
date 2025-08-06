@@ -7,17 +7,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { SkeletonStories, StoriesCard } from "@/components/shared";
+import { ProductDialogContent, SkeletonStories, StoriesCard } from "@/components/shared";
 import { useDiscountStories } from "@/hooks/useDiscount";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation, Pagination } from "swiper/modules";
-import StoriesItem from "react-insta-stories";
+import StoriesItem, { WithSeeMore } from "react-insta-stories";
 import Image from "next/image";
 import { AttachmentsDTO } from "@/types/DTO";
 import type { Swiper as SwiperType } from "swiper";
 import { X, Inbox } from "lucide-react";
 import useViewedStories from "@/store/slices/useStoryView";
 import { createPortal } from "react-dom";
+import { AttachmentTypeEnum } from "@/constants/enums";
+import { useTranslation } from "react-i18next";
+import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 
 const Stories = () => {
   const { data, isFetching } = useDiscountStories();
@@ -25,6 +28,8 @@ const Stories = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
   const { addViewed, isViewed } = useViewedStories();
+  const { t } = useTranslation()
+  const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
 
   const handleSwiperOpen = (storyId: number) => {
     // Find the index of the clicked story
@@ -55,6 +60,19 @@ const Stories = () => {
     setActiveIndex(swiper.activeIndex);
   };
 
+  const handleProductClick = (discountId: number) => {
+    showResponsiveDialog({
+      content: (onClose) => (
+        <ProductDialogContent discountId={discountId} onClose={onClose} />
+      ),
+      hideHeader: true,
+    });
+  };
+
+  const handleSeeMoreClick = () => {
+    alert('hello');
+  };
+
   useEffect(() => {
     if (visible) {
       document.body.style.overflow = "hidden";
@@ -67,20 +85,38 @@ const Stories = () => {
   }, [visible]);
 
   // Convert story attachments to stories format
-  const getStoriesFromAttachments = (attachments: AttachmentsDTO[]) => {
-    return attachments.map((attachment) => ({
-      content: () => (
-        <div className="sr w-full h-full relative">
-          <Image
-            src={attachment.attachment.url}
-            alt="Story"
-            className="w-full h-full object-cover"
-            fill
-            sizes="(max-width: 768px) 100vw, 360px"
-          />
-        </div>
-      ),
-    }));
+  const getStoriesFromAttachments = (attachments: AttachmentsDTO[], discountId: number) => {
+    return attachments.filter(item => item.type === AttachmentTypeEnum.STORY).map((attachment) => {
+      return {
+        content: () => (
+          <div className="sr w-full h-full relative">
+            <Image
+              src={attachment.attachment.url}
+              alt="Story"
+              className="relative z-30 w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 360px"
+            />
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleProductClick(discountId);
+                }}
+                className="h-14 w-[312px] flex items-center justify-center bg-white shadow-[0px_2px_6px_0px_#3333331F] text-lg font-semibold rounded-[32px] mx-6 absolute bottom-6 hover:opacity-90 z-50 md:w-[calc(100%-32px)] md:mx-4 md:static"
+                style={{
+                  zIndex: 9999,
+                  pointerEvents: 'auto',
+                  position: 'absolute'
+                }}
+              >
+                {t('buttons.seeMore')}
+
+              </div>
+          </div>
+        ),
+      };
+    });
   };
 
   return (
@@ -149,7 +185,8 @@ const Stories = () => {
                   {index === activeIndex ? (
                     // Active slide - show StoriesItem
                     <StoriesItem
-                      stories={getStoriesFromAttachments(story.attachments)}
+                      keyboardNavigation
+                      stories={getStoriesFromAttachments(story.attachments, story.id)}
                       defaultInterval={5000}
                       onAllStoriesEnd={() => {
                         addViewed(story.id);
@@ -186,8 +223,10 @@ const Stories = () => {
           </div>,
           document.body
         )}
+      {responsiveDialog}
     </div>
   );
 };
 
 export default Stories;
+

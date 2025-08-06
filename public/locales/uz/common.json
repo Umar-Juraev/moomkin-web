@@ -15,14 +15,20 @@
   "readless": "Yashirish",
   "search": "Qidirish",
   "all": "Barchasi",
+  "hours": "soat",
+  "everyDay": "Har kuni",
+  "foundPlaces": "joy topildi",
+  "appliedFilters": "filtr qo'llanildi",
   "companies": "Kompaniyalar",
   "buttons": {
     "submit": "Yuborish",
     "cancel": "Bekor qilish",
     "save": "Saqlash",
     "delete": "O'chirish",
+    "clear": "Tozalash",
     "edit": "Tahrirlash",
-    "close": "Yopish"
+    "close": "Yopish",
+    "seeMore": "Batafsil"
   },
   "forms": {
     "required": "Bu maydon to'ldirilishi shart",

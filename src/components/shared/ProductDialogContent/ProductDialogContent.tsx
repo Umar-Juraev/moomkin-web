@@ -50,7 +50,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { t } = useTranslation();
   const [api, setApi] = React.useState<CarouselApi>()
   const isMobile = useMediaQuery("(max-width: 768px)");
-  
+
   const handleSaveTofavorite = (data: DiscountDTO) => {
     toggleFavorite(data);
   };
@@ -109,7 +109,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                         blurDataURL={item.attachment.url}
                         alt={data.name}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         placeholder="blur"
                       />
                     </CarouselItem>
@@ -122,7 +122,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                 <CarouselNext className="right-3 w-11 h-11 bg-[#000000CC] text-white border-none" />
               </>
             }
-            { (isMobile && data?.attachments.length > 1) && (<CarouselIndicators className="absolute bottom-3 right-3" api={api}/>)}
+            {(isMobile && data?.attachments.length > 1) && (<CarouselIndicators className="absolute bottom-3 right-3" api={api} />)}
           </Carousel>
           {data.tags.map((tag) => {
             return (
@@ -212,102 +212,126 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   </TabsList>
                 )}
                 {
-                  data.company.addresses.map((location) => (
-                    <TabsContent
-                      className="  border-none shadow-none p-0 m-0"
-                      key={location.id}
-                      value={location.name}
-                    >
-                      <div className="mr-6 md:mr-0 md:mb-6">
-                        <div className="mt-3 h-42.5 flex items-center justify-center">
-                          <YMap location={location} />
+                  data.company.addresses.map((location) => {
+                    return (
+                      <TabsContent
+                        className="  border-none shadow-none p-0 m-0"
+                        key={location.id}
+                        value={location.name}
+                      >
+                        <div className="mr-6 md:mr-0 md:mb-6">
+                          <div className="mt-3 h-42.5 flex items-center justify-center">
+                            <YMap location={location} />
+                          </div>
                         </div>
-                        <div className="text-lg font-bold pt-6 pb-2">
-                          {('workTime')}
-                        </div>
-                        {(() => {
-                          const workingHours = location.working_hours?.length
-                            ? location.working_hours
-                            : data.company.working_hours;
-
-                          if (!workingHours?.length) {
-                            return <p>Время работы не указано</p>;
-                          }
-
-                          const weekdays = workingHours[0];
-                          const weekends = workingHours[6];
-                          return (
-                            <>
-                              <p className="pb-1">
-                                {t('weekdays')} {weekdays?.time_from || "—"} —{" "}
-                                {weekdays?.time_to || "—"}
-                              </p>
-                              <p>
-                                {t('weekends')}  {weekends?.time_from || "—"} —{" "}
-                                {weekends?.time_to || "—"}
-                              </p>
-                            </>
-                          );
-                        })()}
-                        {(() => {
-                          const links = data?.company.links || [];
-                          const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
-                          const socialLinks = links
-                            .filter(link => link.type_id !== ContactTypeIdEnum.Phone)
-                            .map(link => ({
-                              ...link,
-                              value: link.type_id === ContactTypeIdEnum.Email ? `mailto:${link.value}` : link.value,
-                            }));
-
-                          return (
-                            <>
-                              {phoneLinks.length > 0 && (
-                                <div className="pt-6">
-                                  <div className="text-lg font-bold pb-2">{t('phoneNumbers')}</div>
-                                  {phoneLinks.map(({ value }, i) => (
-                                    <p className="pb-1" key={i}>
-                                      <Link href={`tel:${value}`}>
-                                        {value}
-                                      </Link>
-                                    </p>
-                                  ))}
-                                </div>
-                              )}
-
-                              {socialLinks.length > 0 && (
-                                <div className="pt-6">
-                                  <div className="text-lg font-bold pb-2">{t('socialNetworks')}</div>
-                                  <div className="flex gap-2 mb-4">
-                                    {socialLinks.map(({ value, icon_url, name }, i) => (
-                                      <Link
-                                        key={i}
-                                        href={value}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-12 h-12 flex items-center justify-center rounded-full bg-main-light-gray"
-                                      >
-                                        <Image
-                                          src={icon_url}
-                                          width={24}
-                                          height={24}
-                                          alt={name}
-                                        />
-                                      </Link>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </>
-                          );
-
-                        })()}
-                      </div>
-                    </TabsContent>
-                  ))}
+                      </TabsContent>
+                    )
+                  })}
               </Tabs>
             }
-          </div>
+            {(() => {
+              const workingHours = data.company.working_hours;
 
+              if (!workingHours?.length) {
+                return <p>Время работы не указано</p>;
+              }
+
+              const is24Hours = (timeFrom: string, timeTo: string) => {
+                return timeFrom === "00:00" && timeTo === "00:00";
+              };
+
+              const weekdays = workingHours.slice(0, 5); // Monday to Friday
+              const weekends = workingHours.slice(5);    // Saturday and Sunday
+
+              const allWeekdays24 = weekdays.every(day => is24Hours(day.time_from, day.time_to));
+              const allWeekends24 = weekends.every(day => is24Hours(day.time_from, day.time_to));
+              const allDays24 = allWeekdays24 && allWeekends24;
+
+              return (
+                <>
+                  <div className="text-lg font-bold pt-6 pb-2">{t('workTime')}</div>
+
+                  {allDays24 ? (
+                    <p>{t('everyDay')}: 24 {t('hours')}</p>
+                  ) : allWeekdays24 && !allWeekends24 ? (
+                    <>
+                      <p>{t('weekdays')}: 24 {t('hours')}</p>
+                      <p>
+                        {t('weekends')}: {weekends[0].time_from || "—"} — {weekends[0].time_to || "—"}
+                      </p>
+                    </>
+                  ) : !allWeekdays24 && allWeekends24 ? (
+                    <>
+                      <p>
+                        {t('weekdays')}: {weekdays[0].time_from || "—"} — {weekdays[0].time_to || "—"}
+                      </p>
+                      <p>{t('weekends')}: 24 {t('hours')}</p>
+                    </>
+                  ) : (
+                    <>
+                      <p>
+                        {t('weekdays')}: {weekdays[0].time_from || "—"} — {weekdays[0].time_to || "—"}
+                      </p>
+                      <p>
+                        {t('weekends')}: {weekends[0].time_from || "—"} — {weekends[0].time_to || "—"}
+                      </p>
+                    </>
+                  )}
+                </>
+              );
+            })()}
+
+            {(() => {
+              const links = data?.company.links || [];
+              const phoneLinks = links.filter(link => link.type_id === ContactTypeIdEnum.Phone);
+              const socialLinks = links
+                .filter(link => link.type_id !== ContactTypeIdEnum.Phone)
+                .map(link => ({
+                  ...link,
+                  value: link.type_id === ContactTypeIdEnum.Email ? `mailto:${link.value}` : link.value,
+                }));
+              return (
+                <>
+                  {phoneLinks.length > 0 && (
+                    <div className="pt-6">
+                      <div className="text-lg font-bold pb-2">{t('phoneNumbers')}</div>
+                      {phoneLinks.map(({ value }, i) => (
+                        <p className="pb-1" key={i}>
+                          <Link href={`tel:${value}`}>
+                            {value}
+                          </Link>
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                  {socialLinks.length > 0 && (
+                    <div className="pt-6">
+                      <div className="text-lg font-bold pb-2">{t('socialNetworks')}</div>
+                      <div className="flex gap-2 mb-4">
+                        {socialLinks.map(({ value, icon_url, name }, i) => (
+                          <Link
+                            key={i}
+                            href={value}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-12 h-12 flex items-center justify-center rounded-full bg-main-light-gray"
+                          >
+                            <Image
+                              src={icon_url}
+                              width={24}
+                              height={24}
+                              alt={name}
+                            />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
+            {/* } */}
+          </div>
           <div className="flex gap-2 py-4  bottom-0 right-0 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] md:w-full md:px-4">
             {location && (<Button
               onClick={() => handleNavigate(location.lat, location.lng)}
@@ -327,7 +351,6 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
                   </Link>
                 </Button>
               );
-
             })()}
           </div>
 
