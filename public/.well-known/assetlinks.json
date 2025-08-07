@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "uz.moomkin.app",
+      "sha256_cert_fingerprints": [
+        "89:2E:91:E6:C9:91:D4:26:BA:8A:CB:2E:B4:E3:67:E1:B2:E4:33:27:A5:2A:55:53:8E:C1:46:0B:2C:9F:4A:9C"
+      ]
+    }
+  }
+]
+
