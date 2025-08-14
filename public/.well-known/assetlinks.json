@@ -5,7 +5,17 @@
       "namespace": "android_app",
       "package_name": "uz.moomkin.app",
       "sha256_cert_fingerprints": [
-        "89:2E:91:E6:C9:91:D4:26:BA:8A:CB:2E:B4:E3:67:E1:B2:E4:33:27:A5:2A:55:53:8E:C1:46:0B:2C:9F:4A:9C"
+        "98:18:04:34:0E:02:4A:C0:CC:8D:AD:D9:3B:B5:36:EA:9A:A0:79:68:BF:29:AD:1A:E1:F9:0E:9C:B7:64:98:15"
+      ]
+    }
+  },
+{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "uz.moomkin.app",
+      "sha256_cert_fingerprints": [
+        "73:51:0D:2C:E9:69:82:0C:CA:94:84:7F:25:0D:22:45:2D:D4:2B:F1:A6:B5:04:7C:B1:A5:60:B0:3D:23:CB:76"
       ]
     }
   }
