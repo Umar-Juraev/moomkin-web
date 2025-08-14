@@ -15,6 +15,7 @@ const DISCOUNT_KEYS = {
   all: ["discounts"],
   list: ["discounts", "list"],
   stories: ["stories"],
+  suggestions: ["suggestions"],
   detail: (id: number) => ["discount", "detail", id],
 };
 
@@ -50,6 +51,7 @@ export const useDiscounts = (
   });
 };
 
+
 // Get discount by id
 export const useDiscount = (id: number) => {
   return useQuery({
@@ -76,22 +78,45 @@ export const useDiscountStories = () => {
     enabled: true,
   });
 };
-// // // Create discount
-// export const useCreateDiscount = () => {
-//   const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: async (newDiscount: DiscountCreateDTO) => {
-//       return api
-//         .post<DiscountDTO>("/discount", newDiscount)
-//         .then((response) => response.data);
-//     },
-//     onSuccess: () => {
-//       // Invalidate list query
-//       queryClient.invalidateQueries({ queryKey: DISCOUNT_KEYS.list });
-//     },
-//   });
-// };
+// Search
+export const useSearchSuggestions = (
+  params: {
+    search?: string;
+  },
+) => {
+  return useQuery({
+    queryKey: [...DISCOUNT_KEYS.suggestions, params],
+    queryFn: async () => {
+      const { search } = params;
+      const response = await api.get<
+        ApiResponse<string[]>
+      >("/discount/suggestions", {
+        params: {
+          ...(search ? { search } : {}),
+        },
+      });
+      return response.data;
+    },
+    enabled: !!params.search && params.search.length >= 1,
+  });
+};
+// Seen discount
+export const useSeenDiscount = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      return api
+        .post<DiscountDTO>(`/discount/${id}/seen`)
+        .then((response) => response.data);
+    },
+    onSuccess: () => {
+      // Invalidate list query
+      // queryClient.invalidateQueries({ queryKey: DISCOUNT_KEYS.list });
+    },
+  });
+};
 
 // // Update discount
 // export const useUpdateDiscount = () => {

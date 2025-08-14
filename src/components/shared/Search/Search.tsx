@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/command";
 import { X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DiscountDTO } from "@/types/DTO";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import NProgress from "nprogress";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -40,7 +40,7 @@ interface SearchProps {
   placeholder?: string;
   onSearch: (value: string) => void;
   isLoading?: boolean;
-  data?: DiscountDTO[];
+  data?: string[];
   onOpen: (isOpen: boolean) => void;
   className?: string;
 }
@@ -58,6 +58,7 @@ function Search({
   const locale = params?.locale || "uz";
   const searchParams = useSearchParams();
   const { t } = useTranslation();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const DEBOUNCE_MS = 300;
 
@@ -116,16 +117,19 @@ function Search({
   };
 
   const handleClear = () => {
-    NProgress.start();
-    router.replace(`/${locale}`);
     setSearchQuery("");
     setIsFocused(false);
     onOpen(false);
   };
 
+  const handleBack = () => {
+    NProgress.start();
+    router.replace(`/${locale}`);
+  }
+
   const uniqueCompanies = React.useMemo(() => {
     if (!data) return [];
-    return Array.from(new Set(data.map((item) => item.company.name)));
+    return Array.from(new Set(data.map((item) => item)));
   }, [data]);
 
   useEffect(() => {
@@ -161,7 +165,7 @@ function Search({
               >
                 <div className="relative flex items-center ">
                   <ArrowLeft
-                    onClick={handleClear}
+                    onClick={handleBack}
                     color="#292C30"
                     className="size-7 text-red-300 shrink-0 hidden mr-4 md:block"
                   />
@@ -191,11 +195,11 @@ function Search({
                 {isFocused && (
                   <CommandList className="bg-white  border-none rounded-b-2xl shadow-lg max-h-[300px] overflow-auto md:shadow-none md:overflow-visible">
                     <CommandSeparator />
-                    <p className="font-bold text-lg text-dark px-4 mt-4">{t('companies')}</p>
-                    <div className="px-4 pb-4 pt-3">
+                    {/* <p className="font-bold text-lg text-dark px-4 mt-4">{t('companies')}</p> */}
+                    <div className="px-4 pb-4 pt-3 min-h-27">
                       {!uniqueCompanies.length && searchQuery.length > 0 ? (
                         <CommandEmpty>
-                          No results found for &quot;{searchQuery}&quot;
+                          {t('search.noResult')} &quot;{searchQuery}&quot;
                         </CommandEmpty>
                       ) : (
                         uniqueCompanies.length > 0 && (
@@ -258,7 +262,7 @@ function Search({
                 <div className="px-4 pb-4 pt-3">
                   {!uniqueCompanies.length && searchQuery.length > 0 ? (
                     <CommandEmpty>
-                      No results found for &quot;{searchQuery}&quot;
+                      {t('search.noResult')} &quot;{searchQuery}&quot;
                     </CommandEmpty>
                   ) : (
                     uniqueCompanies.length > 0 && (

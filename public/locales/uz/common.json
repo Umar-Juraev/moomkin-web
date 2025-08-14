@@ -13,7 +13,6 @@
   "addresses": "Manzillar",
   "readmore": "Ko'proq o'qish",
   "readless": "Yashirish",
-  "search": "Qidirish",
   "all": "Barchasi",
   "hours": "soat",
   "everyDay": "Har kuni",
@@ -82,5 +81,10 @@
     "phone.tg": "Botda mavjud bo‘lgan imkoniyatlar haqida qisqacha izoh yozib ketish kerak.",
     "faq": "Barcha huquqlar himoyalangan",
     "appDesc": "Telefoningiz kamerasi orqali QR kodni skanerlab mobil ilovani yuklab oling"
+  },
+  "search": {
+    "title": "Qidirish",
+    "moreFigure": "Qidirish uchun kamida '{{count}}' ta belgi kiriting",
+    "noResult":"Natija topilmadi"
   }
 }

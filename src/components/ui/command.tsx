@@ -66,7 +66,7 @@ function CommandInput({
   return (
     <div
       data-slot="command-input-wrapper"
-      className="flex h-12 items-center gap-3.5"
+      className="flex h-12 items-center gap-3.5 !w-full"
     >
       {!isHideIcon && <SearchIcon className="size-6 shrink-0 opacity-50" />}
       <CommandPrimitive.Input

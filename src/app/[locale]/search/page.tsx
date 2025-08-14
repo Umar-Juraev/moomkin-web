@@ -22,12 +22,14 @@ import { Filters } from "@/section";
 import { useTranslation } from "react-i18next";
 import { useParams } from "next/navigation";
 import { Inbox } from "lucide-react";
+import useUI from "@/store/slices/useUI";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const params = useParams();
   const locale = params?.locale || "uz";
   const { t, i18n } = useTranslation();
+  const { addSuggestion } = useUI()
 
 
   const searchQuery = searchParams.get("q") || "";
@@ -52,6 +54,13 @@ export default function SearchPage() {
       ),
     });
   };
+
+  useEffect(() => {
+    if (searchQuery.length) {
+      addSuggestion(searchQuery)
+    }
+  }, [searchQuery])
+
   return (
     <>
       <div className="container">

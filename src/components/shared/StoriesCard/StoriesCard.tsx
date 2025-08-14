@@ -54,7 +54,7 @@ const StoriesCard: FC<Props> = ({ data, className }) => {
 
   const rendererItem = data.attachments.find(item=>item.type === AttachmentTypeEnum.STORY_COVER) || data.attachments[0]
   return (
-    <Card className={cn("w-40 h-50 md:h-30 md:w-24 overflow-hidden rounded-2xl border-none shadow-none relative cursor-pointer p-0",className)}>
+    <Card className={cn("w-40 h-50 md:h-30 md:w-24 overflow-hidden rounded-2xl border-2 border-white shadow-none relative cursor-pointer",className)}>
       <CardContent className="p-0">
         {data.attachments.length > 0 ? (
           <Image src={rendererItem.attachment.url} alt={data.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 160px" />

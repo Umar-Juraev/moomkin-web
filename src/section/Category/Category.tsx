@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import useFilter from "@/store/slices/usefilter";
 import Filters from "../Filters/Filters";
-import { useDiscounts } from "@/hooks/useDiscount";
+import { useSearchSuggestions } from "@/hooks/useDiscount";
 import { Inbox } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import useUI from "@/store/slices/useUI";
 
 const Category = () => {
   const { data, isFetching } = useCategories();
@@ -16,18 +17,20 @@ const Category = () => {
   const { clickedFilters, toggleFilterButton, clearAllFilters } = useFilter();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { data: searchData, isFetching: isSearchFetching } = useDiscounts({
+  const { storedSuggestions } = useUI()
+
+  const suggestionQuery = useSearchSuggestions({
     search: searchQuery,
-  });
+  })
 
   return (
     <section className="container mx-auto mb-8 md:mb-6 md:p-0 ">
       <Search
         placeholder="Ищите горячие скидки"
         onSearch={setSearchQuery}
-        isLoading={isSearchFetching}
+        isLoading={suggestionQuery.isFetching}
         onOpen={() => { }}
-        data={searchData?.data.data || []}
+        data={suggestionQuery.data?.data || storedSuggestions}
         className="container hidden md:block"
       />
       {/* <div className="flex gap-5 mb-8 overflow-x-auto md:mb-6 md:gap-3">

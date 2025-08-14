@@ -13,7 +13,6 @@
   "addresses": "Addresses",
   "readmore": "Read more",
   "readless": "Hide",
-  "search": "Search",
   "all": "All",
   "hours": "hours",
   "everyDay": "Every day",
@@ -83,5 +82,10 @@
     "phone.tg": "A brief note should be left about the features available in the bot.",
     "faq": "All rights reserved",
     "appDesc": "Scan the QR code with your phone's camera to download the mobile app"
+  },
+  "search": {
+    "title": "Search",
+    "moreFigure": "Type at least '{{count}}' characters to search",
+    "noResult": "No results found"
   }
 }

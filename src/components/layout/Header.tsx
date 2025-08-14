@@ -36,12 +36,13 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useRouter, useParams } from "next/navigation";
-import { useDiscounts } from "@/hooks/useDiscount";
+import { useDiscounts, useSearchSuggestions } from "@/hooks/useDiscount";
 import useFavorites from "@/store/slices/useFavorites";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
 import SettingsModule from "@/modules/Settings";
 import NProgress from "nprogress";
+import useUI from "@/store/slices/useUI";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -52,22 +53,25 @@ export default function Header() {
   const [settingsDialog, setSettingsDialog] = useState(false);
   const router = useRouter();
   const { favorites } = useFavorites();
+  const { storedSuggestions } = useUI()
 
-  const { data, isFetching } = useDiscounts({
+
+  const suggestionQuery = useSearchSuggestions({
     search: searchQuery,
-  });
+  })
 
   const handleFavorite = () => {
     if (!favorites.length) return
     NProgress.start();
     router.push("/favorites")
   }
-  const handleSearchOpen = (isOpen:boolean)=>{
+
+  const handleSearchOpen = (isOpen: boolean) => {
     if (isOpen) {
-      
+
     }
   }
-
+  
   return (
     <div className="max-w-[1440px] mx-auto flex justify-between align-center bg-white px-10 h-20 md:h-auto md:block md:px-4">
       <div className="items-center hidden gap-[9px] font-semibold md:flex pb-[9px] pt-3.5">
@@ -79,7 +83,7 @@ export default function Header() {
       </div>
       <div
         className={cn(
-          "   flex items-center gap-9 w-full md:justify-between md:py-1"
+          "flex items-center gap-9 w-full md:justify-between md:py-1"
         )}
       >
         <Link href={`/${locale}`}>
@@ -92,13 +96,12 @@ export default function Header() {
             {t('header.location')}
           </div>
         </div>
-
         <Search
           placeholder={t('placeholder.search')}
           onSearch={setSearchQuery}
-          isLoading={isFetching}
+          isLoading={suggestionQuery.isFetching}
           onOpen={handleSearchOpen}
-          data={data?.data.data || []}
+          data={suggestionQuery?.data?.data || storedSuggestions}
           className="ml-14 max-w-[560px] md:hidden"
         />
         <DropdownMenu onOpenChange={(isOpen) => setBurger(isOpen)}>
@@ -107,7 +110,7 @@ export default function Header() {
             className="md:flex  w-12 h-12 rounded-full bg-main-light-gray hover:opacity-60 hidden justify-center items-center p-0 m-0 border-none shadow-none"
           >
             {!burger ? (
-               <Button variant="outline" className="p-0">
+              <Button variant="outline" className="p-0">
                 <Image src={burgerIcon} alt="menu" />
               </Button>
             ) : (
@@ -155,7 +158,7 @@ export default function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer text-base font-medium p-3">
                 <AlertCircle size={34} color="#292C30" className="rotate-180" />
-               {t('header.aboutProgram')}
+                {t('header.aboutProgram')}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             {/* <DropdownMenuSeparator className="bg-[#919DA63D]" />
@@ -175,7 +178,7 @@ export default function Header() {
           onlyIcon
           className="w-12 !h-12 bg-main-light-gray flex items-center justify-center rounded-full"
         />
-         <Button variant="primary" className="w-12" onClick={handleFavorite}>
+        <Button variant="primary" className="w-12" onClick={handleFavorite}>
           {favorites.length ? (
             <Badge
               className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums text-xs"

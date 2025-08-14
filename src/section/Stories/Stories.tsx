@@ -57,7 +57,7 @@ const Stories = () => {
   };
 
   const handleSlideChange = (swiper: SwiperType) => {
-    setActiveIndex(swiper.activeIndex);
+    setActiveIndex(swiper.activeIndex);    
   };
 
   const handleProductClick = (discountId: number) => {
@@ -136,7 +136,7 @@ const Stories = () => {
                   key={story.id}
                   className="basis-auto pl-3"
                 >
-                  <div className={isViewed(story.id) ? "" : "opacity-50"}>
+                  <div className={isViewed(story.id) ? "p-[2px] rounded-[17px] bg-gradient-to-tr from-gray-300 via-gray-300 to-gray-300" : "p-[2px] rounded-[17px] bg-gradient-to-tr from-[#FFCA00] via-[#ce3628e1] to-[#CE3728]"}>
                     <StoriesCard data={story} />
                   </div>
                 </CarouselItem>
@@ -188,6 +188,7 @@ const Stories = () => {
                       keyboardNavigation
                       stories={getStoriesFromAttachments(story.attachments, story.id)}
                       defaultInterval={5000}
+                      onNext={()=>addViewed(story.id)}
                       onAllStoriesEnd={() => {
                         addViewed(story.id);
                         handleStoryEnd();

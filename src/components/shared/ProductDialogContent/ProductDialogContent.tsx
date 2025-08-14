@@ -16,12 +16,12 @@ import telegramIcon from "@/assets/icons/telegram.svg";
 import instagramIcon from "@/assets/icons/instagram.svg";
 import phoneIcon from "@/assets/icons/phone.svg";
 // import shareIcon from "@/assets/icons/share.svg";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import YMap from "../YMap/YMap";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useDiscount } from "@/hooks/useDiscount";
+import { useDiscount, useSeenDiscount } from "@/hooks/useDiscount";
 import { CloseIcon, FavoriteDialogIcon, ShareIcon } from "@/assets/icons";
 import useFavorites from "@/store/slices/useFavorites";
 import { CompanyAddressDTO, DiscountDTO } from "@/types/DTO";
@@ -50,12 +50,14 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { t } = useTranslation();
   const [api, setApi] = React.useState<CarouselApi>()
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const hasSeenPosted = useRef(false);
 
   const handleSaveTofavorite = (data: DiscountDTO) => {
     toggleFavorite(data);
   };
 
   const { data: discountData, isFetching } = useDiscount(discountId);
+  const postSeenDiscount = useSeenDiscount()
   const data = discountData?.data;
 
   const [location, setLocation] = useState<CompanyAddressDTO>();
@@ -83,6 +85,13 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
     window.open(url, "_self");
   };
 
+useEffect(() => {
+    if (!hasSeenPosted.current) {
+      postSeenDiscount.mutateAsync(discountId);
+      hasSeenPosted.current = true; 
+    }
+  }, [discountId, postSeenDiscount]); 
+
   useEffect(() => {
     if (data?.company?.addresses && data.company.addresses.length > 0) {
       setLocation(data.company.addresses[0]);
@@ -90,6 +99,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   }, [data]);
 
   if (isFetching || !data) return <SkeletonDialog />;
+
 
   return (
     <div className="text-text-dark border-none shadow-none p-0 m-0 md:overflow-y-auto md:h-max">
