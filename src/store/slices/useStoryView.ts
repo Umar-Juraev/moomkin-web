@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface ViewedStoriesState {
   viewedStoriesId: number[];
@@ -9,62 +10,46 @@ export interface ViewedStoriesState {
   clearViewed: () => void;
 }
 
-const VIEWED_STORIES_KEY = 'viewedStoriesId';
+const useViewedStories = create<ViewedStoriesState>()(
+  persist(
+    (set, get) => ({
+      viewedStoriesId: [],
 
-const saveToStorage = (ids: number[]) => {
-  try {
-    localStorage.setItem(VIEWED_STORIES_KEY, JSON.stringify(ids));
-  } catch (error) {
-    console.error('Failed to save viewed stories to localStorage:', error);
-  }
-};
+      addViewed: (id) => {
+        const current = get().viewedStoriesId;
+        if (!current.includes(id)) {
+          const updated = [...current, id];
+          set({ viewedStoriesId: updated });
+        }
+      },
 
-const loadFromStorage = (): number[] => {
-  try {
-    const saved = localStorage.getItem(VIEWED_STORIES_KEY);
-    return saved ? JSON.parse(saved) : [];
-  } catch (error) {
-    console.error('Failed to load viewed stories from localStorage:', error);
-    return [];
-  }
-};
+      removeViewed: (id) => {
+        const updated = get().viewedStoriesId.filter(item => item !== id);
+        set({ viewedStoriesId: updated });
+      },
 
-const useViewedStories = create<ViewedStoriesState>((set, get) => ({
-  viewedStoriesId: loadFromStorage(),
+      toggleViewed: (id) => {
+        const current = get().viewedStoriesId;
+        if (current.includes(id)) {
+          get().removeViewed(id);
+        } else {
+          get().addViewed(id);
+        }
+      },
 
-  addViewed: (id) => {
-    const current = get().viewedStoriesId;
-    if (!current.includes(id)) {
-      const updated = [...current, id];
-      saveToStorage(updated);
-      set({ viewedStoriesId: updated });
+      isViewed: (id) => {
+        return get().viewedStoriesId.includes(id);
+      },
+
+      clearViewed: () => {
+        set({ viewedStoriesId: [] });
+      },
+    }),
+    {
+      name: 'viewedStoriesId', // key in localStorage
     }
-  },
-
-  removeViewed: (id) => {
-    const updated = get().viewedStoriesId.filter(item => item !== id);
-    saveToStorage(updated);
-    set({ viewedStoriesId: updated });
-  },
-
-  toggleViewed: (id) => {
-    const current = get().viewedStoriesId;
-    if (current.includes(id)) {
-      get().removeViewed(id);
-    } else {
-      get().addViewed(id);
-    }
-  },
-
-  isViewed: (id) => {
-    return get().viewedStoriesId.includes(id);
-  },
-
-  clearViewed: () => {
-    saveToStorage([]);
-    set({ viewedStoriesId: [] });
-  },
-}));
+  )
+);
 
 export const isStoryViewed = (id: number): boolean => {
   return useViewedStories.getState().isViewed(id);

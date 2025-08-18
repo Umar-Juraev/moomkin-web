@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { DiscountDTO } from '@/types/DTO';
 
 export interface FavoritesState {
@@ -10,68 +11,39 @@ export interface FavoritesState {
   clearFavorites: () => void;
 }
 
-const FAVORITES_KEY = 'favorites';
+const useFavorites = create<FavoritesState>()(
+  persist(
+    (set, get) => ({
+      favorites: [],
 
-const saveToStorage = (favorites: DiscountDTO[]) => {
-  try {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-  } catch (error) {
-    console.error('Failed to save favorites to localStorage:', error);
-  }
-};
+      addFavorite: (discount) => {
+        const currentFavorites = get().favorites;
+        if (!currentFavorites.some(item => item.id === discount.id)) {
+          set({ favorites: [...currentFavorites, discount] });
+        }
+      },
 
-const loadFromStorage = (): DiscountDTO[] => {
-  try {
-    const saved = localStorage.getItem(FAVORITES_KEY);
-    return saved ? JSON.parse(saved) : [];
-  } catch (error) {
-    console.error('Failed to load favorites from localStorage:', error);
-    return [];
-  }
-};
+      removeFavorite: (id) => {
+        set({ favorites: get().favorites.filter(item => item.id !== id) });
+      },
 
-const useFavorites = create<FavoritesState>((set, get) => ({
-  favorites: loadFromStorage(),
+      toggleFavorite: (discount) => {
+        get().isFavorite(discount.id)
+          ? get().removeFavorite(discount.id)
+          : get().addFavorite(discount);
+      },
 
-  addFavorite: (discount) => {
-    const currentFavorites = get().favorites;
-    if (!currentFavorites.some(item => item.id === discount.id)) {
-      const updatedFavorites = [...currentFavorites, discount];
-      saveToStorage(updatedFavorites);
-      set({ favorites: updatedFavorites });
+      isFavorite: (id) => get().favorites.some(item => item.id === id),
+
+      clearFavorites: () => set({ favorites: [] }),
+    }),
+    {
+      name: 'favorites', // key in localStorage
     }
-  },
+  )
+);
 
-  removeFavorite: (id) => {
-    const updatedFavorites = get().favorites.filter(item => item.id !== id);
-    saveToStorage(updatedFavorites);
-    set({ favorites: updatedFavorites });
-  },
-
-  toggleFavorite: (discount) => {
-    const currentFavorites = get().favorites;
-    const exists = currentFavorites.some(item => item.id === discount.id);
-
-    if (exists) {
-      get().removeFavorite(discount.id);
-    } else {
-      get().addFavorite(discount);
-    }
-  },
-
-  isFavorite: (id) => {
-    return get().favorites.some(item => item.id === id);
-  },
-
-  clearFavorites: () => {
-    saveToStorage([]);
-    set({ favorites: [] });
-  },
-}));
-
-
-export const isFavoriteItem = (id: number): boolean => {
-  return useFavorites.getState().isFavorite(id);
-};
+export const isFavoriteItem = (id: number): boolean =>
+  useFavorites.getState().isFavorite(id);
 
 export default useFavorites;
