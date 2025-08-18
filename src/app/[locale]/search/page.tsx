@@ -59,7 +59,7 @@ export default function SearchPage() {
     if (searchQuery.length) {
       addSuggestion(searchQuery)
     }
-  }, [searchQuery])
+  }, [searchQuery, addSuggestion])
 
   return (
     <>

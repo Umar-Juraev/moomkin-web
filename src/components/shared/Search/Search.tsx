@@ -89,7 +89,7 @@ function Search({
   const handleFocus = useCallback(() => {
     onOpen(true);
     setIsFocused(true);
-  }, []);
+  }, [onOpen]);
 
   useEffect(() => {
     if (!isFocused) return;
@@ -106,7 +106,7 @@ function Search({
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isFocused]);
+  }, [isFocused, onOpen]);
 
   const handleCompanySelect = (companyName: string) => {
     setSearchQuery(companyName);

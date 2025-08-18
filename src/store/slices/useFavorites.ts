@@ -28,9 +28,11 @@ const useFavorites = create<FavoritesState>()(
       },
 
       toggleFavorite: (discount) => {
-        get().isFavorite(discount.id)
-          ? get().removeFavorite(discount.id)
-          : get().addFavorite(discount);
+        if (get().isFavorite(discount.id)) {
+          get().removeFavorite(discount.id);
+        } else {
+          get().addFavorite(discount);
+        }
       },
 
       isFavorite: (id) => get().favorites.some(item => item.id === id),
