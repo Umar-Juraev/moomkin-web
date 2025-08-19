@@ -34,6 +34,6 @@ jobs:
             cd /home/admin/moomkin-web || exit 1
             git fetch origin
             git reset --hard origin/main
-            npm install --production
+            npm install
             npm run build
             pm2 restart moomkin-web || pm2 start npm --name "moomkin-web" -- start
