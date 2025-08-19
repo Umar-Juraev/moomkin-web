@@ -1,0 +1,39 @@
+name: Deploy Next.js App (Staging)
+
+on:
+  push:
+    branches:
+      - test   # deploy only when pushing to test branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to STAGING server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/moomkin-web-staging || exit 1
+            git fetch origin
+            git reset --hard origin/test
+            npm install --production
+            npm run build
+            pm2 restart moomkin-web-staging || pm2 start npm --name "moomkin-web-staging" -- start
