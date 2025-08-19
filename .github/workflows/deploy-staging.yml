@@ -1,4 +1,4 @@
-name: Deploy Next.js App (Staging)
+name: Moomkin (Staging)
 
 on:
   push:
