@@ -1,9 +1,9 @@
-name: Moomkin (Production)
+name: Moomkin (Staging)
 
 on:
   push:
     branches:
-      - main   # production branch
+      - test   # deploy only when pushing to test branch
 
 jobs:
   deploy:
@@ -24,16 +24,16 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to production server
+      - name: Deploy to staging server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/admin/moomkin-web || exit 1
+            cd /home/admin/moomkin-web-staging || exit 1
             git fetch origin
-            git reset --hard origin/main
-            npm install
+            git reset --hard origin/test
+            npm install --production
             npm run build
-            pm2 restart moomkin-web || pm2 start npm --name "moomkin-web" -- start
+            pm2 restart moomkin-web-staging || pm2 start npm --name "moomkin-web-staging" -- start
