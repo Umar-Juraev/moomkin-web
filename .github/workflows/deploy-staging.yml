@@ -34,6 +34,6 @@ jobs:
             cd /home/admin/moomkin-web-staging || exit 1
             git fetch origin
             git reset --hard origin/test
-            npm install --production
+            npm install
             npm run build
             pm2 restart moomkin-web-staging || pm2 start npm --name "moomkin-web-staging" -- start
