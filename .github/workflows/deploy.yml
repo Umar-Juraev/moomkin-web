@@ -37,4 +37,3 @@ jobs:
             npm install
             npm run build
             pm2 restart moomkin-web || pm2 start npm --name "moomkin-web" -- start
-            pm2 save
