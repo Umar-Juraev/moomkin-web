@@ -62,11 +62,15 @@ export default function Footer() {
             />
             <div className="md:mb-8">
               <div className="flex gap-3 mb-4">
-                <Image src={googlePlayIcon} alt="Google play" width={162} />
-                <Image src={appStoreIcon} alt="App store" width={144} />
+                <Link href="https://play.google.com/store/apps/details?id=uz.moomkin.app" target="_blank">
+                  <Image src={googlePlayIcon} alt="Google play" width={162} />
+                </Link>
+                <Link href="https://apps.apple.com/uz/app/moomkin-app/id6748206285" target="_blank">
+                  <Image src={appStoreIcon} alt="App store" width={144} />
+                </Link>
               </div>
               <p className="text-[#85919E] font-normal text-sm leading-5 w-[65%] md:w-[70%]">
-               {t('footer.appDesc')}
+                {t('footer.appDesc')}
               </p>
             </div>
           </div>

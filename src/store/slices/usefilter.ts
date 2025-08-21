@@ -22,7 +22,7 @@ const useFilter = create<FilterState>()(
         const currentFilters = get().clickedFilters;
         const newFilters = { ...currentFilters };
 
-        if (item.key === 'order' || item.key === 'category_id') {
+        if (item.key === 'order' || item.key === 'category_id' || item.key === 'company_id') {
           // Toggle single-value filters
           if (newFilters[item.key] === item.value) {
             delete newFilters[item.key];

@@ -57,7 +57,7 @@ const Products = () => {
           <div className="container flex items-center justify-between mb-6 md:items-center md:mb-4">
             <div>
               <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
-                {12} {t('foundPlaces')}
+                {data?.data?.data?.length} {t('foundPlaces')}
               </h2>
               <p className="font-normal text-base leading-5.5 tracking-[-0.5%]">
                 {Object.keys(clickedFilters).length} {t('appliedFilters')}

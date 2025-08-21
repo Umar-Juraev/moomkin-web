@@ -89,19 +89,13 @@ export interface ContactLinkDTO {
   icon_url: string;
 }
 
-export interface CompanyDTO {
-  id: number;
-  name: string;
-  active: boolean;
-  icon_url: string;
-}
 
 export interface WorkingHoursDTO {
   day_of_week: number;
   time_from: string;
   time_to: string;
 }
-export interface CompanyByIdDTO {
+export interface CompanyDTO {
   id: number;
   name: string;
   active: boolean;
@@ -124,7 +118,7 @@ export interface DiscountDTO {
   seen_count: number;
   attachments: AttachmentsDTO[];
   category: CategoryDTO;
-  company: CompanyByIdDTO;
+  company: CompanyDTO;
   tags:DiscountTagDTO[]
 }
 

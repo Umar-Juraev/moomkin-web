@@ -154,7 +154,7 @@ useEffect(() => {
           <span className="absolute bottom-5 left-5 overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314] md:bottom-5">
             <Image
               src={data.company.icon_url}
-              alt={data.company.name}
+              alt={data?.company?.name}
               width={94}
               height={94}
               className="object-cover h-[94px]"
@@ -184,7 +184,7 @@ useEffect(() => {
           </div>
 
           <div className="h-[464px]  overflow-y-auto md:overflow-y-visible md:h-max">
-            <p className="hidden md:block text-base font-medium text-[#656E78] uppercase">{data.company.name}</p>
+            <p className="hidden md:block text-base font-medium text-[#656E78] uppercase">{data?.company?.name}</p>
             <h6 className="mb-2 font-bold text-[28px] mr-6 md:mr-0 md:text-2xl">{data.name}</h6>
             <ReadMore className='mb-3 mr-6 md:mr-0' text={data.description} maxChars={130} />
             <div className="bg-main-light-gray rounded-2xl px-3 py-2 mb-3 mr-6 md:mr-0">
@@ -298,7 +298,7 @@ useEffect(() => {
                 .filter(link => link.type_id !== ContactTypeIdEnum.Phone)
                 .map(link => ({
                   ...link,
-                  value: link.type_id === ContactTypeIdEnum.Email ? `mailto:${link.value}` : link.value,
+                  value: link.type_id === ContactTypeIdEnum.Email ? `mailto:${link?.value}` : link?.value,
                 }));
               return (
                 <>
@@ -356,7 +356,7 @@ useEffect(() => {
               return (
 
                 <Button variant="primary" className="text-lg font-semibold w-[200px] h-14 rounded-4xl flex items-center justify-center bg-red text-white md:w-auto">
-                  <Link href={`tel:${phoneLinks[0].value}`}>
+                  <Link href={`tel:${phoneLinks[0]?.value}`}>
                     {t('call')}
                   </Link>
                 </Button>

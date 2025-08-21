@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { useDiscounts } from "@/hooks/useDiscount";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
-import { Filters } from "@/section";
+import { Companies, Filters } from "@/section";
 import useFilter from "@/store/slices/usefilter";
 import { buildApiParams } from "@/utils/data";
 import { useParams, useSearchParams } from "next/navigation";
@@ -73,6 +73,7 @@ export default function ProductPage() {
       </div>
 
       <div className="mb-8 container md:p-0">
+        <Companies />
         <Filters />
       </div>
       <div className="container grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">

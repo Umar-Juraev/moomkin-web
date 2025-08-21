@@ -38,7 +38,6 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
     [addFavorite, toggleFavorite]
   );
 
-
   return (
     <div className={cn("border-none rounded-t-[22px] md:w-[296px]", className)}>
       <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
@@ -52,7 +51,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
             sizes="(max-width: 768px) 100vw, 296px"
           />
         ) : (
-          <div className="bg-gray-200 w-full h-full" />
+          <div onClick={() => onClick(data.id)} className="cursor-pointer bg-gray-200 w-full h-full" />
         )}
 
         {data.tags.map((tag) => (
@@ -78,7 +77,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
           {data.company?.icon_url ? (
             <Image
               src={data.company.icon_url}
-              alt={data.company.name}
+              alt={data?.company?.name}
               width={54}
               height={54}
               className="object-cover h-[54px]"
@@ -90,7 +89,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
       </div>
       <div className="md:px-2">
         <p className="font-medium text-sm leading-5 align-middle text-[#656E78] mb-0.5">
-          {data.company.name}
+          {data?.company?.name}
         </p>
         <p className="font-bold text-base leading-[22px] align-middle mb-1.5">
           {data.name}
