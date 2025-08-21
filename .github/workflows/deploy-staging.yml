@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build project (local check only)
         run: npm run build
 
       - name: Deploy to staging server
@@ -34,6 +34,8 @@ jobs:
             cd /home/admin/moomkin-web-staging || exit 1
             git fetch origin
             git reset --hard origin/test
-            npm install
-            npm run build
+            npm install --production
+            # Load staging environment variables before building
+            export $(grep -v '^#' env.staging | xargs) && npm run build
             pm2 restart moomkin-web-staging || pm2 start npm --name "moomkin-web-staging" -- start
+            pm2 save
