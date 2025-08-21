@@ -36,6 +36,6 @@ jobs:
             git reset --hard origin/test
             npm install          # 👈 install with devDependencies (needed for next build)
             # Load staging environment variables and build
-            export $(grep -v '^#' env.staging | xargs) && npm run build
+            export $(grep -v '^#' .env.staging | xargs) && npm run build
             pm2 restart moomkin-web-staging || pm2 start npm --name "moomkin-web-staging" -- start
             pm2 save
