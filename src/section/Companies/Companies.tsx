@@ -16,7 +16,7 @@ const Companies = () => {
   return (
     <section className="container mx-auto mb-8 md:mb-6 md:p-0 ">
       {!isFetching ? (
-        (!data?.data.data || data.data.data?.length === 0) ? (
+        (!data?.data?.data || data?.data?.data?.length === 0) ? (
           <div className="col-span-4 flex flex-col items-center justify-center py-16">
             <Inbox className="w-20 h-20 text-gray-300 mb-4" />
           </div>
