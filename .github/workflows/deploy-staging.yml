@@ -24,7 +24,7 @@ jobs:
       - name: Build project (local check only)
         run: npm run build
 
-     - name: Deploy to staging server
+      - name: Deploy to staging server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_IP }}
