@@ -1,4 +1,5 @@
 import { ContactTypeIdEnum, AttachmentTypeEnum } from "@/constants/enums";
+import { Nullable } from "./common";
 
 export interface DiscountCreateDTO {
   name: string;
@@ -120,6 +121,7 @@ export interface DiscountDTO {
   category: CategoryDTO;
   company: CompanyDTO;
   tags:DiscountTagDTO[]
+  source_link?: Nullable<string>;
 }
 
 export interface DiscountByIdDTO {

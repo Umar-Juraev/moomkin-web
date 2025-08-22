@@ -16,7 +16,7 @@
   "all": "Barchasi",
   "hours": "soat",
   "everyDay": "Har kuni",
-  "foundPlaces": "joy topildi",
+  "foundPlaces": "ta chegirma topildi",
   "appliedFilters": "filtr qo'llanildi",
   "companies": "Kompaniyalar",
   "buttons": {
@@ -85,6 +85,6 @@
   "search": {
     "title": "Qidirish",
     "moreFigure": "Qidirish uchun kamida '{{count}}' ta belgi kiriting",
-    "noResult":"Natija topilmadi"
+    "noResult":"Ma'lumot topilmadi"
   }
 }

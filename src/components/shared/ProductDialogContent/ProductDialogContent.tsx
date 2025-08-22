@@ -82,15 +82,15 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   };
   const handleNavigate = (lat: number, lng: number) => {
     const url = `https://yandex.com/maps/?rtext=~${lat},${lng}`;
-    window.open(url, "_self");
+    window.open(url, "_blank");
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (!hasSeenPosted.current) {
       postSeenDiscount.mutateAsync(discountId);
-      hasSeenPosted.current = true; 
+      hasSeenPosted.current = true;
     }
-  }, [discountId, postSeenDiscount]); 
+  }, [discountId, postSeenDiscount]);
 
   useEffect(() => {
     if (data?.company?.addresses && data.company.addresses.length > 0) {
@@ -230,7 +230,7 @@ useEffect(() => {
                         value={location.name}
                       >
                         <div className="mr-6 md:mr-0 md:mb-6">
-                          <div className="mt-3 h-42.5 flex items-center justify-center">
+                          <div onClick={() => handleNavigate(location.lat, location.lng)} className="transition hover:brightness-90 mt-3 h-42.5 flex items-center justify-center">
                             <YMap location={location} />
                           </div>
                         </div>
@@ -342,12 +342,13 @@ useEffect(() => {
             })()}
             {/* } */}
           </div>
-          <div className="flex gap-2 py-4  bottom-0 right-0 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] md:w-full md:px-4">
-            {location && (<Button
-              onClick={() => handleNavigate(location.lat, location.lng)}
+          <div className="flex gap-2 py-4  bottom-0 right-0 md:fixed md:bottom-0 md:bg-white mr-4 md:mr-0 md:grid md:grid-cols-[1fr_1fr] !justify-end md:w-full md:px-4">
+            {data.source_link && (<Button
               className="text-lg font-semibold w-[190px] h-14 rounded-4xl flex items-center justify-center md:w-auto"
             >
-              {t('route')}
+              <Link href={data.source_link} target="_blank" rel="noopener noreferrer" >
+                {t('buttons.seeMore')}
+              </Link>
             </Button>
             )}
             {(() => {
