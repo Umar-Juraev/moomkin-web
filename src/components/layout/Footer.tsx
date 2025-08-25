@@ -10,7 +10,8 @@ import youtubeIcon from "@/assets/images/youtube.png";
 import appStoreIcon from "@/assets/images/appStore.png";
 import googlePlayIcon from "@/assets/images/googlePlay.png";
 
-import qrcodeIcon from "@/assets/images/qrcode.png";
+import qrcodeIcon from "@/assets/images/moomkinQrcode.png";
+
 import Image from "next/image";
 import { LanguageSwitcher } from "../shared";
 import Link from "next/link";
