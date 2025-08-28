@@ -121,7 +121,7 @@ const Stories = () => {
 
   return (
     <div className="container mx-auto mt-6 mb-12 md:mt-6 md:mb-8 md:p-0">
-      <Carousel className="w-full">
+      <Carousel opts={{ dragFree: true }} className="w-full">
         {/* -ml-2 md:ml-1 */}
         <CarouselContent className="pl-3">
           {!isFetching ? (
