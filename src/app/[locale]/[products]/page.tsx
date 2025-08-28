@@ -76,7 +76,7 @@ export default function ProductPage() {
         <Filters />
       </div>
       <div className="container gap-4 flex flex-wrap mb-8 md:gap-3.5 md:grid md:grid-cols-2">
-        {!isFetching ? (
+        {isFetching ? (
           [...Array(6)].map((_, i) => <SkeletonCard fullscreen key={i} />)
         ) : data?.data?.data?.length === 0 ? (
           <div className="col-span-4 flex flex-col items-center justify-center py-16">
