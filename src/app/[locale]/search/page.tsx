@@ -83,7 +83,7 @@ export default function SearchPage() {
         <Filters />
       </div>
 
-      <div className="container grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
+      <div className="container gap-4 flex flex-wrap md:gap-3.5 md:grid md:grid-cols-2  mb-24">
         {isFetching ? (
           [...Array(1)].map((_, i) => (
             <SkeletonCard fullscreen key={i} />
@@ -98,7 +98,7 @@ export default function SearchPage() {
               key={index}
               data={item}
               onClick={handleProductClick}
-              className="md:!w-full"
+              className="w-[177.33px] md:!w-full"
             />
           ))
         )}

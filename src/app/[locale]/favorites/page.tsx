@@ -54,14 +54,14 @@ const FavoritesPage = () => {
         {t("header.saved")}
       </h1>
 
-      <div className="grid grid-cols-4 gap-6 md:grid-cols-1 mb-24">
+      <div className="gap-4 flex flex-wrap md:gap-3.5 md:grid md:grid-cols-2 mb-24">
         {favorites.length ? (
           favorites?.map((item, index) => (
             <ProductCard
               onClick={handleProductClick}
               key={index}
               data={item}
-              className="md:!w-full"
+              className="w-[177.33px] md:!w-full"
             />
           ))
         ) : (

@@ -91,6 +91,16 @@ body {
   font-family: "Pretendard";
 }
 
+/* ::selection {
+  background-color: #cf3628be;
+  color: #fff;
+}
+
+::-moz-selection {
+  background-color: #cf3628be;
+  color: #fff;
+} */
+
 :root {
   --bg-main-light-gray: #f4f5f7;
   --dark: #292c30;
@@ -176,20 +186,20 @@ body {
 }
 
 /* @utility container { */
-  /* width: 100%; */
-  /* margin-left: auto; */
-  /* margin-right: auto; */
-  /* padding-left: 148px;
+/* width: 100%; */
+/* margin-left: auto; */
+/* margin-right: auto; */
+/* padding-left: 148px;
   padding-right: 148px; */
-      /* padding-left: 16px; */
-    /* padding-right: 16px; */
+/* padding-left: 16px; */
+/* padding-right: 16px; */
 
-  /* Desktop-first: start with largest, override down */
-  /* max-width: 100%; */
+/* Desktop-first: start with largest, override down */
+/* max-width: 100%; */
 
 
-  /* 768px */
-  /* @media (max-width: 64rem) {
+/* 768px */
+/* @media (max-width: 64rem) {
     padding-left: 16px;
     padding-right: 16px;
   } */
@@ -199,20 +209,21 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
 
   /* Desktop-first: start with largest, override down */
   max-width: 71.5rem;
   /* 1144px */
-
+/* 
   @media (max-width: 96rem) {
     max-width: 64rem;
-    /* 1024px */
-  }
+    1024px
+  } */
 
   @media (max-width: 64rem) {
     max-width: 48rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
     /* 768px */
   }
 
@@ -295,6 +306,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

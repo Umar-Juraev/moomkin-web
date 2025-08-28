@@ -1,7 +1,7 @@
 "use client"
 
 import { FC } from "react";
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import {
     Pagination as PaginationShadcn,
     PaginationContent,
@@ -21,6 +21,7 @@ interface Props {
 const Pagination: FC<Props> = ({ total, page, limit }) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const router = useRouter();
 
     const totalPages = Math.ceil(total / limit);
     const currentPage = page;
@@ -29,6 +30,13 @@ const Pagination: FC<Props> = ({ total, page, limit }) => {
         const params = new URLSearchParams(searchParams);
         params.set('page', pageNumber.toString());
         return `${pathname}?${params.toString()}`;
+    };
+
+    const navigateToPage = (pageNumber: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('page', pageNumber.toString());
+        // Use router.push instead of href to prevent page reload and control scroll
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
     };
 
     const getPaginationItems = () => {
@@ -54,13 +62,19 @@ const Pagination: FC<Props> = ({ total, page, limit }) => {
     };
 
     const paginationItems = getPaginationItems();
+    
     return (
         <PaginationShadcn>
             <PaginationContent>
                 <PaginationItem>
                     <PaginationPrevious
                         href={createPageURL(currentPage - 1)}
-                        onClick={e => { if (currentPage === 1) e.preventDefault(); }}
+                        onClick={e => { 
+                            e.preventDefault();
+                            if (currentPage > 1) {
+                                navigateToPage(currentPage - 1);
+                            }
+                        }}
                         aria-disabled={currentPage === 1}
                         tabIndex={currentPage === 1 ? -1 : undefined}
                         className={currentPage === 1 ? 'pointer-events-none opacity-50' : undefined}
@@ -73,6 +87,10 @@ const Pagination: FC<Props> = ({ total, page, limit }) => {
                         ) : (
                             <PaginationLink
                                 href={createPageURL(item as number)}
+                                onClick={e => {
+                                    e.preventDefault();
+                                    navigateToPage(item as number);
+                                }}
                                 isActive={item === currentPage}
                             >
                                 {item}
@@ -83,7 +101,12 @@ const Pagination: FC<Props> = ({ total, page, limit }) => {
                 <PaginationItem>
                     <PaginationNext
                         href={createPageURL(currentPage + 1)}
-                        onClick={e => { if (currentPage === totalPages) e.preventDefault(); }}
+                        onClick={e => { 
+                            e.preventDefault();
+                            if (currentPage < totalPages) {
+                                navigateToPage(currentPage + 1);
+                            }
+                        }}
                         aria-disabled={currentPage === totalPages}
                         tabIndex={currentPage === totalPages ? -1 : undefined}
                         className={currentPage === totalPages ? 'pointer-events-none opacity-50' : undefined}

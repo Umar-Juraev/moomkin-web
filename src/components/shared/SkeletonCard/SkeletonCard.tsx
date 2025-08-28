@@ -6,8 +6,8 @@ function SkeletonCard({ fullscreen = false }: { fullscreen?: boolean }) {
     <div className="flex flex-col space-y-3">
       <Skeleton
         className={cn(
-          "mb-2 h-38 border-none rounded-[22px]",
-          !fullscreen && "md:w-[296px]"
+          "mb-2 h-[236.44px] border-none rounded-[22px]",
+          !fullscreen && "md:w-[177.33px] w-full",
         )}
       />
       <div className="space-y-3">
@@ -18,5 +18,4 @@ function SkeletonCard({ fullscreen = false }: { fullscreen?: boolean }) {
     </div>
   );
 }
-
 export default SkeletonCard;

@@ -58,13 +58,13 @@ const Products = () => {
             <div>
 
               <h2 className="font-extrabold text-[32px] leading-10 mb-1.5 tracking-tight md:text-2xl">
-              {Array.isArray(data?.data?.data) && data?.data?.data.length > 0 ? (
-                <>
-                  {data.data.data.length} {t('foundPlaces')}
-                </>
-              ) : (
-                t('search.noResult')
-              )}
+                {Array.isArray(data?.data?.data) && data?.data?.data.length > 0 ? (
+                  <>
+                    {data.data.data.length} {t('foundPlaces')}
+                  </>
+                ) : (
+                  t('search.noResult')
+                )}
               </h2>
               <p className="font-normal text-base leading-5.5 tracking-[-0.5%]">
                 {Object.keys(clickedFilters).length} {t('appliedFilters')}
@@ -107,23 +107,23 @@ const Products = () => {
         <>
           <div className="relative mb-12">
             <div className="container flex items-end justify-between mb-6 md:items-center md:mb-4">
-              <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl md:leading-normal">
+              <h2 className="font-extrabold text-[32px] leading-10 tracking-tight md:text-2xl md:leading-[100%]">
                 {t("titles.trends")}
               </h2>
               <Link
                 href={`/trends`}
-                className="font-medium text-base text-red relative right-20 flex items-center gap-1.5 md:static cursor-pointer"
+                className="font-medium text-base text-red relative right-24 flex items-center gap-1.5 md:static cursor-pointer"
               >
                 <span>{t('all')}</span>
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
-            <Carousel className="container w-full md:px-0">
-              <CarouselContent className="-ml-2 md:ml-1">
+            <Carousel opts={{ dragFree: true }} className="container w-full md:px-0">
+              <CarouselContent className="-ml-2 md:mx-0">
                 {!isFetching
                   ? data?.data?.data?.length === 0
                     ? (
-                      <CarouselItem className="pl-6 basis-full md:pl-3">
+                      <CarouselItem className="pl-4  basis-full md:pl-3">
                         <div className="col-span-4 flex flex-col items-center justify-center py-16 w-full">
                           <Inbox className="w-20 h-20 text-gray-300 mb-4" />
                         </div>
@@ -132,7 +132,7 @@ const Products = () => {
                     : data?.data?.data?.map((item, index) => (
                       <CarouselItem
                         key={index}
-                        className="pl-6 basis-1/4 md:basis-auto md:pl-3"
+                        className="basis-[177.33px] pl-0 ml-3.5"
                       >
                         <ProductCard
                           onClick={handleProductClick}
@@ -143,7 +143,7 @@ const Products = () => {
                   : [...Array(4)].map((_, i) => (
                     <CarouselItem
                       key={i}
-                      className="pl-6 basis-1/4 md:basis-auto md:pl-3"
+                      className="basis-[177.33px] pl-0 ml-3.5"
                     >
                       <SkeletonCard />
                     </CarouselItem>
@@ -163,20 +163,19 @@ const Products = () => {
               </h2>
               <Link
                 href={`/hot`}
-                className="font-medium text-base text-red relative right-20 flex items-center gap-1.5 md:static cursor-pointer"
+                className="font-medium text-base text-red relative right-24 flex items-center gap-1.5 md:static cursor-pointer"
               >
                 <span>{t('all')}</span>
                 <Image src={redChervonRight} alt="chervon right" />
               </Link>
             </div>
-            <Carousel className="container w-full md:px-0">
-              <CarouselContent className="-ml-2 md:ml-1">
+            <Carousel opts={{ dragFree: true }} className="container w-full md:px-0">
+              <CarouselContent className="-ml-2 md:mx-0">
                 {!hotIsFetching
                   ? hotData?.data?.data?.map((item, index) => (
                     <CarouselItem
                       key={index}
-                      className="pl-6 basis-1/4 md:basis-auto md:pl-3"
-                    >
+                      className="basis-[177.33px] pl-0 ml-3.5"                    >
                       <ProductCard
                         onClick={handleProductClick}
                         data={item}
@@ -186,8 +185,7 @@ const Products = () => {
                   : [...Array(4)].map((_, i) => (
                     <CarouselItem
                       key={i}
-                      className="pl-6 basis-1/4 md:basis-auto md:pl-3"
-                    >
+                      className="basis-[177.33px] pl-0 ml-3.5"                    >
                       <SkeletonCard />
                     </CarouselItem>
                   ))}

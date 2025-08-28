@@ -39,8 +39,8 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
   );
 
   return (
-    <div className={cn("border-none rounded-t-[22px] md:w-[296px]", className)}>
-      <div className="rounded-[22px] mb-2 h-38 overflow-hidden flex flex-col relative">
+    <div className={cn("border-none rounded-t-[22px] ", className)}>
+      <div className="rounded-[22px] mb-1.5 h-[236.44px] overflow-hidden flex flex-col relative">
         {data.attachments[0]?.attachment?.url ? (
           <Image
             onClick={() => onClick(data.id)}
@@ -48,12 +48,11 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
             alt={data.name}
             fill
             className="object-cover h-full cursor-pointer hover:opacity-60 transition-all duration-300"
-            sizes="(max-width: 768px) 100vw, 296px"
+            sizes="(max-width: 768px) 100vw"
           />
         ) : (
           <div onClick={() => onClick(data.id)} className="cursor-pointer bg-gray-200 w-full h-full" />
         )}
-
         {data.tags.map((tag) => (
           <span
             key={tag.id}
@@ -73,7 +72,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
           <FavoriteIcon active={optimisticFavorites.some(item => item.id === data.id)} />
         </span>
 
-        <span className="absolute bottom-[9px] left-[9px] overflow-hidden rounded-[14px] border border-white  shadow-[0px 0.5px 2px 0px #33333314]">
+        <span className="absolute bottom-[7px] left-[7px] overflow-hidden rounded-[16px] border border-white  shadow-[0px 0.5px 2px 0px #33333314]">
           {data.company?.icon_url ? (
             <Image
               src={data.company.icon_url}
@@ -88,13 +87,13 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
         </span>
       </div>
       <div className="md:px-2">
-        <p className="font-medium text-sm leading-5 align-middle text-[#656E78] mb-0.5">
+        <p className="font-medium text-[13px] leading-5 align-middle text-[#656E78] mb-0.5">
           {data?.company?.name}
         </p>
-        <p className="font-bold text-base leading-[22px] align-middle mb-1.5">
+        <p className="font-bold text-[15px] leading-[120%] align-middle mb-1.5">
           {data.name}
         </p>
-        <div className="flex items-center gap-1 mb-0.5">
+        <div className="flex items-start gap-1 mb-0.5">
           <Image src={calendarIcon} alt={data.name} />
           <p className="font-normal text-[13px] leading-[18px] align-middle">
             {formatDateRange(data.start_date, data.end_date, (i18n.resolvedLanguage as 'ru' | 'en' | 'uz'))}

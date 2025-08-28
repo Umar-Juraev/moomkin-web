@@ -75,9 +75,9 @@ export default function ProductPage() {
         <Companies />
         <Filters />
       </div>
-      <div className="container grid grid-cols-4 gap-6 md:grid-cols-1 mb-8">
-        {isFetching ? (
-          [...Array(4)].map((_, i) => <SkeletonCard fullscreen key={i} />)
+      <div className="container gap-4 flex flex-wrap mb-8 md:gap-3.5 md:grid md:grid-cols-2">
+        {!isFetching ? (
+          [...Array(6)].map((_, i) => <SkeletonCard fullscreen key={i} />)
         ) : data?.data?.data?.length === 0 ? (
           <div className="col-span-4 flex flex-col items-center justify-center py-16">
             <Inbox className="w-20 h-20 text-gray-300 mb-4" />
@@ -88,7 +88,7 @@ export default function ProductPage() {
               key={index}
               data={item}
               onClick={handleProductClick}
-              className="md:!w-full"
+              className="w-[177.33px] md:!w-full"
             />
           ))
         )}

@@ -22,7 +22,7 @@ const CompanyCard: FC<Props> = ({ data,isActiveId,onClick }) => {
           <div className="bg-gray-200 w-full h-full rounded-xl" />
         )}
       </div>
-      <h6 className={cn("font-pretendard font-medium text-[15px]  h-7 text-nowrap  tracking-[-0.015em] inline-flex items-center justify-center md:text-sm", isActiveId === data.id && "bg-primary text-white py-1 px-1.5 font-medium rounded-sm")}>
+      <h6 className={cn("font-pretendard font-medium text-[15px] w-23 text-center  tracking-[-0.015em] inline-flex items-center justify-center md:text-sm", isActiveId === data.id && "bg-primary text-white py-1 px-1.5 font-medium rounded-sm")}>
         {data.name}
       </h6>
     </div>
