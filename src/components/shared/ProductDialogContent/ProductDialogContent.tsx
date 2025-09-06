@@ -47,7 +47,7 @@ interface Props {
 
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { toggleFavorite, isFavorite } = useFavorites();
-  const { t } = useTranslation();
+  const { t,i18n } = useTranslation();
   const [api, setApi] = React.useState<CarouselApi>()
   const isMobile = useMediaQuery("(max-width: 768px)");
   const hasSeenPosted = useRef(false);
@@ -191,7 +191,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               <div className="flex items-center gap-1 mb-0.5">
                 <Image src={calendarIcon} alt={data.name} />
                 <p className="font-normal  align-middle">
-                  {formatDateRange(data.start_date, data.end_date)}
+                   {formatDateRange(data.start_date, data.end_date, (i18n.resolvedLanguage as 'ru' | 'en' | 'uz'))}
                 </p>
               </div>
               {data.company.addresses &&
