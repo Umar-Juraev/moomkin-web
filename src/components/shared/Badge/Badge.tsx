@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Badge as BadgeShadcn } from "@/components/ui/badge";
 import Image from "next/image";
 import { Nullable } from "@/types/common";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 
 
 interface IData {
@@ -19,7 +19,7 @@ interface Props {
 }
 
 const Badge: FC<Props> = ({data, onClick }) => {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const handleClick = React.useCallback(() => onClick(data), [onClick, data]);
   return (
     <BadgeShadcn

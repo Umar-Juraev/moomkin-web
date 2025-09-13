@@ -3,7 +3,9 @@ import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import MainLayout from "@/components/layout/MainLayout";
-import I18nProvider from "./i18n-provider";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import QueryProvider from "@/components/providers/QueryProvider";
 import ProgressBarClient from "@/components/layout/ProgressBarClient";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +39,8 @@ export default async function RootLayout({
   params,
 }: SingleStatePageProps) {
   const param = await params;
+  const messages = await getMessages();
+  
   return (
     <html lang={param.locale}>
       <body
@@ -72,9 +76,11 @@ export default async function RootLayout({
           </div>
         </noscript>
         <ProgressBarClient />
-        <I18nProvider initialLocale={param.locale}>
-          <MainLayout>{children}</MainLayout>
-        </I18nProvider>
+        <QueryProvider>
+          <NextIntlClientProvider messages={messages}>
+            <MainLayout>{children}</MainLayout>
+          </NextIntlClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );

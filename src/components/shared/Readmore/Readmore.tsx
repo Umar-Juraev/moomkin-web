@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react'; 
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 interface ReadMoreProps {
@@ -11,7 +11,7 @@ interface ReadMoreProps {
 
 const ReadMore: React.FC<ReadMoreProps> = ({ text, maxChars = 140,className }) => {
   const [expanded, setExpanded] = useState(false);
-  const {t} =useTranslation()
+  const t = useTranslations()
 
   const toggle = () => setExpanded(!expanded);
   const isOverflow = text.length > maxChars;

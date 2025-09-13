@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { LanguageSwitcher, Search } from "../shared";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,7 +45,7 @@ import NProgress from "nprogress";
 import useUI from "@/store/slices/useUI";
 
 export default function Header() {
-  const { t, i18n } = useTranslation();
+  const t = useTranslations();
   const params = useParams();
   const locale = params?.locale || "uz";
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -63,7 +63,7 @@ export default function Header() {
   const handleFavorite = () => {
     if (!favorites.length) return
     NProgress.start();
-    router.push("/favorites")
+    router.replace(`/${locale}/favorites`);
   }
 
   const handleSearchOpen = (isOpen: boolean) => {

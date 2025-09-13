@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
   Breadcrumb,
@@ -12,11 +12,10 @@ import {
 import {
   ProductCard,
   ProductDialogContent,
-  SkeletonCard,
 } from "@/components/shared";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import useFavorites from "@/store/slices/useFavorites";
-import { useTranslation } from "react-i18next";
+import { useTranslations, useLocale } from 'next-intl';
 import NProgress from "nprogress";
 import { Inbox } from "lucide-react";
 
@@ -25,7 +24,7 @@ const FavoritesPage = () => {
   const locale = params?.locale || "uz";
   const { favorites, clearFavorites } = useFavorites();
   const router = useRouter();
-  const { t,i18n } = useTranslation();
+  const t = useTranslations();
 
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
 

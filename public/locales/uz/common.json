@@ -77,8 +77,10 @@
     "nearest": "Eng yaqin"
   },
   "footer": {
-    "phone.desc": "Savollar va takliflarga javob berish uchun ishonch telefon raqami. Qo‘ng‘iroq qilish bepul.",
-    "phone.tg": "Botda mavjud bo‘lgan imkoniyatlar haqida qisqacha izoh yozib ketish kerak.",
+    "phone": {
+      "desc": "Savollar va takliflarga javob berish uchun ishonch telefon raqami. Qo'ng'iroq qilish bepul.",
+      "tg": "Botda mavjud bo'lgan imkoniyatlar haqida qisqacha izoh yozib ketish kerak."
+    },
     "faq": "Barcha huquqlar himoyalangan",
     "appDesc": "Telefoningiz kamerasi orqali QR kodni skanerlab mobil ilovani yuklab oling"
   },
@@ -86,5 +88,9 @@
     "title": "Qidirish",
     "moreFigure": "Qidirish uchun kamida '{{count}}' ta belgi kiriting",
     "noResult":"Ma'lumot topilmadi"
-  }
+  },
+  "change_language": "Tilni o'zgartirish",
+  "50%": "50%",
+  "30%": "30%",
+  "10%": "10%"
 }

@@ -1,7 +1,7 @@
 "use client";
 import { DiscountDTO } from "@/types/DTO";
 import Image from "next/image";
-import React, { FC, useState, useTransition } from "react";
+import React, { FC, useState, useTransition, startTransition } from "react";
 import calendarIcon from "@/assets/icons/calendar.svg";
 import locationIcon from "@/assets/icons/location.svg";
 import { formatDateRange } from "@/utils/date";
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import useFavorites from "@/store/slices/useFavorites";
 import { useOptimistic } from "react";
 import { log } from "util";
-import { useTranslation } from "react-i18next";
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Props {
   data: DiscountDTO;
@@ -19,7 +19,8 @@ interface Props {
 }
 const ProductCard: FC<Props> = ({ data, onClick, className }) => {
   const { toggleFavorite, isFavorite, favorites } = useFavorites();
-  const { t, i18n } = useTranslation();
+  const t = useTranslations();
+  const locale = useLocale();
   const [optimisticFavorites, addFavorite] = useOptimistic(
     favorites,
     (state, discount: DiscountDTO) => {
@@ -32,7 +33,9 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
 
   const handleSaveTofavorite = React.useCallback(
     (data: DiscountDTO) => {
-      addFavorite(data); // instant UI update
+      startTransition(() => {
+        addFavorite(data); // instant UI update
+      });
       toggleFavorite(data); // server update
     },
     [addFavorite, toggleFavorite]
@@ -96,7 +99,7 @@ const ProductCard: FC<Props> = ({ data, onClick, className }) => {
         <div className="flex items-start gap-1 mb-0.5">
           <Image src={calendarIcon} alt={data.name} />
           <p className="font-normal text-[13px] leading-[18px] align-middle">
-            {formatDateRange(data.start_date, data.end_date, (i18n.resolvedLanguage as 'ru' | 'en' | 'uz'))}
+            {formatDateRange(data.start_date, data.end_date, (locale as 'ru' | 'en' | 'uz'))}
           </p>
         </div>
         {/* <div className="flex items-center gap-1">

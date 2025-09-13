@@ -7,9 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslation } from "react-i18next";
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, usePathname } from "next/navigation";
-import i18nConfig from "../../../i18nConfig";
+import { routing } from "../../../i18n";
 import { cn } from "@/lib/utils"
 import NProgress from "nprogress";
 
@@ -30,25 +30,21 @@ interface Props {
 }
 
 function LanguageSwitcher({ className, onlyIcon }: Props) {
-  const { i18n, t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
+  const currentLocale = useLocale();
 
-  const currentLocale = i18n.language;
   const handleLanguageChange = async (newLocale: string) => {
-    await i18n.changeLanguage(newLocale);
     const segments = pathname.split("/");
     let newPath = "";
 
-    if (i18nConfig.locales.includes(segments[1])) {
+    if (routing.locales.includes(segments[1] as any)) {
       segments.splice(1, 1);
     }
 
-    if (i18nConfig.prefixDefault || newLocale !== i18nConfig.defaultLocale) {
-      newPath = `/${newLocale}${segments.join("/")}`;
-    } else {
-      newPath = segments.join("/");
-    }
+    // Always prefix with locale since we're using 'always' prefix
+    newPath = `/${newLocale}${segments.join("/")}`;
 
     NProgress.start();
     router.push(newPath || "/");

@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 import logo from "@/assets/icons/Logo.svg";
 
@@ -15,10 +14,10 @@ import qrcodeIcon from "@/assets/images/moomkinQrcode.png";
 import Image from "next/image";
 import { LanguageSwitcher } from "../shared";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   return (
     <div className="bg-main-light-gray">

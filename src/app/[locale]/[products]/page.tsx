@@ -20,7 +20,7 @@ import { Companies, Filters } from "@/section";
 import useFilter from "@/store/slices/usefilter";
 import { buildApiParams } from "@/utils/data";
 import { useParams, useSearchParams } from "next/navigation";
-import { useTranslation } from "react-i18next";
+import { useTranslations, useLocale } from 'next-intl';
 import { Suspense } from "react";
 import { Inbox } from "lucide-react";
 
@@ -28,7 +28,7 @@ export default function ProductPage() {
   const params = useParams();
   const locale = params?.locale || "uz";
   const { products } = params as { locale: string; products: string };
-  const { t, i18n } = useTranslation();
+  const t = useTranslations();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 

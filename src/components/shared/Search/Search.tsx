@@ -17,7 +17,7 @@ import { X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import NProgress from "nprogress";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 function useDebounce<T>(value: T, delay: number): T {
@@ -57,7 +57,7 @@ function Search({
   const params = useParams();
   const locale = params?.locale || "uz";
   const searchParams = useSearchParams();
-  const { t } = useTranslation();
+  const t = useTranslations();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const DEBOUNCE_MS = 300;

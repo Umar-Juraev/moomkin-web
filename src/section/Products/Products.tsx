@@ -21,14 +21,14 @@ import useFilter from "@/store/slices/usefilter";
 import { Button } from "@/components/ui/button";
 import { buildApiParams } from "@/utils/data";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { useSearchParams } from "next/navigation";
 import { Inbox } from "lucide-react";
 
 const Products = () => {
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const { clickedFilters, clearAllFilters } = useFilter();
 

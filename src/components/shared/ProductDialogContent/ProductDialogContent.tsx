@@ -29,7 +29,7 @@ import { ContactTypeIdEnum } from "@/constants/enums";
 import { X } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonDialog from "../SkeletonDialog/SkeletonDialog";
-import { useTranslation } from "react-i18next";
+import { useTranslations, useLocale } from 'next-intl';
 import ReadMore from "../Readmore/Readmore";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import CarouselIndicators from "../CarouselIndicators/CarouselIndicators";
@@ -47,7 +47,8 @@ interface Props {
 
 const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
   const { toggleFavorite, isFavorite } = useFavorites();
-  const { t,i18n } = useTranslation();
+  const t = useTranslations();
+  const locale = useLocale();
   const [api, setApi] = React.useState<CarouselApi>()
   const isMobile = useMediaQuery("(max-width: 768px)");
   const hasSeenPosted = useRef(false);
@@ -191,7 +192,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
               <div className="flex items-center gap-1 mb-0.5">
                 <Image src={calendarIcon} alt={data.name} />
                 <p className="font-normal  align-middle">
-                   {formatDateRange(data.start_date, data.end_date, (i18n.resolvedLanguage as 'ru' | 'en' | 'uz'))}
+                   {formatDateRange(data.start_date, data.end_date, (locale as 'ru' | 'en' | 'uz'))}
                 </p>
               </div>
               {data.company.addresses &&

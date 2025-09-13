@@ -19,7 +19,7 @@ import { X, Inbox } from "lucide-react";
 import useViewedStories from "@/store/slices/useStoryView";
 import { createPortal } from "react-dom";
 import { AttachmentTypeEnum } from "@/constants/enums";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 
 const Stories = () => {
@@ -28,7 +28,7 @@ const Stories = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
   const { addViewed, isViewed } = useViewedStories();
-  const { t } = useTranslation()
+  const t = useTranslations()
   const [responsiveDialog, showResponsiveDialog] = useResponsiveDialog();
 
   const handleSwiperOpen = (storyId: number) => {

@@ -5,12 +5,12 @@ import favoritesFilterIcon from "@/assets/icons/favoritesFilter.svg";
 import trendIcon from "@/assets/icons/trend.svg";
 import discountIcon from "@/assets/icons/discount.svg";
 import useFilter from "@/store/slices/usefilter";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from 'next-intl';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 const Filters = () => {
   const { clickedFilters, toggleFilterButton } = useFilter();
-  const { t } = useTranslation();
+  const t = useTranslations();
 
   const badges = useMemo(
     () =>

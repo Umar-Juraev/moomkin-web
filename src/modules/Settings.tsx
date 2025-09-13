@@ -10,12 +10,11 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useRouter, useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
+import { useTranslations, useLocale } from 'next-intl';
 
 const Settings = () => {
-  const { t, i18n } = useTranslation();
-  const params = useParams();
-  const locale = params?.locale || "uz";
+  const t = useTranslations();
+  const locale = useLocale();
   const tabItems = [
     {
       value: "general",

@@ -1,27 +1,19 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/lib/i18n.ts');
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
+        hostname: 'moomkin.fsn1.your-objectstorage.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/uz",
-        permanent: true,
-      },
-    ];
-  },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
