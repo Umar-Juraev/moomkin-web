@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/command";
 import { X, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { useSearchParams, useParams } from "next/navigation";
+import { useRouter } from "@/i18n";
 import NProgress from "nprogress";
 import { useTranslations } from 'next-intl';
 import { useMediaQuery } from "@/hooks/useMediaQuery";

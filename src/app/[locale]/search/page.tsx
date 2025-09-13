@@ -15,6 +15,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "@/i18n";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import { buildApiParams } from "@/utils/data";
 import useFilter from "@/store/slices/usefilter";
@@ -67,7 +68,9 @@ export default function SearchPage() {
         <Breadcrumb className="mt-6 mb-8">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/${locale}`}>{t('pages.home')}</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link href="/">{t('pages.home')}</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

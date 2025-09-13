@@ -35,11 +35,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n";
 import { useDiscounts, useSearchSuggestions } from "@/hooks/useDiscount";
 import useFavorites from "@/store/slices/useFavorites";
 import { Badge } from "../ui/badge";
-import Link from "next/link";
+import { Link } from "@/i18n";
 import SettingsModule from "@/modules/Settings";
 import NProgress from "nprogress";
 import useUI from "@/store/slices/useUI";
@@ -86,7 +87,7 @@ export default function Header() {
           "flex items-center gap-9 w-full md:justify-between md:py-1"
         )}
       >
-        <Link href={`/${locale}`}>
+        <Link href="/">
           <Image src={logoIcon} alt="logo" />
         </Link>
         <div className="flex items-center gap-[9px] font-semibold md:hidden">

@@ -8,7 +8,8 @@ import {
   Shield,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n";
 import { cn } from "@/lib/utils";
 import { useTranslations, useLocale } from 'next-intl';
 
@@ -40,7 +41,7 @@ const Settings = () => {
       <div className="hidden w-full  py-3 relative md:flex md:justify-center">
         <div
           className="w-10 absolute left-[21px]"
-          onClick={() => router.push(`/${locale}`)}
+          onClick={() => router.push("/")}
         >
           <ArrowLeft />
         </div>

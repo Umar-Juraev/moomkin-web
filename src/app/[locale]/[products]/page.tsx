@@ -14,6 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "@/i18n";
 import { useDiscounts } from "@/hooks/useDiscount";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import { Companies, Filters } from "@/section";
@@ -58,7 +59,9 @@ export default function ProductPage() {
         <Breadcrumb className=" mt-6 mb-8">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/${locale}`}>{t('pages.home')}</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link href="/">{t('pages.home')}</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

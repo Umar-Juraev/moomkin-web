@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n";
 import { useResponsiveDialog } from "@/hooks/useResponsiveDialog";
 import { ProductDialogContent } from "@/components/shared";
 
@@ -24,7 +25,7 @@ export default function DiscountPage() {
         // This callback will be triggered when the dialog/drawer is closed
         // (either by user interaction or programmatically)
         onClose: () => {
-          router.push(`/${params.locale}`);
+          router.push("/");
         },
       });
     }

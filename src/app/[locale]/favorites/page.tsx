@@ -9,6 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "@/i18n";
 import {
   ProductCard,
   ProductDialogContent,
@@ -41,7 +42,9 @@ const FavoritesPage = () => {
       <Breadcrumb className="mt-6 mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${locale}`}>{t("pages.home")}</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link href="/">{t("pages.home")}</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

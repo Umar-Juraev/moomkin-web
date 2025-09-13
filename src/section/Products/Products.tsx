@@ -20,7 +20,7 @@ import { useDiscounts } from "@/hooks/useDiscount";
 import useFilter from "@/store/slices/usefilter";
 import { Button } from "@/components/ui/button";
 import { buildApiParams } from "@/utils/data";
-import Link from "next/link";
+import { Link } from "@/i18n";
 import { useTranslations } from 'next-intl';
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { useSearchParams } from "next/navigation";
@@ -111,7 +111,7 @@ const Products = () => {
                 {t("titles.trends")}
               </h2>
               <Link
-                href={`/trends`}
+                href="/trends"
                 className="font-medium text-base text-red relative right-24 flex items-center gap-1.5 md:static cursor-pointer"
               >
                 <span>{t('all')}</span>
@@ -162,7 +162,7 @@ const Products = () => {
                 {t("titles.hot")}
               </h2>
               <Link
-                href={`/hot`}
+                href="/hot"
                 className="font-medium text-base text-red relative right-24 flex items-center gap-1.5 md:static cursor-pointer"
               >
                 <span>{t('all')}</span>
