@@ -70,7 +70,7 @@ const ProductDialogContent: FC<Props> = ({ onClose, discountId }) => {
         await navigator.share({
           title: "Check this out!",
           text: "This is a cool thing to share.",
-          url: window.location.href,
+          url: `${window.location.href}/discount/${discountId}`,
         });
         console.log("Content shared successfully");
       } catch (error) {

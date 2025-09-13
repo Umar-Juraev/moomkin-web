@@ -11,6 +11,7 @@ interface HookModalContent {
   hideHeader?: boolean;
   dialogContentClassName?: string;
   drawerContentClassName?: string;
+  onClose?: () => void;
 }
 
 export function useResponsiveDialog(): [
@@ -22,6 +23,7 @@ export function useResponsiveDialog(): [
     hideHeader?: boolean;
     dialogContentClassName?: string;
     drawerContentClassName?: string;
+    onClose?: () => void;
   }) => void,
   boolean
 ] {
@@ -30,7 +32,19 @@ export function useResponsiveDialog(): [
 
   const onClose = useCallback(() => {
     setIsOpen(false);
-  }, []);
+    // Call the onClose callback if provided
+    if (modalState?.onClose) {
+      modalState.onClose();
+    }
+  }, [modalState?.onClose]);
+
+  const handleOpenChange = useCallback((open: boolean) => {
+    setIsOpen(open);
+    // If closing (open is false), call the onClose callback if provided
+    if (!open && modalState?.onClose) {
+      modalState.onClose();
+    }
+  }, [modalState?.onClose]);
 
 
   const responsiveDialogElement = useMemo(() => {
@@ -52,7 +66,7 @@ export function useResponsiveDialog(): [
     return (
       <ResponsiveDialog
         open={isOpen}
-        onOpenChange={setIsOpen}
+        onOpenChange={handleOpenChange}
         title={title}
         description={description}
         hideHeader={hideHeader}
@@ -66,6 +80,7 @@ export function useResponsiveDialog(): [
     modalState,
     isOpen,
     onClose,
+    handleOpenChange,
   ]);
 
   const showResponsiveDialog = useCallback(
@@ -76,6 +91,7 @@ export function useResponsiveDialog(): [
       hideHeader?: boolean;
       dialogContentClassName?: string;
       drawerContentClassName?: string;
+      onClose?: () => void;
     }) => {
       setModalState({
         content: options.content,
@@ -84,6 +100,7 @@ export function useResponsiveDialog(): [
         hideHeader: options.hideHeader,
         dialogContentClassName: options.dialogContentClassName,
         drawerContentClassName: options.drawerContentClassName,
+        onClose: options.onClose,
       });
       setIsOpen(true);
     },
